@@ -205,6 +205,94 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 .muted{color:var(--mut)}
 .foot{font-size:14px;color:var(--mut);background:var(--bg2)}
 @media(max-width:600px){table{font-size:13px}.stack thead{display:none}.stack tr{display:grid;padding-block:10px}.stack td{display:flow-root;border:0;padding:3px 10px;padding-inline-start:8.5em;text-align:start}.stack td::before{content:attr(data-l);float:inline-start;width:7.5em;margin-inline-start:-8em;white-space:normal;font-weight:800;color:var(--teal)}.stack td:empty{display:none}.stack tr{border-bottom:1px solid var(--line)}}
+
+.wall{fill:#1d4249;stroke:#2c5a62;stroke-width:1.5;opacity:.85}
+.prop{stroke:#e2b979;stroke-linecap:round}
+.ball{fill:#ffb347;stroke:#fff;stroke-width:1.5;opacity:.9}
+.rope{stroke:#e8e8e8;stroke-dasharray:4 3}
+.pulley{fill:#d0d7d9;stroke:#fff;stroke-width:2}
+.clockf{fill:rgba(255,255,255,.08);stroke:#9fd3d8;stroke-width:2}
+.clockt{fill:#cfeef0;font-size:12px;font-weight:800;text-anchor:middle}
+/* ---- own diagrams ---- */
+.dgf{margin:18px 0;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.card .dgf,.dz .dgf{border:0;padding:6px 0;margin:8px 0;background:transparent}
+.dgf.sm{max-width:340px;margin-inline:auto}
+.dgf figcaption{font-size:14px;color:var(--mut);margin-top:6px;line-height:1.65}
+.dg{width:100%;height:auto;display:block;overflow:visible}
+.dg .bone{fill:light-dark(#efe8da,#4a4f4c);stroke:light-dark(#9c8f78,#9a9184);stroke-width:2;stroke-linejoin:round}
+.dg .bone.back{fill:light-dark(#e3dccd,#3c403e);stroke-dasharray:5 4}
+.dg .bone.thick{fill:none;stroke-width:12;stroke-linecap:round}
+.dg .bone.thick3{fill:none;stroke-width:9;stroke-linecap:round}
+.dg .bonel{stroke:light-dark(#9c8f78,#9a9184);stroke-width:8;stroke-linecap:round;fill:none}
+.dg .bonel.thick2{stroke-width:14}
+.dg .faint2{opacity:.35}
+.dg .clav{fill:none;stroke:light-dark(#9c8f78,#9a9184);stroke-width:13;stroke-linecap:round}
+.dg .clav.f2{opacity:.4}
+.dg .ribs{fill:light-dark(#f1f5f5,#1b2a2d);stroke:light-dark(#cfdcdd,#2c3f43);stroke-width:2}
+.dg .ribl{fill:none;stroke:light-dark(#d6e2e3,#2c3f43);stroke-width:2}
+.dg .rib1{fill:none;stroke:light-dark(#b9a98e,#8a8070);stroke-width:5;stroke-linecap:round}
+.dg .jt{stroke:#fff;stroke-width:2}.dg .j1{fill:#0b6b73}.dg .j2{fill:#ff6a3d}.dg .j3{fill:#5b6ee1}.dg .j4{fill:#9b59b6}
+.dg .jn{fill:#fff;font-size:12px;font-weight:800;text-anchor:middle}
+.jt-k{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;color:#fff;font-size:12px;font-weight:800;margin:0 4px 0 10px}
+.jt-k.j1{background:#0b6b73}.jt-k.j2{background:#ff6a3d}.jt-k.j3{background:#5b6ee1}.jt-k.j4{background:#9b59b6}
+.dg .sas{fill:none;stroke:#f2b705;stroke-width:5;stroke-linecap:round}
+.dg .sas-t{fill:#c99700}
+.dg .lb{fill:var(--ink);font-size:13.5px;font-weight:700;font-family:inherit}
+.dg .lb.sm{font-size:12px;font-weight:600;fill:var(--mut)}
+.dg .lbs line,.dg .ld{stroke:var(--mut);stroke-width:1;opacity:.7}
+.dg .dir{font-size:18px;fill:var(--teal)}
+.dg .glen{fill:light-dark(#f3eee3,#3f4542);stroke:none}
+.dg .glen2{fill:light-dark(#efe8da,#4a4f4c);stroke:light-dark(#9c8f78,#9a9184);stroke-width:2}
+.dg .glen3{fill:none;stroke:light-dark(#9c8f78,#9a9184);stroke-width:10;stroke-linecap:round}
+.dg .labrum{fill:none;stroke:#8b6fd6;stroke-width:14;opacity:.75}
+.dg .labrum.thin{stroke-width:6;opacity:.9}.dg .labrum.tear{stroke:var(--pain);stroke-dasharray:3 3}
+.dg .lab-line{fill:none;stroke:#8b6fd6;stroke-width:6;stroke-linecap:round}.dg .labrum-t{fill:#8b6fd6}
+.dg .biceps{stroke:#d9534f;stroke-width:7;stroke-linecap:round;fill:none}
+.dg .lesion{fill:none;stroke:var(--pain);stroke-width:4;stroke-dasharray:7 5}
+.dg .les-t{fill:var(--pain)}
+.dg .ligs path{fill:none;stroke:#139aa3;stroke-width:5;stroke-linecap:round}
+.dg .ligs .pouch{stroke-width:6}
+.dg .lig-t{fill:#0f8a93}
+.dg .spine{stroke:light-dark(#9c8f78,#9a9184);stroke-width:7;stroke-linecap:round}
+.dg .mus{stroke:#fff;stroke-width:1.5;opacity:.9}
+.dg .m1{fill:#e46a5e}.dg .m2{fill:#e98d4f}.dg .m3{fill:#d9a441}.dg .m4{fill:#c4577a}
+.dg .mus.f{opacity:.55}.dg .mus.line{fill:none;stroke:#e46a5e;stroke-width:10;stroke-linecap:round}
+.dg .mu1{fill:#d1453a}.dg .mu2{fill:#cf6c22}.dg .mu3{fill:#b48419}.dg .mu4{fill:#b03c66}
+.dg .ri{fill:none;stroke:#0b6b73;stroke-width:2;stroke-dasharray:4 3}.dg .ri-t{fill:var(--teal)}
+.dg .back{fill:light-dark(#e9eff0,#1d2c2f);stroke:light-dark(#cfdcdd,#2c3f43)}
+.dg .ribside{fill:none;stroke:light-dark(#cfdcdd,#3a5055);stroke-width:10;stroke-linecap:round}
+.dg .ar{stroke:var(--teal);stroke-width:3;fill:none}
+.dg .ahf{fill:var(--teal)}
+.dg .ar.dl{stroke:#ff6a3d}.dg .dl-t{fill:#e0552b}.dg .ar.rc{stroke:#5b97ff}.dg .rc-t{fill:#3f78d8}
+.dg .bursa{fill:#8ec5ff;opacity:.7}.dg .bursa-t{fill:#3f78d8}
+.dg .acr{fill:none;stroke:light-dark(#9c8f78,#9a9184);stroke-width:12;stroke-linecap:round}
+.dg .hit{fill:var(--pain);opacity:.35}
+.dg .dent{fill:none;stroke:var(--pain);stroke-width:4}
+.dg .lg2{stroke:#139aa3;stroke-width:4;stroke-linecap:round}.dg .lg2.torn{stroke:var(--pain);stroke-dasharray:3 4}.dg .lg2.sprain{stroke:#f2b705}
+.dg .st1{fill:light-dark(#fde3e6,#3a1d22)}.dg .st2{fill:light-dark(#fbeee0,#382a1c)}.dg .st3{fill:light-dark(#e6eef6,#1c2838)}.dg .st4{fill:light-dark(#e3f4ec,#18302a)}
+.dg .axis{stroke:var(--mut);stroke-width:1.5}
+.dg .cpain{fill:none;stroke:var(--pain);stroke-width:4}.dg .cstiff{fill:none;stroke:#0b6b73;stroke-width:4;stroke-dasharray:8 5}
+.dg .cpain-t{fill:var(--pain)}.dg .cstiff-t{fill:#0b6b73}
+.dg .bad2{fill:var(--pain)}.dg .bad3{stroke:var(--pain);stroke-width:6;stroke-linecap:round}
+.dg .ly1{fill:light-dark(#efe8da,#4a4f4c)}.dg .ly2{fill:light-dark(#e7e0fb,#2e2747)}.dg .ly3{fill:light-dark(#fde3df,#3a221f)}
+.dg .ball2{fill:light-dark(#f6f1e7,#55594f)}
+.figrow{align-items:start}
+.figrow .dgf{margin:0}
+/* plain-language box */
+.eli{background:light-dark(#fff8e6,#2a2414);border:1px solid light-dark(#f2dfa8,#4a3e1f);border-radius:14px;padding:14px 18px;margin:16px 0;font-size:15.5px}
+.eli-h{margin:0 0 6px;font-weight:800;color:light-dark(#8a6100,#f2c55c)}
+.eli p{margin:.35em 0}.eli ul{margin:.2em 0}
+.logic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media(max-width:860px){.logic{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.logic{grid-template-columns:minmax(0,1fr)}}
+.logic>div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:15px}
+.logic p{margin:.2em 0}.logic .lh{font-weight:900;font-size:17px;color:var(--teal)}
+.logic .lt{font-weight:700;margin-top:.5em}.logic .lt span{font-weight:500;color:var(--mut);font-size:14px}
+.sm2{font-size:14px}
+.intro{background:var(--bg)}
+.exchips{border-top:0;margin-top:6px}
+
+.dgf>svg{max-width:820px;margin-inline:auto}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head><body>
@@ -214,8 +302,8 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
       <p class="kicker">骨科物理治療 · UE1 Shoulder</p>
       <h1>肩關節<br>正課＋Special tests</h1>
       <p class="lede">先把 UE1-1 正課從解剖讀到運動治療，再用幾何人形動畫把 UE1-2 的 41 個 special tests 一個個看懂：能拖進度條、能轉視角、能抽考。</p>
-      <div class="cta"><a class="btn pri" href="#anatomy">從正課開始</a><a class="btn ghost" href="#tests">直接看動畫</a></div>
-      <ul class="stats"><li><b>6</b>章正課</li><li><b>8</b>種常見疾病</li><li><b>41</b>個測試動畫</li><li><b>18</b>題觀念題</li></ul>
+      <div class="cta"><a class="btn pri" href="#intro">從正課開始</a><a class="btn ghost" href="#tests">直接看動畫</a></div>
+      <ul class="stats"><li><b>6</b>章正課</li><li><b>8</b>種常見疾病</li><li><b>41</b>個測試動畫</li><li><b>16</b>個運動動畫</li></ul>
     </div>
     <div class="hstage" aria-hidden="true">
       <svg id="heroSvg"></svg>
@@ -225,13 +313,97 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
   </div>
 </header>
 <nav class="toc scroll" id="toc" aria-label="章節">
-      <a href="#anatomy">1 解剖</a><a href="#biomech">2 生物力學</a><a href="#exam">3 評估</a><a href="#lesions">4 常見疾病</a><a href="#ddx">5 鑑別診斷</a><a href="#exercise">6 運動治療</a><a href="#tests" class="hot">Special tests 動畫</a><a href="#quiz">小測驗</a>
+      <a href="#intro">0 入門</a><a href="#anatomy">1 解剖</a><a href="#biomech">2 生物力學</a><a href="#exam">3 評估</a><a href="#lesions">4 常見疾病</a><a href="#ddx">5 鑑別診斷</a><a href="#exercise">6 運動治療</a><a href="#tests" class="hot">動畫</a><a href="#quiz">小測驗</a>
     </nav>
 
 <main>
+<!-- ============ 0 INTRO ============ -->
+<section class="band intro" id="intro"><div class="wrap">
+  <h2>0 新手先看：肩膀的四個大觀念</h2>
+  <p class="lede2">第一次學肩關節，先抓住這四件事，後面的解剖、疾病和 special tests 都是從這裡延伸出來的。</p>
+  <div class="grid2">
+    <div class="card">
+      <h3>① 活動度最大，代價是不穩</h3><figure class="dgf sm"><svg class="dg" viewBox="0 0 300 220" role="img" aria-label="高爾夫球在球座上：肱骨頭大、關節窩小">
+<path d="M120 200 L140 132 L160 132 L180 200 Z" class="bone"/>
+<path d="M112 136 Q150 112 188 136" class="lab-line"/>
+<circle cx="150" cy="86" r="52" class="bone ball2"/>
+<text x="150" y="92" class="lb" text-anchor="middle">肱骨頭</text>
+<text x="200" y="168" class="lb">glenoid</text><text x="200" y="184" class="lb sm">（球座）</text>
+<text x="18" y="136" class="lb sm labrum-t">labrum 把</text><text x="18" y="152" class="lb sm labrum-t">球座加深</text>
+<line x1="86" y1="140" x2="114" y2="136" class="ld"/>
+</svg><figcaption>肱骨頭：關節窩 ≈ 2:1，像高爾夫球放在球座上。活動度很大，但骨頭本身幾乎不提供穩定，要靠軟組織。</figcaption></figure>
+      <p>肩膀能做出幾乎 360° 的動作，是因為關節窩又淺又小。代價是骨頭幾乎不幫忙穩定，所以肩膀最常見的問題就是<b>不穩定（instability）</b>和<b>軟組織受傷</b>。</p>
+    </div>
+    <div class="card">
+      <h3>② 穩定靠三層</h3><figure class="dgf sm"><svg class="dg" viewBox="0 0 300 220" role="img" aria-label="三層穩定結構">
+<circle cx="150" cy="110" r="100" class="ly3"/><circle cx="150" cy="110" r="66" class="ly2"/><circle cx="150" cy="110" r="32" class="ly1"/>
+<text x="150" y="114" class="lb" text-anchor="middle">骨頭</text>
+<text x="150" y="66" class="lb sm" text-anchor="middle">被動：關節囊、韌帶、labrum</text>
+<text x="150" y="28" class="lb sm" text-anchor="middle">主動：rotator cuff、肩胛肌</text>
+</svg><figcaption>由內到外三層。被動結構負責「動作末端」的穩定，主動的肌肉負責「中間範圍」把肱骨頭壓在關節窩中央。</figcaption></figure>
+      <p>受傷時要問：是哪一層出問題？<b>被動結構</b>受傷 → 鬆、脫位、labrum 撕裂；<b>主動結構</b>受傷 → 無力、疼痛（rotator cuff）；肩胛肌控制不好 → 整個節律亂掉（dyskinesia）。</p>
+    </div>
+    <div class="card">
+      <h3>③ 肩膀不是只有 GH 在動</h3>
+      <p>抬手到頭上（180°）時，大約 <b>120° 是 GH、60° 是肩胛骨在胸廓上轉</b>（2:1）。肩胛轉得不好，肩峰就沒有「讓路」，肱骨頭會撞上去 → impingement。所以<b>評估肩痛一定要看肩胛</b>。</p>
+      <p><a href="#biomech">到「生物力學」拖拉 scapulohumeral rhythm 看看 ▸</a></p>
+    </div>
+    <div class="card">
+      <h3>④ 主動、被動、阻抗：一起看才知道是哪種組織</h3>
+      <table class="mini stack">
+        <thead><tr><th>主動 AROM</th><th>被動 PROM</th><th>阻抗 Resisted</th><th>最可能</th></tr></thead>
+        <tbody>
+          <tr><td>痛／受限</td><td>大致正常（末端可能痛）</td><td><b>痛</b></td><td>肌肉／肌腱（例：RC tendinopathy）</td></tr>
+          <tr><td>受限</td><td><b>也受限</b>（capsular pattern）</td><td>有力、不痛</td><td>關節囊（例：frozen shoulder）</td></tr>
+          <tr><td>抬不起來／無力</td><td><b>正常</b></td><td><b>無力</b>（不一定痛）</td><td>肌腱斷裂或神經（例：full-thickness RC tear）</td></tr>
+        </tbody>
+      </table>
+      <p class="muted sm2">原則：會收縮的組織，阻抗時才會痛；不會收縮的組織（關節囊、韌帶），被動拉到時才會痛。</p>
+    </div>
+  </div>
+  <h3 class="mt">Special tests 背後只有幾種邏輯</h3>
+  <div class="logic">
+    <div><p class="lh">給阻力</p><p>讓某條肌肉單獨出力，看會不會痛或無力。</p><p class="lt">→ Rotator cuff、biceps<br><span>Empty can、Belly press、Speed's…</span></p></div>
+    <div><p class="lh">把空間擠小</p><p>把肱骨頭推向肩峰或喙突，夾住中間的組織。</p><p class="lt">→ Impingement<br><span>Neer、Hawkins-Kennedy、Yocum…</span></p></div>
+    <div><p class="lh">推、拉、放到危險姿勢</p><p>讓肱骨頭位移，或擺到容易脫位的姿勢，看病人怕不怕。</p><p class="lt">→ Instability<br><span>Apprehension、Load-and-shift、Sulcus…</span></p></div>
+    <div><p class="lh">壓住再轉動</p><p>用軸向壓力把肱骨頭壓在 labrum 上，再轉動或施力。</p><p class="lt">→ Labrum（SLAP 等）<br><span>O'Brien、Kim、Jerk…</span></p></div>
+    <div><p class="lh">擠壓 AC</p><p>讓鎖骨和肩峰互相擠壓或剪動。</p><p class="lt">→ AC joint<br><span>Horizontal adduction、Paxinos</span></p></div>
+    <div><p class="lh">看肩胛、幫肩胛</p><p>觀察肩胛動作，或幫它擺正，看症狀有沒有改善。</p><p class="lt">→ Scapular dyskinesia<br><span>Kibler、Scapular assistance…</span></p></div>
+  </div>
+  <p class="tip">陽性結果要分清楚是<b>疼痛</b>、<b>無力</b>還是<b>不安（apprehension）</b>：同一個姿勢，痛和怕代表的東西可能不一樣（例如 Crank test）。也沒有任何一個測試能單獨確診，臨床上要把病史和好幾個測試一起看。</p>
+</div></section>
+
 <!-- ============ 1 ANATOMY ============ -->
 <section class="band" id="anatomy"><div class="wrap">
-  <h2>1 應用解剖 Applied anatomy</h2>
+  <h2>1 應用解剖 Applied anatomy</h2><figure class="dgf"><svg class="dg" viewBox="-130 0 700 360" role="img" aria-label="肩關節複合體四個關節示意圖（右肩，正面）">
+<g class="faint"><path d="M210 120 Q280 100 350 120 Q360 220 330 300 Q280 320 230 300 Q200 220 210 120Z" class="ribs"/>
+<path d="M222 160 Q280 145 338 160M226 200 Q280 185 334 200M232 240 Q280 225 328 240M240 278 Q280 265 320 278" class="ribl"/></g>
+<path d="M150 100 L226 92 L206 250 Z" class="bone back"/>
+<rect x="266" y="96" width="28" height="150" rx="12" class="bone"/>
+<path d="M270 104 C 230 96, 200 84, 150 80" class="clav"/>
+<path d="M290 104 C 330 96, 360 84, 410 80" class="clav f2"/>
+<path d="M118 78 Q140 66 168 76 L160 88 Q138 82 124 92 Z" class="bone"/>
+<path d="M186 104 q-12 4 -16 16 q10 2 16 -6" class="bone"/>
+<circle cx="132" cy="116" r="30" class="bone"/>
+<path d="M114 140 L104 340 L136 340 L148 142 Z" class="bone"/>
+<path d="M240 104 Q260 112 266 128" class="rib1"/>
+<circle cx="132" cy="116" r="11" class="jt j1"/><text x="132" y="120" class="jn">1</text>
+<circle cx="160" cy="80" r="11" class="jt j2"/><text x="160" y="84" class="jn">2</text>
+<circle cx="268" cy="106" r="11" class="jt j3"/><text x="268" y="110" class="jn">3</text>
+<circle cx="204" cy="170" r="11" class="jt j4"/><text x="204" y="174" class="jn">4</text>
+<path d="M112 92 Q132 84 152 94" class="sas"/>
+<g class="lbs">
+<line x1="60" y1="60" x2="122" y2="76"/><text x="56" y="56" class="lb" text-anchor="end">Acromion 肩峰</text>
+<line x1="210" y1="60" x2="200" y2="86"/><text x="212" y="54" class="lb">Clavicle 鎖骨</text>
+<line x1="186" y1="120" x2="60" y2="186"/><text x="56" y="190" class="lb" text-anchor="end">Coracoid 喙突</text>
+<line x1="104" y1="250" x2="60" y2="250"/><text x="56" y="254" class="lb" text-anchor="end">Humerus 肱骨</text>
+<line x1="294" y1="180" x2="360" y2="200"/><text x="364" y="204" class="lb">Sternum 胸骨</text>
+<line x1="258" y1="122" x2="360" y2="150"/><text x="364" y="154" class="lb">1st rib 第一肋骨</text>
+<line x1="206" y1="230" x2="200" y2="300"/><text x="200" y="318" class="lb" text-anchor="middle">Scapula（在肋骨後方）</text>
+<line x1="132" y1="88" x2="60" y2="120"/><text x="56" y="124" class="lb sm sas-t" text-anchor="end">Subacromial space</text>
+</g>
+</svg>
+<figcaption><span class="jt-k j1">1</span> GH：肱骨頭＋關節窩，真正的「肩關節」<span class="jt-k j2">2</span> AC：鎖骨外端＋肩峰<span class="jt-k j3">3</span> SC：鎖骨內端＋胸骨，整個上肢和軀幹唯一的骨性連接<span class="jt-k j4">4</span> ST：肩胛骨貼在肋骨上滑動（沒有關節面，所以叫 pseudo joint）。黃線＝肩峰下空間，rotator cuff 肌腱和 bursa 就夾在這裡。</figcaption></figure>
   <div class="grid2">
     <div class="card">
       <h3>骨頭與關節</h3>
@@ -263,8 +435,66 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
       <tr><td><b>IGHL</b></td><td>抵抗肱骨頭<b>前下（A-I）</b>位移，特別是手臂在 <b>ER＋ABD＋ext</b> 時（＝前脫位的姿勢）</td></tr>
     </tbody>
   </table>
-  <p class="tip">記法：越往下的韌帶，負責越高的 ABD 角度。0° → SGHL；45° 左右 → MGHL；90° 以上 → IGHL。這個概念在 Crank test 和 Sulcus sign 會再出現。</p>
+  <p class="tip">記法：越往下的韌帶，負責越高的 ABD 角度。0° → SGHL；45° 左右 → MGHL；90° 以上 → IGHL。這個概念在 Crank test 和 Sulcus sign 會再出現。</p><div class="grid2 mt figrow"><figure class="dgf"><svg class="dg" viewBox="-80 0 690 380" role="img" aria-label="右肩關節窩側面觀：labrum、韌帶與常見病灶位置">
+<text x="470" y="194" class="lb dir" text-anchor="middle">前</text><text x="470" y="212" class="lb sm" text-anchor="middle">Anterior</text>
+<text x="50" y="194" class="lb dir" text-anchor="middle">後</text><text x="50" y="212" class="lb sm" text-anchor="middle">Posterior</text>
+<text x="260" y="370" class="lb sm" text-anchor="middle">下 Inferior</text>
+<path d="M260 70 C 320 70, 340 140, 345 200 C 350 270, 310 330, 260 330 C 210 330, 170 270, 175 200 C 180 140, 200 70, 260 70 Z" class="glen"/>
+<path d="M260 70 C 320 70, 340 140, 345 200 C 350 270, 310 330, 260 330 C 210 330, 170 270, 175 200 C 180 140, 200 70, 260 70 Z" class="labrum"/>
+<path d="M260 66 L260 20" class="biceps"/><text x="268" y="26" class="lb">Long head of biceps（附著在 labrum 上緣）</text>
+<path d="M214 84 A 150 150 0 0 1 306 84" class="lesion" transform="translate(0,-14)"/>
+<text x="150" y="58" class="lb les-t" text-anchor="end">SLAP</text><text x="150" y="74" class="lb sm" text-anchor="end">上方 labrum，前到後</text>
+<path d="M352 230 Q 345 300 290 336" class="lesion"/>
+<text x="372" y="300" class="lb les-t">Bankart</text><text x="372" y="316" class="lb sm">前下方 labrum</text>
+<g class="ligs">
+<path d="M318 96 L392 70"/><text x="396" y="70" class="lb lig-t">SGHL</text>
+<path d="M343 160 L410 140"/><text x="414" y="142" class="lb lig-t">MGHL</text>
+<path d="M346 236 L420 250"/><text x="424" y="254" class="lb lig-t">IGHL anterior band</text>
+<path d="M260 334 Q 260 352 260 352"/><path d="M226 330 Q 260 368 294 330" class="pouch"/><text x="306" y="362" class="lb sm lig-t">axillary pouch</text>
+<path d="M176 240 L104 258"/><text x="100" y="262" class="lb lig-t" text-anchor="end">IGHL posterior band</text>
+</g>
+</svg><figcaption>想像把肱骨頭拿掉，從外側看右肩的關節窩。紫色圈＝labrum；藍綠色線＝GH 韌帶（都在前側和下方，所以前側比較常被拉傷）；紅色虛線＝常見撕裂位置。</figcaption></figure><div class="eli"><p class="eli-h">白話說：韌帶是不同長度的繩子</p><p>GH 關節囊很鬆，平常韌帶都是鬆的。手臂擺到某個角度時，剛好會有一條被拉緊，擋住肱骨頭繼續滑出去。</p><p>前脫位的姿勢是 <b>ABD＋ER＋extension</b>（像投球往後拉），這時主要擋住肱骨頭的是 <b>IGHL anterior band</b>。所以前脫位常把 IGHL 連同前下方 labrum 一起扯掉，也就是 <b>Bankart lesion</b>。</p><p>Labrum 本身像關節窩邊緣的一圈「O 型環」：加深關節窩、讓肱骨頭吸住（負壓），biceps 長頭也接在它上緣，所以 biceps 用力拉扯會傷到上方 labrum（SLAP）。</p></div></div>
 
+  <h3 class="mt">Rotator cuff（肩旋轉肌袖）</h3>
+  <figure class="dgf"><svg class="dg" viewBox="0 0 720 330" role="img" aria-label="Rotator cuff 四條肌肉：後面觀與前面觀">
+<text x="160" y="22" class="lb" text-anchor="middle">後面觀（右肩）</text><text x="600" y="22" class="lb" text-anchor="middle">前面觀（右肩）</text>
+<g>
+<path d="M60 60 L182 80 L92 270 Z" class="bone"/>
+<path d="M66 96 L212 68" class="spine"/>
+<circle cx="232" cy="104" r="32" class="bone"/>
+<path d="M70 64 L68 90 L182 74 L224 72 L184 64 Z" class="mus m1"/>
+<path d="M70 102 L86 200 L208 114 L186 90 Z" class="mus m2"/>
+<path d="M180 110 L104 210 L116 226 L206 128 Z" class="mus m3"/>
+<line x1="226" y1="74" x2="300" y2="56" class="ld"/><text x="304" y="58" class="lb mu1">S Supraspinatus</text><text x="304" y="74" class="lb sm">ABD（起始）</text>
+<line x1="206" y1="118" x2="300" y2="140" class="ld"/><text x="304" y="142" class="lb mu2">I Infraspinatus</text><text x="304" y="158" class="lb sm">ER</text>
+<line x1="160" y1="170" x2="300" y2="214" class="ld"/><text x="304" y="216" class="lb mu3">T Teres minor</text><text x="304" y="232" class="lb sm">ER</text>
+<text x="236" y="50" class="lb sm" text-anchor="middle">greater tuberosity</text>
+<text x="88" y="300" class="lb sm" text-anchor="middle">內側（脊椎）</text><text x="232" y="300" class="lb sm" text-anchor="middle">外側</text>
+</g>
+<g transform="translate(450,0)">
+<path d="M220 60 L98 80 L190 270 Z" class="bone"/>
+<circle cx="64" cy="104" r="32" class="bone"/>
+<path d="M210 70 L188 232 L92 126 L100 96 Z" class="mus m4"/>
+<path d="M212 62 L210 72 L100 78 L96 70 Z" class="mus m1 f"/>
+<path d="M30 76 L20 300" class="biceps"/>
+<path d="M86 78 L102 84 L98 104 L82 98 Z" class="ri"/>
+<line x1="150" y1="170" x2="150" y2="292" class="ld"/><text x="150" y="310" class="lb mu4" text-anchor="middle">S Subscapularis：IR</text>
+<text x="32" y="240" class="lb sm">biceps 長頭</text>
+<line x1="92" y1="90" x2="130" y2="44" class="ld"/><text x="134" y="44" class="lb sm ri-t">rotator interval</text>
+<text x="72" y="152" class="lb sm" text-anchor="middle">lesser</text><text x="72" y="166" class="lb sm" text-anchor="middle">tuberosity</text>
+<text x="64" y="300" class="lb sm" text-anchor="end"></text>
+</g>
+</svg><figcaption>口訣 <b>SITS</b>：Supraspinatus、Infraspinatus、Teres minor 從後上方包住肱骨頭（接到 greater tuberosity），Subscapularis 從前面包（接到 lesser tuberosity）。前面觀裡 supraspinatus 和 subscapularis 之間的空隙（虛線框）就是 rotator interval，biceps 長頭從這裡穿出關節。</figcaption></figure>
+  <table class="stack mt">
+    <thead><tr><th>肌肉</th><th>主要動作</th><th>白話</th><th>對應的 special tests</th></tr></thead>
+    <tbody>
+      <tr><td>Supraspinatus</td><td>ABD（特別是起始）</td><td>從肩峰下穿過去，最容易被夾、最常撕裂</td><td><button class="chip" data-test="jobe">Empty/Full can</button><button class="chip" data-test="droparm">Drop arm</button><button class="chip" data-test="champagne">Champagne toast</button></td></tr>
+      <tr><td>Infraspinatus</td><td>ER</td><td>手臂在身側時最主要的外旋肌</td><td><button class="chip" data-test="infra">Infraspinatus test</button><button class="chip" data-test="erls">ERLS</button><button class="chip" data-test="lrls">Lateral rotation lag</button></td></tr>
+      <tr><td>Teres minor</td><td>ER</td><td>手臂抬高（ABD 90°）時外旋比較靠它</td><td><button class="chip" data-test="patte">Patte's</button><button class="chip" data-test="hornblower">Hornblower's</button></td></tr>
+      <tr><td>Subscapularis</td><td>IR</td><td>前面唯一的一條，也擋住肱骨頭往前跑</td><td><button class="chip" data-test="liftoff">Lift-off</button><button class="chip" data-test="belly">Belly press</button><button class="chip" data-test="mrlag">Medial rotation lag</button></td></tr>
+    </tbody>
+  </table>
+  <div class="eli"><p class="eli-h">白話說：Rotator cuff 不只是「轉」</p><p>它最重要的工作是<b>把肱骨頭壓在關節窩中央</b>，讓 deltoid 出力抬手時，肱骨頭不會往上衝。所以 rotator cuff 無力的人，常常一抬手就撞到肩峰（impingement），兩個問題常一起出現。</p><p>「Lag sign」的意思是：PT 先把手臂被動擺到某個位置，請病人自己維持；如果肌腱斷了，病人<b>撐不住</b>，手臂會彈回去。這跟「給阻力看痛不痛」的測試邏輯不同。</p></div>
   <h3 class="mt">AC joint vs SC joint</h3>
   <table class="stack">
     <thead><tr><th></th><th>AC joint</th><th>SC joint</th></tr></thead>
@@ -276,7 +506,24 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
     </tbody>
   </table>
 
-  <div class="grid2 mt">
+<figure class="dgf"><svg class="dg" viewBox="0 0 760 230" role="img" aria-label="肩胛骨的動作">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="ahf"/></marker></defs>
+<g><rect x="20" y="20" width="110" height="140" rx="30" class="back"/><path d="M58 50 L100 56 L80 130 Z" class="bone"/>
+<line x1="78" y1="46" x2="78" y2="26" class="ar" marker-end="url(#ah)"/><line x1="78" y1="136" x2="78" y2="156" class="ar" marker-end="url(#ah)"/>
+<text x="75" y="186" class="lb" text-anchor="middle">Elevation</text><text x="75" y="204" class="lb" text-anchor="middle">Depression</text></g>
+<g transform="translate(150,0)"><rect x="20" y="20" width="110" height="140" rx="30" class="back"/><path d="M58 50 L100 56 L80 130 Z" class="bone"/>
+<line x1="104" y1="90" x2="126" y2="90" class="ar" marker-end="url(#ah)"/><line x1="56" y1="90" x2="32" y2="90" class="ar" marker-end="url(#ah)"/>
+<text x="75" y="186" class="lb" text-anchor="middle">Protraction</text><text x="75" y="204" class="lb" text-anchor="middle">Retraction</text></g>
+<g transform="translate(300,0)"><rect x="20" y="20" width="110" height="140" rx="30" class="back"/><path d="M58 50 L100 56 L80 130 Z" class="bone faint2"/><path d="M58 50 L100 56 L80 130 Z" class="bone" transform="rotate(-22 80 70)"/>
+<path d="M62 142 Q 92 160 112 132" class="ar" marker-end="url(#ah)"/>
+<text x="75" y="186" class="lb" text-anchor="middle">Upward／</text><text x="75" y="204" class="lb" text-anchor="middle">Downward rot.</text></g>
+<g transform="translate(450,0)"><path d="M100 20 Q 50 90 100 160" class="ribside"/><line x1="80" y1="52" x2="76" y2="130" class="bonel"/><line x1="80" y1="52" x2="62" y2="128" class="bonel faint2"/>
+<path d="M58 140 Q 44 132 48 116" class="ar" marker-end="url(#ah)"/>
+<text x="75" y="186" class="lb" text-anchor="middle">Ant.／Post. tilt</text><text x="75" y="204" class="lb sm" text-anchor="middle">側面看</text></g>
+<g transform="translate(600,0)"><path d="M20 110 Q 75 40 130 110" class="ribside"/><line x1="44" y1="84" x2="104" y2="56" class="bonel"/><line x1="44" y1="62" x2="104" y2="56" class="bonel faint2"/>
+<path d="M40 58 Q 32 72 40 82" class="ar" marker-end="url(#ah)"/>
+<text x="75" y="186" class="lb" text-anchor="middle">Med.／Lat. rot.</text><text x="75" y="204" class="lb sm" text-anchor="middle">上面看</text></g>
+</svg><figcaption>前三格是背面觀（灰色＝胸廓）。Upward rotation＝肩胛下角往外轉；tilt 是從側面看下角翹離肋骨；medial rotation 是從上面看內緣翹起（＝winging）。抬手時肩胛要 upward rotation、posterior tilt、外旋，肩峰才會「讓路」給肱骨頭。</figcaption></figure>  <div class="grid2 mt">
     <div class="card">
       <h3>ST joint</h3>
       <ul>
@@ -330,11 +577,22 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
         <li><b>GERG</b>：glenohumeral external rotation gain，ER 增加。</li>
         <li>常見於過頭投擲選手（投手、網球）：為了維持最大 ER。</li>
         <li>和較大的 <b>humeral retroversion</b>（較少 humeral torsion）有關：retroversion 是肱骨頭與遠端肱骨肘關節軸的相對位置。</li>
-      </ul>
+      </ul><div class="eli"><p class="eli-h">白話說：投手的肩膀為什麼 IR 變少</p><p>投球時手臂反覆被甩到極度 ER，久了前側組織被拉鬆、後側關節囊變緊，骨頭本身也可能長成較大的 retroversion（肱骨頭天生比較「往後轉」）。結果是 ER 變多（GERG）、IR 變少（GIRD）。後側緊會把肱骨頭往前上推，和 internal impingement、SLAP 有關，所以治療常做<b>後側關節囊伸展</b>（sleeper stretch）。</p><p><button class="chip" data-test="sleeper">看 sleeper stretch 動畫</button></p></div>
     </div>
     <div class="card">
       <h3>Force couple</h3>
-      <p>主要作用肌（agonist）和拮抗肌一起作用，產生的合成動作<b>不等於</b>各肌肉單獨作用的結果。（例如 deltoid＋rotator cuff 讓肱骨頭在抬手時維持置中；upper／lower trapezius＋serratus anterior 讓肩胛 upward rotation。）</p>
+      <p>主要作用肌（agonist）和拮抗肌一起作用，產生的合成動作<b>不等於</b>各肌肉單獨作用的結果。</p><figure class="dgf sm"><svg class="dg" viewBox="0 0 360 300" role="img" aria-label="Deltoid 與 rotator cuff 的 force couple">
+<defs><marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0L10,5L0,10z" class="ahf"/></marker></defs>
+<path d="M70 40 Q 130 24 200 44" class="bone thick"/><text x="70" y="22" class="lb sm">肩峰</text>
+<path d="M106 96 a 18 40 0 0 0 0 80" class="glen2"/>
+<circle cx="150" cy="136" r="38" class="bone"/>
+<path d="M172 166 L240 250 L262 236 L190 152 Z" class="bone"/>
+<line x1="232" y1="210" x2="214" y2="84" class="ar dl" marker-end="url(#ah2)"/><text x="222" y="76" class="lb sm dl-t">Deltoid 往上拉</text>
+<line x1="150" y1="100" x2="132" y2="126" class="ar rc" marker-end="url(#ah2)"/><line x1="186" y1="132" x2="162" y2="152" class="ar rc" marker-end="url(#ah2)"/>
+<text x="6" y="222" class="lb sm rc-t">Rotator cuff</text><text x="6" y="238" class="lb sm rc-t">往下、往內壓</text>
+<text x="180" y="292" class="lb sm" text-anchor="middle">合力 → 肱骨頭原地轉動，不往上撞肩峰</text>
+</svg><figcaption>Force couple 的例子：上拉＋下壓的力合在一起變成「轉動」。Rotator cuff 無力時，deltoid 會把肱骨頭往上拉去撞肩峰 → impingement。</figcaption></figure>
+      <p>肩胛也有一組：upper trapezius＋lower trapezius＋serratus anterior 一起拉，讓肩胛 upward rotation。其中一條弱（常是 lower trap、serratus），肩胛就轉不好。</p>
     </div>
     <div class="card">
       <h3>Biceps reflection pulley</h3>
@@ -351,7 +609,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
         <li>內容：coracohumeral lig. 纖維、MGHL &amp; SGHL、long head of biceps 肌腱、biceps pulley、GH 關節囊、部分 supraspinatus 與 subscapularis 肌腱。</li>
         <li>功能：GH 的被動穩定結構；像「check rein」限制過度動作和 <b>post.–inf. 位移</b>。</li>
         <li>受傷 → 攣縮（如 <b>frozen shoulder</b>）、biceps tendon instability、anterior GH instability。</li>
-      </ul>
+      </ul><div class="eli"><p class="eli-h">白話說：Rotator interval 是一塊「沒有肌肉」的區域</p><p>Supraspinatus 和 subscapularis 中間留了一個縫，只用韌帶和關節囊補起來，biceps 長頭從這裡穿出。這塊太緊 → ER 受限（frozen shoulder 常從這裡開始攣縮）；太鬆 → 肱骨頭容易往下、往後滑。</p></div>
     </div>
   </div>
 </div></section>
@@ -443,7 +701,16 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
       </ul>
     </div>
   </div>
-  <h3 class="mt">功能性問卷</h3>
+<div class="mt"><figure class="dgf"><svg class="dg" viewBox="0 0 620 200" role="img" aria-label="Scapular dyskinesia 四型（背面觀右側肩胛）">
+<g><rect x="20" y="30" width="120" height="130" rx="30" class="back"/><path d="M62 54 L110 60 L86 136 Z" class="bone"/><path d="M80 128 L92 140 L76 146 Z" class="bad2"/>
+<text x="80" y="178" class="lb sm" text-anchor="middle">Type I：下角突出</text><text x="80" y="194" class="lb sm" text-anchor="middle">（anterior tilt）</text></g>
+<g transform="translate(155,0)"><rect x="20" y="30" width="120" height="130" rx="30" class="back"/><path d="M62 54 L110 60 L86 136 Z" class="bone"/><path d="M62 54 L86 136" class="bad3"/>
+<text x="80" y="178" class="lb sm" text-anchor="middle">Type II：內緣突出</text><text x="80" y="194" class="lb sm" text-anchor="middle">（winging）</text></g>
+<g transform="translate(310,0)"><rect x="20" y="30" width="120" height="130" rx="30" class="back"/><path d="M62 40 L110 46 L86 122 Z" class="bone"/><line x1="86" y1="56" x2="86" y2="36" class="ar" marker-end="url(#ah)"/>
+<text x="80" y="178" class="lb sm" text-anchor="middle">Type III：太早上提</text><text x="80" y="194" class="lb sm" text-anchor="middle">／rotation 節律異常</text></g>
+<g transform="translate(465,0)"><rect x="20" y="30" width="120" height="130" rx="30" class="back"/><path d="M62 54 L110 60 L86 136 Z" class="bone"/>
+<text x="80" y="178" class="lb sm" text-anchor="middle">Type IV：正常</text></g>
+</svg><figcaption>紅色是異常突出的部位。這些用眼睛看，特別是在<b>放下手臂（離心）</b>時最明顯，所以 Kibler test 要觀察放下的過程。</figcaption></figure><div class="eli"><p class="eli-h">白話說：幾個評估名詞</p><ul><li><b>Capsular pattern</b>：關節囊整體縮緊時，各方向受限的比例是固定的。肩是 <b>ER 受限最多 &gt; ABD &gt; IR</b>。看到 ER 明顯不夠，要先想到關節囊（frozen shoulder、OA）。</li><li><b>End feel</b>：被動推到底時手感覺到的「停止感」。關節囊緊是有彈性的硬（capsular）；痛到病人擋住是空的或肌肉保護（empty／guarding），表示急性、激躁度高。</li><li><b>Painful arc</b>：只在某一段角度痛，過了就不痛，表示那一段時有東西被夾住。60–120° 是肩峰下空間最窄的時候；最後 10–20° 是 AC joint 被擠壓。</li><li><b>Reverse SHR</b>：抬手時肩胛先聳起來代償，常見於 GH 太緊（frozen）或 rotator cuff 無力。</li></ul></div></div>  <h3 class="mt">功能性問卷</h3>
   <table class="stack">
     <thead><tr><th>對象</th><th>問卷</th><th>數值</th></tr></thead>
     <tbody>
@@ -497,6 +764,22 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
         </ul>
       </div>
     </div>
+<figure class="dgf"><svg class="dg" viewBox="0 0 600 260" role="img" aria-label="肩峰下空間與肩峰形狀">
+<g>
+<path d="M30 50 Q 120 30 230 56 L230 74 Q 120 52 30 70 Z" class="bone"/><text x="34" y="44" class="lb sm">Acromion＋coracoacromial lig.（屋頂）</text>
+<ellipse cx="140" cy="88" rx="70" ry="10" class="bursa"/><text x="226" y="96" class="lb sm bursa-t">bursa</text>
+<path d="M60 104 Q 140 84 214 110 L210 124 Q 140 100 64 118 Z" class="mus m1"/><text x="226" y="122" class="lb sm mu1">supraspinatus 肌腱</text>
+<circle cx="140" cy="176" r="56" class="bone"/><text x="140" y="182" class="lb sm" text-anchor="middle">肱骨頭</text>
+<text x="20" y="254" class="lb sm">抬手（特別是 60–120°）時，肱骨頭往上靠近屋頂，中間的 bursa 和肌腱被夾住。</text>
+</g>
+<g transform="translate(330,10)">
+<text x="125" y="20" class="lb" text-anchor="middle">肩峰形狀（側面看）</text>
+<path d="M10 70 L110 70" class="acr"/><text x="60" y="96" class="lb sm" text-anchor="middle">Flat</text>
+<path d="M140 64 Q 190 64 240 84" class="acr"/><text x="190" y="104" class="lb sm" text-anchor="middle">Curved</text>
+<path d="M10 150 L80 150 Q 100 150 110 172" class="acr"/><text x="60" y="194" class="lb sm" text-anchor="middle">Hooked（最容易夾）</text>
+<path d="M140 166 Q 190 140 240 160" class="acr"/><text x="190" y="194" class="lb sm" text-anchor="middle">Convex（upturn）</text>
+</g>
+</svg><figcaption>Primary (outlet) impingement 的機制：屋頂和肱骨頭之間的空間變小。Hooked 型肩峰會往下勾，最容易壓到 supraspinatus。</figcaption></figure><div class="eli"><p class="eli-h">白話說：撕裂不一定是痛的原因</p><p>50 歲有 30%、80 歲有 50% 的人有<b>沒症狀</b>的全層撕裂。所以影像看到撕裂，不代表病人的痛就是它造成的，要對照理學檢查。</p><p>判斷有沒有斷：<b>部分撕裂或肌腱炎</b>多半是「有力但痛」；<b>全層撕裂</b>常是「無力、撐不住」（drop arm、lag signs 陽性），被動活動度卻正常。</p></div>
     <div class="chips" data-dz="rc"></div>
   </article>
 
@@ -635,6 +918,20 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
         <li><b>手術轉介</b>：3–6 個月後仍反覆不穩定；<b>&lt; 40 歲</b>外傷性／非外傷性且<b>反覆前脫位</b>者，早點轉介骨科。</li>
       </ul>
     </div>
+<figure class="dgf"><svg class="dg" viewBox="0 0 640 300" role="img" aria-label="前脫位造成 Bankart 與 Hill-Sachs lesion（從上往下看右肩）">
+<text x="150" y="22" class="lb" text-anchor="middle">正常（從上往下看右肩）</text><text x="480" y="22" class="lb" text-anchor="middle">Anterior dislocation</text>
+<text x="10" y="60" class="lb sm">↑ 前 Anterior</text><text x="10" y="290" class="lb sm">↓ 後 Posterior</text>
+<g><path d="M80 120 Q 60 175 80 230" class="glen3"/><path d="M80 120 Q 60 175 80 230" class="labrum thin"/>
+<circle cx="142" cy="175" r="54" class="bone"/><path d="M20 175 L64 175" class="bonel"/><text x="16" y="200" class="lb sm">肩胛</text></g>
+<g transform="translate(320,0)"><path d="M80 120 Q 60 175 80 230" class="glen3"/><path d="M78 160 Q 66 195 80 230" class="labrum thin"/><path d="M80 120 Q 72 138 72 156" class="labrum thin tear"/>
+<path d="M20 175 L64 175" class="bonel"/>
+<circle cx="128" cy="78" r="54" class="bone"/>
+<path d="M84 104 q 6 14 20 14" class="dent"/>
+<line x1="190" y1="190" x2="166" y2="120" class="ar" marker-end="url(#ah)"/><text x="196" y="206" class="lb sm">肱骨頭被推到前方</text>
+<line x1="70" y1="140" x2="40" y2="250" class="ld"/><text x="30" y="266" class="lb sm les-t">Bankart：前下 labrum 撕裂</text>
+<line x1="92" y1="114" x2="200" y2="60" class="ld"/><text x="204" y="56" class="lb sm les-t">Hill-Sachs：肱骨頭</text><text x="204" y="72" class="lb sm les-t">後外側凹陷骨折</text>
+</g>
+</svg><figcaption>從上往下看右肩，上方＝前。前脫位時肱骨頭被推到關節窩前方，肱骨頭後外側撞上關節窩前緣 → 壓出一個凹陷（Hill-Sachs）；關節窩前下方的 labrum 被扯掉（Bankart）。後脫位剛好相反，會造成 reverse Hill-Sachs。</figcaption></figure><div class="eli"><p class="eli-h">白話說：TUBS 和 AMBRI 怎麼分</p><p><b>TUBS</b>：一次明確的外傷「脫出來」，通常往前，結構被撕壞（Bankart），比較常需要<b>手術</b>修補。</p><p><b>AMBRI</b>：沒有明顯外傷，天生比較鬆，好幾個方向都鬆、兩邊都鬆，主要靠<b>復健</b>練肌肉穩定。</p><p>復健「安全區」的意思就是：避開會讓肱骨頭往那個方向滑出去的姿勢。前側不穩 → 手不要跑到身體後面（避免 ABD＋ER＋水平 ABD）。</p></div>
     <div class="chips" data-dz="instab"></div>
   </article>
 
@@ -668,6 +965,23 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
         </ul>
       </div>
     </div>
+<figure class="dgf"><svg class="dg" viewBox="0 0 620 200" role="img" aria-label="AC separation 第一到第三型">
+<g><text x="100" y="20" class="lb" text-anchor="middle">Type I</text>
+<rect x="20" y="70" width="80" height="16" rx="8" class="bone"/><rect x="104" y="72" width="70" height="14" rx="6" class="bone"/>
+<path d="M90 140 q 10 -10 30 -8" class="bone thick3"/>
+<line x1="96" y1="70" x2="108" y2="72" class="lg2 sprain"/><line x1="70" y1="86" x2="96" y2="132" class="lg2"/><line x1="80" y1="86" x2="108" y2="132" class="lg2"/>
+<text x="100" y="176" class="lb sm" text-anchor="middle">AC 韌帶扭傷，鎖骨沒抬高</text></g>
+<g transform="translate(210,0)"><text x="100" y="20" class="lb" text-anchor="middle">Type II</text>
+<rect x="20" y="60" width="80" height="16" rx="8" class="bone"/><rect x="104" y="72" width="70" height="14" rx="6" class="bone"/>
+<path d="M90 140 q 10 -10 30 -8" class="bone thick3"/>
+<line x1="98" y1="64" x2="104" y2="70" class="lg2 torn"/><line x1="70" y1="76" x2="96" y2="132" class="lg2"/><line x1="80" y1="76" x2="108" y2="132" class="lg2"/>
+<text x="100" y="176" class="lb sm" text-anchor="middle">AC 斷、CC 完整，鎖骨略抬高</text></g>
+<g transform="translate(420,0)"><text x="100" y="20" class="lb" text-anchor="middle">Type III</text>
+<rect x="20" y="36" width="80" height="16" rx="8" class="bone"/><rect x="104" y="72" width="70" height="14" rx="6" class="bone"/>
+<path d="M90 140 q 10 -10 30 -8" class="bone thick3"/>
+<line x1="98" y1="52" x2="104" y2="68" class="lg2 torn"/><line x1="70" y1="52" x2="80" y2="80" class="lg2 torn"/><line x1="90" y1="110" x2="100" y2="132" class="lg2 torn"/>
+<text x="100" y="176" class="lb sm" text-anchor="middle">AC＋CC 都斷，鎖骨明顯翹起</text></g>
+</svg><figcaption>左：鎖骨外端；右：肩峰；下方的勾＝喙突。藍綠線＝韌帶（上方短的是 AC lig.，往下的是 coracoclavicular lig.），紅色斷線＝撕裂。CC 韌帶是把鎖骨「往下拴住」的主力，所以斷了鎖骨才會明顯翹起（piano key sign）。</figcaption></figure>
     <div class="chips" data-dz="acsep"></div>
   </article>
 
@@ -721,6 +1035,33 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
         <li><b>Subacromial decompression（SAD）</b>：過去常見；對<b>非外傷性</b>者有強力證據<b>反對</b>（沒處理功能性或動態原因）；保守治療失敗者、<b>hooked（type III）acromion</b> 有證據支持。</li>
       </ul>
     </div>
+<figure class="dgf"><svg class="dg" viewBox="0 0 600 230" role="img" aria-label="Outlet 與 internal impingement 的位置比較">
+<g>
+<text x="140" y="22" class="lb" text-anchor="middle">Primary (outlet)</text>
+<path d="M50 60 Q 140 40 230 66 L230 80 Q 140 56 50 74 Z" class="bone"/>
+<circle cx="140" cy="140" r="52" class="bone"/>
+<path d="M90 96 Q 140 76 196 100" class="mus m1 line"/>
+<circle cx="140" cy="84" r="16" class="hit"/>
+<text x="140" y="214" class="lb sm" text-anchor="middle">夾在肩峰下方（關節外），中段 ABD 痛</text>
+</g>
+<g transform="translate(300,0)">
+<text x="150" y="22" class="lb" text-anchor="middle">Internal (nonoutlet)</text>
+<path d="M60 70 a 22 54 0 0 0 0 108" class="glen2"/>
+<circle cx="110" cy="124" r="46" class="bone"/>
+<path d="M140 92 L250 44" class="bonel thick2"/><text x="196" y="84" class="lb sm">手臂 ABD 90°＋full ER</text>
+<circle cx="70" cy="84" r="16" class="hit"/>
+<text x="150" y="214" class="lb sm" text-anchor="middle">GT 後側撞到 glenoid 後上緣（關節內），肩後側痛</text>
+</g>
+</svg><figcaption>兩種夾擠的位置不同：outlet 在關節「外面」的肩峰下；internal 在關節「裡面」，常見於投手 late cocking。Secondary impingement 則不是結構問題，是肩胛控制或不穩定造成肱骨頭位置跑掉。</figcaption></figure>
+    <table class="stack mt">
+      <thead><tr><th></th><th>Primary (outlet)</th><th>Internal</th><th>Secondary</th></tr></thead>
+      <tbody>
+        <tr><td>誰</td><td>&gt; 40 歲</td><td>過頭運動員</td><td>15–35 歲</td></tr>
+        <tr><td>原因</td><td>結構：空間變小（肩峰形狀、退化）</td><td>ABD 90°＋full ER 時關節內碰撞</td><td>功能：肩胛控制差、不穩、肌力不平衡</td></tr>
+        <tr><td>痛在哪</td><td>上臂外側、中段 painful arc</td><td>肩後側深處</td><td>活動末端、合併不穩症狀</td></tr>
+        <tr><td>理學檢查</td><td>Impingement tests (+)、後側關節囊緊</td><td>Relocation 後側痛減輕、Zaslav</td><td>ROM 完整或過動、<b>instability tests (+)</b></td></tr>
+      </tbody>
+    </table>
     <div class="chips" data-dz="impinge"></div>
   </article>
 
@@ -807,6 +1148,15 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
         <li><b>預後</b>：90% 保守治療會進步（有保險可能失敗率與手術率較高）；可能 6 個月到 2 年自行緩解；secondary 比 primary 快（較早發現、有已知誘因）；<b>PT 3 個月沒反應 → 考慮手術</b>。</li>
       </ul>
     </div>
+<figure class="dgf"><svg class="dg" viewBox="0 0 620 250" role="img" aria-label="Frozen shoulder 分期示意：疼痛與僵硬隨時間變化">
+<rect x="60" y="30" width="75" height="170" class="st1"/><rect x="135" y="30" width="150" height="170" class="st2"/><rect x="285" y="30" width="125" height="170" class="st3"/><rect x="410" y="30" width="190" height="170" class="st4"/>
+<text x="97" y="48" class="lb sm" text-anchor="middle">1 發炎</text><text x="210" y="48" class="lb sm" text-anchor="middle">2 Freezing</text><text x="347" y="48" class="lb sm" text-anchor="middle">3 Frozen</text><text x="505" y="48" class="lb sm" text-anchor="middle">4 Thawing</text>
+<line x1="60" y1="200" x2="600" y2="200" class="axis"/><line x1="60" y1="30" x2="60" y2="200" class="axis"/>
+<text x="60" y="218" class="lb sm" text-anchor="middle">0</text><text x="135" y="218" class="lb sm" text-anchor="middle">3</text><text x="285" y="218" class="lb sm" text-anchor="middle">9</text><text x="410" y="218" class="lb sm" text-anchor="middle">14</text><text x="590" y="218" class="lb sm" text-anchor="end">月</text>
+<path d="M60 150 C 110 70, 170 60, 240 80 S 340 140, 410 160 S 540 185, 600 188" class="cpain"/>
+<path d="M60 190 C 120 170, 200 90, 285 66 S 380 70, 410 84 S 540 160, 600 176" class="cstiff"/>
+<text x="20" y="240" class="lb sm"><tspan class="cpain-t">— 疼痛</tspan>　<tspan class="cstiff-t">— 僵硬（ROM 受限）</tspan>　曲線為示意，不是實際數值</text>
+</svg><figcaption>先痛、再僵、最後慢慢解凍。治療策略跟著階段走：前期痛多（高激躁度）→ 輕柔、低 grade；後期以僵硬為主（低激躁度）→ 積極伸展、高 grade mobilization。</figcaption></figure><div class="eli"><p class="eli-h">白話說：Frozen shoulder 和 rotator cuff tear 怎麼分</p><p>兩個都會「手抬不起來」。關鍵是<b>被動</b>：frozen shoulder 連 PT 幫忙推都推不上去（主動、被動都受限，而且 ER 最明顯）；rotator cuff tear 是自己抬不起來，但 PT 幫忙可以推上去（被動正常）。阻抗測試：frozen 有力不痛，tear 會無力。</p></div>
     <div class="chips" data-dz="adhesive"></div>
   </article>
   </div>
@@ -854,6 +1204,8 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
       </ul>
     </div>
   </div>
+  <div class="chips exchips"><span>動畫</span><button class="chip" data-test="pendulum">Pendulum</button><button class="chip" data-test="wand">Wand</button><button class="chip" data-test="dusting">Table top dusting</button><button class="chip" data-test="wallwash">Wall washing</button><button class="chip" data-test="pulley">Pulley</button><button class="chip" data-test="gearshift">Gear-shift</button><button class="chip" data-test="setting">Muscle setting</button><button class="chip" data-test="stmob">Scapular mobilization</button><button class="chip" data-test="wallclock">Wall clock</button><button class="chip" data-test="scissors">Scissors／Punch／Flies</button><button class="chip" data-test="pushup">Scapular push up</button></div>
+  <div class="eli"><p class="eli-h">白話說：運動的順序邏輯</p><p>早期先做<b>不痛、有支撐的活動</b>（鐘擺、棍子、桌面、牆面），讓關節動起來；接著在不動的情況下練<b>肌肉出力</b>（多角度等長）；再來練<b>穩定</b>：先 closed-chain（手撐著、壓著東西，肱骨頭比較安全），再 open-chain；最後才是動態強化和功能性、運動專項訓練。</p></div>
   <h3 class="mt">肩胛肌的動態強化</h3>
   <table class="stack">
     <thead><tr><th>動作</th><th>主要肌肉</th></tr></thead>
@@ -866,10 +1218,12 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
       <tr><td>Depression＋upward rotation</td><td>Upper &amp; lower trapezius、serratus anterior</td></tr>
     </tbody>
   </table>
+  <div class="chips exchips"><span>動畫</span><button class="chip" data-test="prow">Prone row（retraction）</button><button class="chip" data-test="pronet">Prone T（＋ER）</button><button class="chip" data-test="pronep">Serratus punch</button><button class="chip" data-test="depress">Depression／Y</button></div>
   <div class="grid2 mt">
     <div class="card">
       <h3>GH 伸展</h3>
       <p>伸展<b>後側關節囊</b>：側躺水平 ADD、<b>modified sleeper stretch</b>。</p>
+      <p><button class="chip" data-test="crossstretch">Horizontal ADD stretch</button><button class="chip" data-test="sleeper">Sleeper stretch</button></p>
     </div>
     <div class="card">
       <h3>功能進展</h3>
@@ -880,7 +1234,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 
 <!-- ============ TESTS ============ -->
 <section class="band testband" id="tests"><div class="wrap">
-  <h2>Special tests 動畫</h2>
+  <h2>Special tests ＆ 治療運動動畫</h2>
   <p class="lede2 legend"><span><i class="lg pat0"></i>病人（亮色手臂＝受測右手）</span><span><i class="lg thumbL"></i>拇指方向</span><span><i class="lg pt"></i>PT 的手</span><span><i class="lg ptA"></i>PT 施力</span><span><i class="lg patA"></i>病人用力</span><span><i class="lg pain"></i>疼痛／陽性</span><span><i class="lg trailL"></i>手的移動軌跡</span></p>
   <div class="player">
     <aside class="list">
@@ -912,8 +1266,8 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
       </div>
       <div class="info3">
         <div class="ic"><h4>步驟</h4><ol id="steps"></ol></div>
-        <div class="ic pos"><h4>陽性表現（+）</h4><p id="sign"></p></div>
-        <div class="ic ind"><h4>代表 Indication</h4><p id="ind"></p><p id="more" class="more"></p><p id="dzlinks" class="dzl"></p></div>
+        <div class="ic pos"><h4 id="signH">陽性表現（+）</h4><p id="sign"></p></div>
+        <div class="ic ind"><h4 id="indH">代表 Indication</h4><p id="ind"></p><p id="more" class="more"></p><p id="dzlinks" class="dzl"></p></div>
       </div>
       <div class="selfq" id="selfq"></div>
     </div>
@@ -968,8 +1322,17 @@ const POST = {
   stand: { hip: 0.95, sh: 1.45 },
   sit: { hip: 0.50, sh: 1.00 },
   supine: { hip: 0.95, sh: 1.45 },
-  side: { hip: 0.95, sh: 1.45 }
+  side: { hip: 0.95, sh: 1.45 },
+  sideR: { hip: 0.95, sh: 1.45 },
+  prone: { hip: 0.95, sh: 1.45 },
+  lean: { hip: 0.95, sh: 1.45 },
+  plank: { hip: 0.95, sh: 1.45 }
 };
+const TILT = { lean: { piv: [0, 0.95, 0], a: 72, legs: false }, plank: { piv: [0, 0, 0], a: 68, legs: true } };
+function tilt(q, cfg) {
+  const a = cfg.a * D2R, y = q[1] - cfg.piv[1], z = q[2] - cfg.piv[2];
+  return [q[0], cfg.piv[1] + y * Math.cos(a) - z * Math.sin(a), cfg.piv[2] + y * Math.sin(a) + z * Math.cos(a)];
+}
 
 /* body frame: x+ = patient's LEFT, y up, z+ anterior. Right arm = test arm. */
 function skeleton(pose, posture) {
@@ -1032,14 +1395,20 @@ function skeleton(pose, posture) {
   return S;
 }
 
-function toWorld(p, posture) {
+function toWorld(p, posture, leg) {
   if (posture === 'supine') return [p[0], p[2] + 0.84, -(p[1] - 0.9)];
+  if (posture === 'prone') return [-p[0], -p[2] + 0.84, -(p[1] - 0.9)];
   if (posture === 'side') return [p[1] - 0.9, -p[0] + 0.92, p[2]];
+  if (posture === 'sideR') return [-(p[1] - 0.9), p[0] + 0.92, p[2]];
+  if (TILT[posture]) { const c = TILT[posture]; return (leg && !c.legs) ? p : tilt(p, c); }
   return p;
 }
 function dirWorld(v, posture) {
   if (posture === 'supine') return [v[0], v[2], -v[1]];
+  if (posture === 'prone') return [-v[0], -v[2], -v[1]];
   if (posture === 'side') return [v[1], -v[0], v[2]];
+  if (posture === 'sideR') return [-v[1], v[0], v[2]];
+  if (TILT[posture]) { const c = TILT[posture]; return tilt(v, { piv: [0, 0, 0], a: c.a }); }
   return v;
 }
 
@@ -1081,7 +1450,13 @@ function scene(pose, test, S) {
   if (pos === 'sit') statics.push({ k: 'box', pts: boxPts(-0.22, 0.22, 0, 0.46, -0.18, 0.24), cls: 'furn' });
   if (pos === 'supine') statics.push({ k: 'box', pts: boxPts(-0.33, 0.33, 0.05, 0.75, -0.95, 1.0), cls: 'furn' });
   if (pos === 'side') statics.push({ k: 'box', pts: boxPts(-0.95, 1.0, 0.05, 0.72, -0.35, 0.35), cls: 'furn' });
-  if (pos === 'stand') statics.push({ k: 'floor' });
+  if (pos === 'sideR') statics.push({ k: 'box', pts: boxPts(-1.0, 0.95, 0.05, 0.72, -0.35, 0.35), cls: 'furn' });
+  if (pos === 'prone') statics.push({ k: 'box', pts: boxPts(-0.15, 0.15, 0.05, 0.75, -0.75, 1.0), cls: 'furn' });
+  if (pos === 'stand' || pos === 'lean' || pos === 'plank') statics.push({ k: 'floor' });
+  const pr = test.props || {};
+  if (pr.wall) statics.push({ k: 'box', pts: boxPts(-0.75, 0.75, 0.0, 2.05, pr.wall, pr.wall + 0.03), cls: 'wall' });
+  if (pr.table) statics.push({ k: 'box', pts: boxPts(pr.table[0], pr.table[1], 0, pr.table[2], pr.table[3], pr.table[4]), cls: 'furn' });
+  if (pr.clock) statics.push({ k: 'clock', c: pr.clock });
   // legs
   const legs = [];
   for (const sx of [-0.09, 0.09]) {
@@ -1089,7 +1464,8 @@ function scene(pose, test, S) {
     if (pos === 'sit') { const kn = [sx * 1.15, P.hip + 0.0, 0.42]; legs.push([hip, kn], [kn, [sx * 1.15, 0.03, 0.46]]); }
     else { const kn = [sx, P.hip - 0.47, 0.01]; legs.push([hip, kn], [kn, [sx, 0.04, 0]]); }
   }
-  legs.forEach(l => items.push({ k: 'seg', a: W(l[0]), b: W(l[1]), w: 0.085, cls: 'leg', ol: 1 }));
+  const WL = p => toWorld(p, pos, true);
+  legs.forEach(l => items.push({ k: 'seg', a: WL(l[0]), b: WL(l[1]), w: 0.085, cls: 'leg', ol: 1 }));
   // torso
   const tp = [];
   const shY = S.shY, hY = S.hipY;
@@ -1120,6 +1496,10 @@ function scene(pose, test, S) {
     items.push({ k: 'seg', a: W(add(S[pre + 'wri'], mul(S[pre + 'u'], 0.025))), b: W(S[pre + 'thumb']), w: 0.022, cls: 'thumb', dz: 0.01 });
     if (test.wt) items.push({ k: 'seg', a: W(add(S[pre + 'hand'], [-0.05, 0, 0])), b: W(add(S[pre + 'hand'], [0.05, 0, 0])), w: 0.04, cls: 'wt', dz: 0.02 });
   }
+  if (pr.wand) { const a = S.hand, b = S.Lhand, d = norm(sub(a, b)); items.push({ k: 'seg', a: W(add(a, mul(d, 0.12))), b: W(add(b, mul(d, -0.12))), w: 0.025, cls: 'prop', dz: 0.03 }); }
+  if (pr.ball) items.push({ k: 'circ', c: W(add(S.hand, pr.ball)), r: 0.065, cls: 'ball', dz: -0.01 });
+  if (pr.cane) items.push({ k: 'seg', a: W(S.hand), b: W([S.hand[0], 0.02, S.hand[2]]), w: 0.025, cls: 'prop', dz: -0.01 });
+  if (pr.pulley) { const pw = pr.pulley; items.push({ k: 'seg', a: W(S.hand), b: pw, w: 0.008, cls: 'rope', dz: 0.05 }); items.push({ k: 'seg', a: W(S.Lhand), b: pw, w: 0.008, cls: 'rope', dz: 0.05 }); items.push({ k: 'circ', c: pw, r: 0.05, cls: 'pulley' }); }
   return { items, statics };
 }
 
@@ -1149,6 +1529,9 @@ class Fig {
       const lowY = S.hipY - 0.12;
       const W = q => toWorld(q, this.test.pos);
       for (const k of ['sh','elb','wri','hand','Lsh','Lelb','Lwri','Lhand','head']) pts.push(W(S[k]));
+      const pr = this.test.props || {};
+      if (pr.pulley) pts.push(add(pr.pulley, [0, 0.08, 0]));
+      if (pr.clock) pts.push(add(pr.clock, [0, 0.22, 0]), add(pr.clock, [0, -0.22, 0]));
       pts.push(W(add(S.head,[0,0.13,0])), W([0.2,lowY,0.12]), W([-0.2,lowY,-0.12]), W([0.2,lowY,-0.12]), W([-0.2,lowY,0.12]));
       for (const w of pts) { const q = this.cam.p(w); x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); y0 = Math.min(y0, q[1]); y1 = Math.max(y1, q[1]); }
     }
@@ -1173,6 +1556,11 @@ class Fig {
         const c = P([0, 0, 0]), e = P([0.45, 0, 0]), e2 = P([0, 0, 0.45]);
         const rx = Math.max(Math.hypot(e[0] - c[0], e[1] - c[1]), 20), ry = Math.max(Math.abs(e2[1] - c[1]), 6);
         h += `<ellipse cx="${fx(c[0])}" cy="${fx(c[1])}" rx="${fx(rx * 1.6)}" ry="${fx(ry * 1.6)}" class="floor"/><ellipse cx="${fx(c[0])}" cy="${fx(c[1])}" rx="${fx(rx * 0.7)}" ry="${fx(ry * 0.6)}" class="shadow"/>`;
+      } else if (it.k === 'clock') {
+        const c = P(it.c), e = P(add(it.c, [0.18, 0, 0])), r = Math.hypot(e[0] - c[0], e[1] - c[1]);
+        const ry = Math.abs(P(add(it.c, [0, 0.18, 0]))[1] - c[1]);
+        h += `<ellipse cx="${fx(c[0])}" cy="${fx(c[1])}" rx="${fx(r)}" ry="${fx(ry)}" class="clockf"/>`;
+        [[0, 0.18, '12'], [0.18, 0, '3'], [0, -0.18, '6'], [-0.18, 0, '9']].forEach(([x, y, n]) => { const q = P(add(it.c, [-x, y, 0])); h += `<text x="${fx(q[0])}" y="${fx(q[1] + 4)}" class="clockt">${n}</text>`; });
       } else if (it.k === 'box') {
         const pts = hull(it.pts.map(P));
         h += `<polygon points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="${it.cls}"/>`;
@@ -1902,6 +2290,224 @@ const TESTS = [
   }
 ];
 
+/* ---------- therapeutic exercises (UE1-1 slides 71–79) ---------- */
+Object.assign(G, { ex1: '運動：急性／亞急性早期', ex2: '運動：穩定運動', ex3: '運動：肩胛肌強化', ex4: '運動：伸展' });
+const EX = [
+  {
+    id: 'pendulum', g: 'ex1', kind: 'ex', name: "Pendulum (Codman's) exercise", alt: '鐘擺運動', pos: 'lean', view: [75, 8],
+    props: { table: [0.05, 0.6, 0.78, 0.35, 0.85] },
+    steps: [['姿勢', '身體前傾（髖屈曲），健側手撐在桌上，患側手臂放鬆自然下垂'], ['動作', '用身體輕輕前後、左右晃動，讓手臂像鐘擺一樣擺盪'], ['進階', '畫小圈（順時針、逆時針），再慢慢加大範圍']],
+    sign: '肩膀肌肉要完全放鬆，是「身體帶動手臂」，不是肩膀自己出力。前傾會頭暈或腰痛的人要調整姿勢。', ind: '利用重力把肱骨頭從 glenoid 輕微拉開（牽引），加上擺盪來減輕疼痛、維持 GH 早期活動度。',
+    kf: [
+      { t: 0, R: [90, 72, 0, 4, 90], L: [95, 30, 0, 20, 160], cap: '前傾、健側手撐桌，患側手臂放鬆下垂' },
+      { t: 1.2, R: [90, 86, 0, 4, 90], cap: '身體帶動，手臂前後擺盪' },
+      { t: 2.2, R: [90, 56, 0, 4, 90] }, { t: 3.2, R: [90, 86, 0, 4, 90] }, { t: 4.2, R: [90, 58, 0, 4, 90] },
+      { t: 5.2, R: [62, 74, 0, 4, 90], cap: '左右擺盪' }, { t: 6.2, R: [120, 74, 0, 4, 90] }, { t: 7.2, R: [64, 74, 0, 4, 90] }, { t: 8.2, R: [118, 74, 0, 4, 90] },
+      { t: 9.0, R: [90, 86, 0, 4, 90], cap: '畫小圈（順時針、逆時針）' }, { t: 9.6, R: [112, 76, 0, 4, 90] }, { t: 10.2, R: [90, 62, 0, 4, 90] }, { t: 10.8, R: [68, 76, 0, 4, 90] }, { t: 11.4, R: [90, 86, 0, 4, 90] }, { t: 12.0, R: [112, 76, 0, 4, 90] }, { t: 12.6, R: [90, 62, 0, 4, 90] }, { t: 13.2, R: [68, 76, 0, 4, 90] }, { t: 13.8, R: [90, 86, 0, 4, 90] },
+      { t: 14.8, R: [90, 72, 0, 4, 90] }
+    ]
+  },
+  {
+    id: 'wand', g: 'ex1', kind: 'ex', name: 'Wand exercise (AAROM)', alt: '棍棒運動', pos: 'supine', view: [65, 35], props: { wand: true },
+    steps: [['姿勢', '仰躺，雙手握住棍子'], ['Flexion', '健側手帶著患側手，一起把棍子往頭上舉，再慢慢放下'], ['ER', '手肘貼在身側彎 90°，健側手把棍子往患側推，讓患側肩 ER']],
+    sign: '患側只「跟著動」或輕微出力（AAROM），在不痛的範圍內做。仰躺時肩胛被床穩定，比站姿容易。', ind: 'Active-assistive ROM：用健側手協助，增加 flexion、ER 等活動度。',
+    kf: [
+      { t: 0, R: [90, 15, 0, 5, 170], L: [90, 15, 0, 5, 170], cap: '仰躺，雙手握棍放在大腿上' },
+      { t: 2.4, R: [90, 165, 0, 5, 170], L: [90, 165, 0, 5, 170], cap: '健側手帶動，把棍子舉到頭上（flexion）' },
+      { t: 4.6, R: [90, 15, 0, 5, 170], L: [90, 15, 0, 5, 170], cap: '慢慢放下' },
+      { t: 5.6, R: [0, 6, 0, 90, 90], L: [0, 6, 0, 90, 90], cap: 'ER：手肘貼身側彎 90°' },
+      { t: 7.2, R: [0, 6, 50, 90, 90], L: [0, 6, -50, 90, 90], A: [{ at: 'Lhand', d: 'Lrot-', k: 'pat', t: '健側推' }], cap: '健側手把棍子往外推 → 患側肩 ER' },
+      { t: 8.8, R: [0, 6, 0, 90, 90], L: [0, 6, 0, 90, 90], A: [] },
+      { t: 9.6 }
+    ]
+  },
+  {
+    id: 'dusting', g: 'ex1', kind: 'ex', name: 'Table top dusting / ball rolling', alt: '桌面擦拭／滾球', pos: 'sit', view: [70, 25],
+    props: { table: [-0.45, 0.35, 0.66, 0.25, 0.95], ball: [0, -0.06, 0.02] },
+    steps: [['姿勢', '坐在桌前，患側手放在毛巾或球上'], ['動作', '手在桌面往前推、往兩側滑、畫圈'], ['進階', '加大範圍，或站起來改做 wall washing']],
+    sign: '桌面支撐手臂重量，所以肩膀負擔小；不要聳肩代償。', ind: '早期 GH 活動（主動輔助），增加 flexion、horizontal ADD／ABD 範圍。',
+    kf: [
+      { t: 0, R: [90, 22, 0, 70, 170], cap: '手放在球上' },
+      { t: 1.8, R: [90, 58, 0, 18, 170], cap: '往前推（flexion）' },
+      { t: 3.4, R: [90, 22, 0, 70, 170] },
+      { t: 4.6, R: [125, 40, 0, 45, 170], cap: '往內、往外滑（horizontal ADD／ABD）' },
+      { t: 5.8, R: [50, 40, 0, 45, 170] },
+      { t: 7.0, R: [90, 30, 0, 60, 170], cap: '畫圈' }, { t: 7.8, R: [115, 45, 0, 35, 170] }, { t: 8.6, R: [90, 55, 0, 20, 170] }, { t: 9.4, R: [65, 45, 0, 35, 170] }, { t: 10.2, R: [90, 30, 0, 60, 170] },
+      { t: 11.0 }
+    ]
+  },
+  {
+    id: 'wallwash', g: 'ex1', kind: 'ex', name: 'Wall washing / window washing', alt: '擦牆壁／擦窗戶', pos: 'stand', view: [65, 10],
+    props: { wall: 0.46, ball: [0, 0, 0.04] },
+    steps: [['姿勢', '面向牆站，患側手放在牆上（可以墊毛巾或球）'], ['動作', '手在牆上畫圈，一邊畫一邊慢慢往上'], ['進階', '畫圈範圍加大、位置越來越高']],
+    sign: '牆面支撐一部分重量；高度以不痛為準，不要聳肩。', ind: '早期 GH 活動，逐步增加 elevation 範圍，比 tabletop 更進階。',
+    kf: [
+      { t: 0, R: [90, 60, 0, 30, 170], cap: '手放在牆上' },
+      { t: 1.0, R: [110, 72, 0, 25, 170], cap: '畫圈，一邊慢慢往上' }, { t: 1.8, R: [90, 84, 0, 15, 170] }, { t: 2.6, R: [70, 76, 0, 18, 170] }, { t: 3.4, R: [90, 70, 0, 20, 170] },
+      { t: 4.2, R: [110, 96, 0, 12, 170] }, { t: 5.0, R: [90, 110, 0, 8, 170] }, { t: 5.8, R: [70, 100, 0, 10, 170] }, { t: 6.6, R: [90, 95, 0, 10, 170] },
+      { t: 7.4, R: [110, 125, 0, 5, 170] }, { t: 8.2, R: [90, 138, 0, 4, 170], cap: '越畫越高' }, { t: 9.0, R: [70, 128, 0, 5, 170] }, { t: 9.8, R: [90, 122, 0, 5, 170] },
+      { t: 11.6, R: [90, 60, 0, 30, 170], cap: '慢慢回到起始' },
+      { t: 12.4 }
+    ]
+  },
+  {
+    id: 'pulley', g: 'ex1', kind: 'ex', name: 'Pulley exercise', alt: '滑輪運動', pos: 'sit', view: [60, 8], props: { pulley: [0.02, 1.92, 0.12] },
+    steps: [['姿勢', '坐在門上滑輪下方，雙手各握一邊把手'], ['動作', '健側手往下拉，把患側手往上帶（flexion 或 scaption）'], ['回來', '健側慢慢放，患側跟著放下']],
+    sign: '患側放鬆被帶上去（被動到主動輔助）；不要聳肩，痛就停。', ind: '增加 flexion／scaption 活動度（AAROM），居家容易做。',
+    kf: [
+      { t: 0, R: [80, 40, 0, 30, 170], L: [80, 150, 0, 10, 170], cap: '雙手握把手；健側在上' },
+      { t: 2.4, R: [80, 150, 0, 10, 170], L: [80, 40, 0, 30, 170], A: [{ at: 'Lhand', d: DN3, k: 'pat', t: '健側拉' }], cap: '健側往下拉 → 患側被帶上去' },
+      { t: 4.8, R: [80, 40, 0, 30, 170], L: [80, 150, 0, 10, 170], A: [], cap: '慢慢放回' },
+      { t: 5.8 }
+    ]
+  },
+  {
+    id: 'gearshift', g: 'ex1', kind: 'ex', name: '"Gear-shift" exercise', alt: '排檔桿運動', pos: 'sit', view: [60, 15], props: { cane: true },
+    steps: [['姿勢', '坐姿，患側手握住一根直立的棍子（底端放在地上），像握排檔桿'], ['動作', '把棍子前後推（flex／ext）、左右推（ABD／ADD），或畫圈'], ['ER/IR', '也可以轉動棍子帶出旋轉']],
+    sign: '棍子支撐手臂重量，動作小、不痛。', ind: '早期 GH 主動輔助活動（flex/ext、ABD/ADD、旋轉）。',
+    kf: [
+      { t: 0, R: [90, 20, 0, 40, 90], cap: '握住直立的棍子' },
+      { t: 1.4, R: [90, 38, 0, 30, 90], cap: '往前推（flexion）' }, { t: 2.6, R: [90, -10, 0, 50, 90], cap: '往後拉（extension）' }, { t: 3.6, R: [90, 20, 0, 40, 90] },
+      { t: 4.8, R: [20, 30, 0, 40, 90], cap: '往外（ABD）' }, { t: 6.0, R: [150, 18, 0, 40, 90], cap: '往內（ADD）' }, { t: 7.0, R: [90, 20, 0, 40, 90] },
+      { t: 7.8 }
+    ]
+  },
+  {
+    id: 'setting', g: 'ex1', kind: 'ex', name: 'Multiple-angle muscle setting', alt: '多角度等長收縮', pos: 'sit', view: [40, 12],
+    steps: [['姿勢', '坐姿；肩在不同角度（身側、30°、60°…）'], ['動作', '對抗 PT 的手或牆面做等長收縮，肩膀不動'], ['範圍', '肩胛肌與 rotator cuff 都可以練；在不痛的角度做']],
+    sign: '關節不動、只出力；力量從輕到中等，不痛。', ind: '早期神經肌肉控制：在不能做大範圍動作時，先讓肩胛肌與 rotator cuff 收縮。',
+    kf: [
+      { t: 0, R: [0, 6, 0, 90, 90], H: ['wri'], A: [{ at: 'wri', d: 'rot+', k: 'pat', t: 'ER 出力' }], cap: '手肘 90° 在身側：ER 等長收縮' },
+      { t: 2.0, A: [{ at: 'wri', d: 'rot-', k: 'pat', t: 'IR 出力' }], cap: '換 IR 等長收縮' },
+      { t: 3.6, R: [0, 35, 0, 10, 90], H: ['elb'], A: [{ at: 'elb', d: UP3, k: 'pat', t: 'ABD 出力' }], cap: '30° ABD：往上出力（不動）' },
+      { t: 5.4, R: [90, 45, 0, 10, 90], H: ['wri'], A: [{ at: 'wri', d: UP3, k: 'pat', t: 'Flex 出力' }], cap: '45° flex：往上出力' },
+      { t: 7.2, R: REST, H: [], A: [] },
+      { t: 8.0 }
+    ]
+  },
+  {
+    id: 'wallclock', g: 'ex2', kind: 'ex', name: 'Wall clock exercise', alt: '牆上時鐘（closed-chain）', pos: 'stand', view: [55, 10],
+    props: { wall: 0.56, clock: [-0.19, 1.45, 0.555], ball: [0, 0, 0.03] },
+    steps: [['姿勢', '面向牆，患側手肘伸直在 90° flex，手壓住牆上的球'], ['動作', '手壓著球，依序移到時鐘的 12、3、6、9 點'], ['進階', 'PT 給徒手阻力或擾動；或換成更高、更小的球']],
+    sign: '手一直壓住牆（closed chain），肩胛不要聳起或 winging。', ind: '靜態 closed-chain 承重的穩定運動：rotator cuff 與肩胛肌共同收縮，增加關節穩定。',
+    kf: [
+      { t: 0, R: [90, 90, 0, 3, 90], cap: '手壓球在時鐘中心（90° flex）' },
+      { t: 1.4, R: [90, 103, 0, 3, 90], cap: '12 點' }, { t: 2.6, R: [90, 90, 0, 3, 90] },
+      { t: 3.6, R: [75, 90, 0, 3, 90], cap: '3 點' }, { t: 4.8, R: [90, 90, 0, 3, 90] },
+      { t: 5.8, R: [90, 77, 0, 3, 90], cap: '6 點' }, { t: 7.0, R: [90, 90, 0, 3, 90] },
+      { t: 8.0, R: [105, 90, 0, 3, 90], cap: '9 點' }, { t: 9.2, R: [90, 90, 0, 3, 90] },
+      { t: 10.0, H: ['elb'], A: [{ at: 'elb', d: LAT, k: 'pt', t: 'PT 擾動' }], cap: '進階：PT 給徒手阻力／擾動，病人維持不動' },
+      { t: 11.2, A: [{ at: 'elb', d: MED, k: 'pt', t: 'PT 擾動' }] },
+      { t: 12.4, H: [], A: [] }
+    ]
+  },
+  {
+    id: 'scissors', g: 'ex2', kind: 'ex', name: 'Scissors, punch to ceiling & pectoral flies', alt: '剪刀、往天花板出拳、飛鳥', pos: 'supine', view: [70, 30],
+    steps: [['Scissors', '仰躺，雙手前屈 90°，一手往頭上、一手往腳的方向交替擺動'], ['Punch', '手臂往天花板「推出去」（scapular protraction）'], ['Pectoral flies', '雙手從 90° 往兩側打開再合起（horizontal ABD／ADD）']],
+    sign: '動作中肱骨頭維持在關節窩中央，速度從慢到快。', ind: 'Open-chain 穩定運動；punch 訓練 serratus anterior（protraction）。',
+    kf: [
+      { t: 0, R: [90, 90, 0, 3, 90], L: [90, 90, 0, 3, 90], cap: '仰躺，雙手前屈 90°' },
+      { t: 1.2, R: [90, 125, 0, 3, 90], L: [90, 55, 0, 3, 90], cap: 'Scissors：一上一下交替' }, { t: 2.4, R: [90, 55, 0, 3, 90], L: [90, 125, 0, 3, 90] }, { t: 3.6, R: [90, 125, 0, 3, 90], L: [90, 55, 0, 3, 90] },
+      { t: 4.8, R: [90, 90, 0, 3, 90], L: [90, 90, 0, 3, 90] },
+      { t: 5.8, sc: { pro: 0.035 }, scL: { pro: 0.035 }, cap: 'Punch to ceiling：手往上推出（protraction）' }, { t: 6.8, sc: null, scL: null }, { t: 7.8, sc: { pro: 0.035 }, scL: { pro: 0.035 } }, { t: 8.8, sc: null, scL: null },
+      { t: 10.0, R: [10, 88, 0, 15, 90], L: [10, 88, 0, 15, 90], cap: 'Pectoral flies：往兩側打開' }, { t: 11.4, R: [90, 90, 0, 15, 90], L: [90, 90, 0, 15, 90], cap: '再合起' },
+      { t: 12.2 }
+    ]
+  },
+  {
+    id: 'pushup', g: 'ex2', kind: 'ex', name: 'Scapular push up (plus) / push up down', alt: '肩胛伏地挺身', pos: 'plank', view: [100, 12], bi: true,
+    steps: [['姿勢', '撐地（可從牆上或膝蓋開始），核心穩定、脊椎打直'], ['Push up plus', '手肘保持伸直，把身體往上推，兩片肩胛往外滑開（protraction），貼平肋骨'], ['Push up down', '放鬆讓胸口往下沉（retraction），注意肩胛會從肋骨翹起（winging）']],
+    sign: '手肘不彎，只動肩胛；肩胛要平貼肋骨，不要 winging。', ind: 'Closed-chain 訓練 serratus anterior，改善肩胛控制。',
+    kf: [
+      { t: 0, R: [90, 112, 0, 2, 180], cap: '撐地，手肘伸直' },
+      { t: 1.8, sc: { pro: 0.04 }, cap: 'Push up plus：往上推，肩胛往外滑開（protraction）' },
+      { t: 3.0 },
+      { t: 4.6, sc: { pro: -0.03, wing: 0.035, bad: true }, X: [{ at: 'scapI', txt: 'winging' }], cap: 'Push up down：胸口下沉，肩胛靠近、從肋骨翹起' },
+      { t: 6.0, sc: { pro: 0.04 }, X: [], cap: '再推上去：肩胛要平貼肋骨' },
+      { t: 7.4, sc: null },
+      { t: 8.2 }
+    ]
+  },
+  {
+    id: 'prow', g: 'ex3', kind: 'ex', name: 'Scapular retraction (prone row)', alt: 'Rhomboids、middle trapezius', pos: 'prone', view: [110, 35],
+    steps: [['姿勢', '趴在床邊，患側手臂垂下'], ['動作', '先把肩胛往脊椎夾（retraction），再彎手肘往上划（row）'], ['組合', '加上 horizontal ABD／extension → 也練到 posterior deltoid']],
+    sign: '先夾肩胛再動手臂；不要聳肩。', ind: 'Retraction：rhomboids、middle trapezius。',
+    kf: [
+      { t: 0, R: [90, 90, 0, 3, 90], cap: '趴著，手臂垂下' },
+      { t: 1.4, sc: { pro: -0.035 }, cap: '先把肩胛往脊椎夾（retraction）' },
+      { t: 3.0, R: [90, 15, 0, 95, 90], cap: '彎手肘往上划（row）' },
+      { t: 4.6, R: [90, 90, 0, 3, 90], sc: null, cap: '慢慢放下' },
+      { t: 5.6 }
+    ]
+  },
+  {
+    id: 'pronet', g: 'ex3', kind: 'ex', name: 'Retraction + horizontal ABD (+ ER)', alt: 'Prone "T"', pos: 'prone', view: [80, 40],
+    steps: [['姿勢', '趴在床邊，手臂垂下'], ['動作', '夾肩胛，同時把手臂往側邊抬到水平（horizontal ABD），拇指朝上（加 ER）'], ['放下', '慢慢放下']],
+    sign: '手臂抬到與身體同高即可；拇指朝上時加入 ER。', ind: 'Retraction＋horizontal ABD：rhomboids、middle trapezius、posterior deltoid；加 ER 再加上 infraspinatus、teres minor。',
+    kf: [
+      { t: 0, R: [90, 90, 0, 3, 90], cap: '趴著，手臂垂下' },
+      { t: 2.2, R: [0, 88, 80, 3, 0], sc: { pro: -0.035 }, cap: '夾肩胛，手臂往側邊抬到水平（T），拇指朝上＝ER' },
+      { t: 3.4 },
+      { t: 5.2, R: [90, 90, 0, 3, 90], sc: null, cap: '慢慢放下' },
+      { t: 6.0 }
+    ]
+  },
+  {
+    id: 'pronep', g: 'ex3', kind: 'ex', name: 'Scapular protraction (serratus punch)', alt: 'Serratus anterior', pos: 'supine', view: [70, 25],
+    steps: [['姿勢', '仰躺，手臂前屈 90°，手肘伸直（可拿啞鈴）'], ['動作', '把手往天花板推出去，肩胛離開床面（protraction）'], ['回來', '慢慢放回，肩胛貼回床面']],
+    sign: '手肘保持伸直，只動肩胛。', ind: 'Protraction：serratus anterior。',
+    kf: [
+      { t: 0, R: [90, 90, 0, 3, 90], cap: '仰躺，手臂指向天花板' },
+      { t: 1.6, sc: { pro: 0.04 }, A: [{ at: 'hand', d: [0, 0, 1], k: 'pat', t: '往上推' }], cap: '往天花板推出去（protraction）' },
+      { t: 3.0, sc: null, A: [], cap: '慢慢放回' },
+      { t: 4.4, sc: { pro: 0.04 }, A: [{ at: 'hand', d: [0, 0, 1], k: 'pat', t: '往上推' }] },
+      { t: 5.8, sc: null, A: [] },
+      { t: 6.6 }
+    ]
+  },
+  {
+    id: 'depress', g: 'ex3', kind: 'ex', name: 'Scapular depression (± upward rotation)', alt: 'Lower trapezius', pos: 'prone', view: [80, 40],
+    steps: [['Depression', '把肩胛往下、往後拉（往口袋方向），練 lower trapezius'], ['＋Upward rotation', '趴姿把手臂往頭上斜前方抬起（"Y"），拇指朝上：upper ＆ lower trapezius＋serratus anterior']],
+    sign: '先把肩胛往下拉再抬手；不要聳肩（upper trap 過度代償）。', ind: 'Depression：lower trapezius；depression＋upward rotation：upper & lower trapezius、serratus anterior。',
+    kf: [
+      { t: 0, R: [90, 90, 0, 3, 90], cap: '趴著，手臂垂下' },
+      { t: 1.6, sc: { elev: -0.035 }, cap: 'Depression：把肩胛往下拉（往口袋方向）' },
+      { t: 2.8 },
+      { t: 4.8, R: [-5, 140, 60, 3, 0], sc: { elev: -0.025 }, cap: '維持往下拉，手臂往頭上斜前方抬起（Y），拇指朝上' },
+      { t: 6.0 },
+      { t: 7.8, R: [90, 90, 0, 3, 90], sc: null, cap: '慢慢放下' },
+      { t: 8.6 }
+    ]
+  },
+  {
+    id: 'crossstretch', g: 'ex4', kind: 'ex', name: 'Side-lying horizontal ADD stretch', alt: '後側關節囊伸展（cross-body）', pos: 'sideR', view: [20, 60],
+    steps: [['姿勢', '躺向患側（身體壓住肩胛，讓它固定）'], ['動作', '患側手臂前屈 90°，健側手把它往身體對側拉（horizontal ADD）'], ['時間', '停在有拉緊感的位置，維持一段時間']],
+    sign: '肩胛要被固定住，伸展才會落在 GH 後側關節囊，而不是讓肩胛跟著往前滑。', ind: '伸展 posterior capsule（改善 IR 與 horizontal ADD；GIRD、impingement 常用）。',
+    kf: [
+      { t: 0, R: [90, 90, 0, 10, 90], cap: '躺向患側，手臂前屈 90°' },
+      { t: 2.2, R: [140, 90, 0, 10, 90], A: [{ at: 'elb', d: 'pl+', k: 'pat', t: '健側手拉' }], cap: '健側手把手臂往對側拉（horizontal ADD）' },
+      { t: 4.6, X: [{ at: 'post', txt: '後側拉緊' }], cap: '停在拉緊處維持' },
+      { t: 6.0, R: [90, 90, 0, 10, 90], A: [], X: [] },
+      { t: 6.8 }
+    ]
+  },
+  {
+    id: 'sleeper', g: 'ex4', kind: 'ex', name: 'Modified sleeper stretch', alt: '改良式睡姿伸展', pos: 'sideR', view: [20, 35],
+    steps: [['姿勢', '躺向患側（改良版：身體往後滾約 20–30°）'], ['手臂', '患側肩前屈約 90°，手肘彎 90°，前臂朝天花板'], ['動作', '健側手把患側手腕往床面壓（IR）']],
+    sign: '在拉緊但不痛的位置維持；肩前側若出現夾擠痛要減少角度。', ind: '伸展 posterior capsule，改善 IR（GIRD、impingement）。',
+    kf: [
+      { t: 0, R: [90, 90, -90, 90, 90], cap: '躺向患側，肩前屈 90°、肘 90°，前臂朝天花板' },
+      { t: 2.6, R: [90, 90, -150, 90, 90], A: [{ at: 'wri', d: 'rot-', k: 'pat', t: '健側手壓' }], cap: '健側手把手腕往床面壓（IR）' },
+      { t: 4.6, X: [{ at: 'post', txt: '後側拉緊' }], cap: '停在拉緊處維持' },
+      { t: 6.0, R: [90, 90, -90, 90, 90], A: [], X: [] },
+      { t: 6.8 }
+    ]
+  }
+];
+TESTS.push(...EX);
+/* treatment technique joins the exercise area */
+TESTS.find(x => x.id === 'stmob').kind = 'ex';
+
 /* ---------- app ---------- */
 {
 const $ = s => document.querySelector(s);
@@ -1976,6 +2582,9 @@ function load(id, autoplay) {
   $('#ta').textContent = tt.alt || '';
   $('#tsel').value = tt.id;
   $('#steps').innerHTML = tt.steps.map(s => `<li><b>${esc(s[0])}</b>${esc(s[1])}</li>`).join('');
+  const isEx = tt.kind === 'ex';
+  $('#signH').textContent = isEx ? '重點／注意' : '陽性表現（+）';
+  $('#indH').textContent = isEx ? '目的／作用' : '代表 Indication';
   $('#sign').textContent = tt.sign;
   $('#ind').textContent = tt.ind;
   $('#more').textContent = tt.more || '';
@@ -2075,7 +2684,7 @@ function heroTick(dt) {
 
 /* ---------- quizzes ---------- */
 const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
-const QT = TESTS.filter(x => x.g !== 'tx');
+const QT = TESTS.filter(x => x.kind !== 'ex');
 function qInd(tt) {
   const pool = shuffle(QT.filter(x => x.ind !== tt.ind && x.id !== tt.id)).reduce((acc, x) => { if (!acc.includes(x.ind)) acc.push(x.ind); return acc; }, []).slice(0, 3);
   return { q: `<b>${esc(tt.name)}</b> 陽性代表什麼？`, opts: shuffle([tt.ind, ...pool]), ans: tt.ind, ex: `陽性表現：${tt.sign}`, test: tt.id };
@@ -2120,7 +2729,7 @@ function renderQ(box, Q, count) {
 }
 function selfQuiz(tt) {
   const box = $('#selfq');
-  if (tt.g === 'tx') { box.innerHTML = ''; return; }
+  if (tt.kind === 'ex') { box.innerHTML = ''; return; }
   box.innerHTML = '<h4>考考自己</h4><div></div>';
   renderQ(box.lastElementChild, qInd(tt), false);
 }
