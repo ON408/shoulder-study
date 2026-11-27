@@ -304,6 +304,18 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 .dorsum{fill:#6c8b94;stroke:#a9c3ca;stroke-width:1.2;stroke-linejoin:round}.dorsum.t{fill:#d7eaec;stroke:#fff}
 .fing{stroke:#6c8b94;stroke-linecap:round}.fing.t{stroke:#eaf8f9}
 .lg.palmL{background:#ffc7b3;border-radius:3px}
+
+.guess{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start;margin-bottom:10px}
+@media(max-width:860px){.guess{grid-template-columns:minmax(0,1fr)}}
+.gstage{min-height:clamp(320px,50vh,480px);cursor:grab}
+.gviews{bottom:12px}
+.gside{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px}
+.gside .qtop{align-items:flex-start}.gside .qq{margin:0}
+#gscore{font-weight:800;color:var(--teal);white-space:nowrap;font-variant-numeric:tabular-nums}
+.gctrl{display:flex;gap:10px;align-items:center;margin-top:14px}
+.gctrl input{flex:1}
+.gbot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}
+@media(max-width:640px){.gviews{bottom:auto}}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head><body>
@@ -1288,6 +1300,28 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 <!-- ============ QUIZ ============ -->
 <section class="band" id="quiz"><div class="wrap">
   <h2>小測驗</h2>
+  <h3>看動畫猜測試</h3>
+  <p class="lede2">動畫會循環播放，名稱、步驟說明和提示文字都藏起來了。看動作判斷是哪個測試，就像實作考看到動作要說出名稱。</p>
+  <div class="guess">
+    <div class="fig dark gstage">
+      <svg id="gSvg" role="img" aria-label="猜測試動畫"></svg>
+      <div class="views gviews" role="group" aria-label="視角"><button data-gv="def">預設</button><button data-gv="front">正面</button><button data-gv="back">背面</button><button data-gv="side">側面</button><button data-gv="top">上方</button></div>
+    </div>
+    <div class="gside">
+      <div class="qtop"><p class="qq">這是哪一個測試？</p><span id="gscore">答對 0／0</span></div>
+      <div id="gopts" class="opts"></div>
+      <p id="gex" class="qex"></p>
+      <div class="gctrl">
+        <button id="gplay" class="pbtn" aria-label="暫停">❚❚</button>
+        <input id="gscrub" type="range" min="0" max="1000" value="0" aria-label="進度">
+      </div>
+      <div class="gbot">
+        <label class="loop"><input type="checkbox" id="ghard" checked> 選項都用同一類測試（比較難）</label>
+        <button id="gnext" class="big">下一題 ›</button>
+      </div>
+    </div>
+  </div>
+  <h3 class="mt">文字題</h3>
   <p class="lede2">隨機出題：一半是 special test（測試 → 代表什麼、陽性表現 → 哪個測試），一半是正課觀念。</p>
   <div class="qbox">
     <div class="qtop"><button id="qnext" class="big">抽一題</button><span id="qscore">答對 0／0</span></div>
@@ -2752,6 +2786,7 @@ function loop(now) {
   }
   if (cur && stageVisible()) render();
   heroTick(dt);
+  gTick(dt);
   requestAnimationFrame(loop);
 }
 function updBtn() { const b = $('#play'); b.textContent = playing ? '❚❚' : '▶'; b.setAttribute('aria-label', playing ? '暫停' : '播放'); }
@@ -2863,6 +2898,58 @@ $('#qnext').addEventListener('click', () => {
   else { const b = LQ[Math.floor(Math.random() * LQ.length)]; Q = Object.assign({}, b, { opts: shuffle(b.opts.slice()) }); }
   renderQ($('#qarea'), Q, true);
 });
+
+
+/* ---------- guess-the-test ---------- */
+const gfig = new Fig($('#gSvg'));
+let gTest = null, gK = null, gT = 1, gt = 0, gPlay = true, gScore = 0, gTot = 0, gDone = false, gOpts = [];
+const strip = K0 => K0.map(k => Object.assign({}, k, {
+  cap: '', pos: false,
+  A: (k.A || []).map(x => Object.assign({}, x, { t: undefined })),
+  X: (k.X || []).map(x => { const sp = typeof x === 'string' ? { at: x } : (Array.isArray(x) ? { at: x[0], o: x[1] } : Object.assign({}, x)); sp.txt = sp.at === 'face' ? ' ' : undefined; return sp; })
+}));
+function gNew() {
+  let tt; do { tt = QT[Math.floor(Math.random() * QT.length)]; } while (gTest && tt.id === gTest.id);
+  gTest = tt; gK = strip(prepKF(tt)); gT = gK[gK.length - 1].t; gt = 0; gDone = false;
+  const s = []; for (let i = 0; i <= 14; i++) s.push(poseAt(gK, gT * i / 14).pose);
+  gfig.setTest(tt, s);
+  const hard = $('#ghard').checked;
+  const same = shuffle(QT.filter(x => x.g === tt.g && x.id !== tt.id));
+  const other = shuffle(QT.filter(x => x.g !== tt.g));
+  const pool = (hard ? same.concat(other) : shuffle(same.concat(other))).slice(0, 3);
+  gOpts = shuffle([tt, ...pool]);
+  $('#gopts').innerHTML = gOpts.map((o, i) => `<button class="opt" data-i="${i}"><span>${'ABCD'[i]}</span>${esc(o.name)}</button>`).join('');
+  $('#gex').innerHTML = '';
+  gPlay = true; $('#gplay').textContent = '❚❚';
+}
+$('#gopts').addEventListener('click', e => {
+  const b = e.target.closest('.opt'); if (!b || gDone) return;
+  gDone = true; const pick = gOpts[+b.dataset.i]; const ok = pick.id === gTest.id;
+  $('#gopts').querySelectorAll('.opt').forEach((x, i) => { if (gOpts[i].id === gTest.id) x.classList.add('right'); });
+  if (!ok) b.classList.add('wrong');
+  gTot++; if (ok) gScore++; $('#gscore').textContent = `答對 ${gScore}／${gTot}`;
+  $('#gex').innerHTML = `<b class="${ok ? 'ok' : 'no'}">${ok ? '答對了！' : '答案是 ' + esc(gTest.name) + '。'}</b> 陽性：${esc(gTest.sign)} → ${esc(gTest.ind)} <button class="chip" data-test="${gTest.id}">看完整步驟 ▸</button>`;
+});
+$('#gnext').addEventListener('click', gNew);
+$('#gplay').addEventListener('click', () => { gPlay = !gPlay; $('#gplay').textContent = gPlay ? '❚❚' : '▶'; });
+$('#gscrub').addEventListener('input', e => { gPlay = false; $('#gplay').textContent = '▶'; gt = e.target.value / 1000 * gT; });
+document.querySelector('.gviews').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b || !gTest) return;
+  const v = b.dataset.gv === 'def' ? gTest.view : VIEWS[b.dataset.gv]; gfig.setView(v[0], v[1]);
+});
+{ let gd = null; const gs = $('#gSvg');
+  gs.addEventListener('pointerdown', e => { gd = { x: e.clientX, y: e.clientY, yaw: gfig.cam.yaw, pitch: gfig.cam.pitch }; gs.setPointerCapture(e.pointerId); });
+  gs.addEventListener('pointermove', e => { if (gd) gfig.setView(gd.yaw - (e.clientX - gd.x) * 0.5, gd.pitch + (e.clientY - gd.y) * 0.3); });
+  gs.addEventListener('pointerup', () => gd = null); gs.addEventListener('pointercancel', () => gd = null); }
+function gTick(dt) {
+  if (!gTest) return;
+  const r = $('#gSvg').getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+  if (gPlay) { gt += dt; if (gt > gT) gt = 0; }
+  const { pose, ov } = poseAt(gK, gt);
+  gfig.draw(pose, ov);
+  $('#gscrub').value = Math.round(gt / gT * 1000);
+}
+gNew();
 
 /* ---------- SHR widget ---------- */
 const sfig = new Fig($('#shrSvg'));
