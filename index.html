@@ -392,6 +392,34 @@ canvas.gl3d{position:absolute;inset:0;margin:0;width:100%;height:100%;pointer-ev
 .thumbdot{fill:#ffd23f;stroke:#0a2a2f;stroke-width:1}.thumbdot.t{stroke:#fff;stroke-width:1.5}
 .lg.pat0{background:#efe3c8;border:2px solid #fff4dc;box-shadow:0 0 0 1px #9c8f78}
 .lg.thumbL{width:10px;height:10px;border-radius:50%;background:#ffd23f}
+/* ---- muscle table section ---- */
+.src{font-size:14px;font-weight:600;color:var(--mut);margin-left:8px}
+.mtabs{display:inline-flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;margin:6px 0 12px}
+.mtabs button{border:0;border-radius:999px;padding:7px 16px;font-weight:700;background:transparent;min-height:36px}
+.mtabs button.on{background:var(--teal);color:#fff}
+.mchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.mchips button{border-radius:999px;padding:6px 12px;font-size:14px;min-height:36px;line-height:1.2;text-align:left}
+.mchips button small{display:block;font-size:11px;color:var(--mut);font-weight:500}
+.mchips button.on{background:#d23b33;border-color:#d23b33;color:#fff}.mchips button.on small{color:#ffd9d4}
+.mchips .msep{flex-basis:100%;height:0}
+.mgrid{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:16px;align-items:start}
+@media(max-width:900px){.mgrid{grid-template-columns:minmax(0,1fr)}}
+.mfig{min-height:clamp(340px,58vh,560px)}
+.mctrl{display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap}
+.mctrl input[type=range]{flex:1;min-width:140px}
+.mghost{font-size:14px;color:var(--mut);display:flex;gap:6px;align-items:center}
+.mside{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px}
+.mside h3{margin:0 0 10px;font-size:20px}
+.mtab{width:100%;border-collapse:collapse;font-size:14px}
+.mtab th{text-align:left;font-size:12px;color:var(--mut);border-bottom:1px solid var(--line);padding:6px 6px}
+.mtab td{padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.mtab tr.mr{cursor:pointer}.mtab tr.mr:hover,.mtab tr.mr.hi{background:rgba(255,106,43,.12)}
+.mtab .num{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#d23b33;color:#fff;font-weight:800;font-size:12px}
+.mtab .mn{font-weight:700}.mtab .mrt{color:var(--mut);font-size:13px;white-space:nowrap}
+@media(max-width:520px){.mtab .mrt{white-space:normal}}
+.mnote{margin:10px 0 0;font-size:14px;color:var(--mut)}
+.mlab line{stroke:#fff;stroke-width:1.2;opacity:.8}.mlab circle.dot{fill:#fff;stroke:none}.mlab circle{fill:#d23b33;stroke:#fff;stroke-width:1.5}.mlab text{fill:#fff;font-size:11px;font-weight:800;text-anchor:middle;pointer-events:none}
+.mlab.hi circle{fill:#ff6a2b}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head><body>
@@ -411,7 +439,7 @@ canvas.gl3d{position:absolute;inset:0;margin:0;width:100%;height:100%;pointer-ev
     </div>
   </div>
 </header>
-<nav class="toc scroll" id="toc" aria-label="章節"><a href="#tests" class="hot">▶ Special tests 動畫</a><a href="#tests" class="hot2" data-test="pendulum">▶ 治療運動</a><span class="tsep"></span><a href="#intro">0 入門</a><a href="#anatomy">1 解剖</a><a href="#biomech">2 生物力學</a><a href="#exam">3 評估</a><a href="#lesions">4 常見疾病</a><a href="#ddx">5 鑑別診斷</a><a href="#reason">推理</a><a href="#exercise">6 運動治療</a><a href="#quiz">小測驗</a></nav>
+<nav class="toc scroll" id="toc" aria-label="章節"><a href="#tests" class="hot">▶ Special tests 動畫</a><a href="#tests" class="hot2" data-test="pendulum">▶ 治療運動</a><span class="tsep"></span><a href="#intro">0 入門</a><a href="#anatomy">1 解剖</a><a href="#muscles">肌肉表</a><a href="#biomech">2 生物力學</a><a href="#exam">3 評估</a><a href="#lesions">4 常見疾病</a><a href="#ddx">5 鑑別診斷</a><a href="#reason">推理</a><a href="#exercise">6 運動治療</a><a href="#quiz">小測驗</a></nav>
 
 <main>
 <!-- ============ 0 INTRO ============ -->
@@ -636,6 +664,32 @@ canvas.gl3d{position:absolute;inset:0;margin:0;width:100%;height:100%;pointer-ev
         <li><b>神經</b>：C5–C8、T1 神經根 → brachial plexus 的 trunks、divisions、cords。</li>
         <li><b>血液供應</b>：<b>supraspinatus 與 infraspinatus</b> 通常血流較少 → <b>癒合能力差</b>。這也是 rotator cuff 容易退化、撕裂的原因之一。</li>
       </ul>
+    </div>
+  </div>
+</div></section>
+
+<!-- ============ MUSCLE TABLE ============ -->
+<section class="band alt" id="muscles"><div class="wrap">
+  <h2>肌肉、動作與神經 <small class="src">Magee Table 5.16</small></h2>
+  <p class="lede2">選一個動作，負責的肌肉會由灰變紅，跟著關節活動一起縮短變粗；滑過右邊表格的某一列，那條肌肉會變亮橘色。也可以切到「依神經」，看某條神經受傷時會影響哪些肌肉。</p>
+  <div class="mtabs" role="tablist"><button class="on" data-mm="act">依動作</button><button data-mm="nerve">依神經</button></div>
+  <div class="mchips" id="mchips"></div>
+  <div class="mgrid">
+    <div class="mstage">
+      <div class="fig dark mfig"><svg id="mSvg" role="img" aria-label="肌肉收縮動畫"></svg>
+        <div class="views" id="mviews" role="group" aria-label="視角"><button data-v="def">預設</button><button data-v="front">正面</button><button data-v="back">背面</button><button data-v="side">側面</button><button data-v="top">上方</button></div>
+        <p id="mcap" class="cap"></p>
+      </div>
+      <div class="ctrl mctrl">
+        <button id="mplay" class="pbtn" aria-label="暫停">❚❚</button>
+        <input id="mscrub" type="range" min="0" max="1000" value="0" aria-label="動作進度">
+        <label class="mghost"><input type="checkbox" id="mghost" checked> 顯示其他肌肉（灰）</label>
+      </div>
+    </div>
+    <div class="mside">
+      <h3 id="mtitle"></h3>
+      <table class="mtab"><thead><tr><th>#</th><th>肌肉</th><th>神經</th><th>神經根</th></tr></thead><tbody id="mbody"></tbody></table>
+      <p class="mnote" id="mnote"></p>
     </div>
   </div>
 </div></section>
@@ -1705,6 +1759,55 @@ function boneMats(pose, posture, S, body) {
 }
 
 
+/* ---------- muscles: attachment points carried by bone matrices ---------- */
+let MUSP = null;
+function musPrep() {
+  if (MUSP || !window.SK3D || !SK3D.geo || typeof MUS === 'undefined') return MUSP;
+  const G = {}, out = {};
+  const geo = b => G[b] || (G[b] = SK3D.geo(b));
+  const place = ([b, x, y, z, sn], r) => {
+    let p = (b === 'humR' || b === 'ulnaR' || b === 'radR') ? apM(rigidInv(REST3[b]), [x, y, z]) : [x, y, z];
+    const g = sn && geo(b);
+    if (g) {
+      const P = g.pos; let bi = 0, bd = 1e9;
+      for (let i = 0; i < P.length; i += 3) { const dx = P[i] - p[0], dy = P[i + 1] - p[1], dz = P[i + 2] - p[2], d = dx * dx + dy * dy + dz * dz; if (d < bd) { bd = d; bi = i; } }
+      p = [P[bi], P[bi + 1], P[bi + 2]];
+      if (g.nrm) p = add(p, mul([g.nrm[bi], g.nrm[bi + 1], g.nrm[bi + 2]], r * 0.9));
+    }
+    return [b, p];
+  };
+  for (const id in MUS) {
+    const D = MUS[id], k = D.f ? (D.k || 3) : 1, r = D.r * 1.5 * (D.f ? 0.62 : 1);
+    for (let i = 0; i < k; i++) {
+      const s = k > 1 ? i / (k - 1) : 0;
+      const pts = D.p.map((q, j) => {
+        if (j === 0 && D.f) return place([q[0], q[1] + (D.f[1] - q[1]) * s, q[2] + (D.f[2] - q[2]) * s, q[3] + (D.f[3] - q[3]) * s, q[4]], r);
+        if (j > 0 && j < D.p.length - 1 && D.f && D.fv) return place([q[0], q[1] + D.fv[0] * (s - 0.5), q[2] + D.fv[1] * (s - 0.5), q[3] + D.fv[2] * (s - 0.5), q[4]], r);
+        return place(q, r);
+      });
+      out[id + '#' + i] = { base: id, pts, r, L0: 0 };
+    }
+  }
+  MUSP = out;
+  const a = { R: [0, 0, 0, 5, 90], L: [0, 0, 0, 5, 90], tr: [0, 0, 0] }; a.sc = autoScap(a.R, {}); a.scL = autoScap(a.L, {});
+  const M0 = boneMats(a, 'stand', skeleton(a, 'stand'));
+  for (const id in out) out[id].L0 = musLen(out[id].pts.map(([b, p]) => apM(M0[b], p)));
+  return MUSP;
+}
+const musLen = w => { let L = 0; for (let i = 1; i < w.length; i++) L += vlen(sub(w[i], w[i - 1])); return L; };
+function musList(mats, spec) {
+  const M = musPrep(); if (!M) return [];
+  const res = [];
+  for (const id in M) {
+    const bs = M[id].base, on = spec.act.has(bs), hi = spec.hi && spec.hi.has(bs);
+    if (!on && !hi && spec.ghost === false) continue;
+    const w = M[id].pts.map(([b, p]) => apM(mats[b], p));
+    const f = Math.min(1.7, Math.max(0.65, Math.pow(M[id].L0 / musLen(w), 1.1)));
+    res.push({ id, base: bs, pts: w, r: M[id].r * (on || hi ? f * 1.12 : 0.85), st: hi ? 2 : on ? 1 : 0 });
+  }
+  return res;
+}
+
 /* ---------- renderer: 3D skeleton (WebGL) + SVG overlay ---------- */
 class Fig {
   constructor(svg) {
@@ -1719,6 +1822,7 @@ class Fig {
       const S = skeleton(pose, this.test.pos), W = q => toWorld(q, this.test.pos), WL = q => toWorld(q, this.test.pos, true);
       const pts = ['sh', 'elb', 'wri', 'hand', 'Lsh', 'Lelb', 'Lwri', 'Lhand'].map(k => W(S[k]));
       pts.push(W(add(S.head, [0, 0.14, 0])), W(add(S.head, [0, 0, -0.1])));
+      if (this.focus) { pts.length = 0; for (const k of ['sh', 'elb', 'wri', 'hand', 'Lsh']) pts.push(W(S[k])); pts.push(W(add(S.head, [0, 0.12, 0])), W([0, S.hipY + 0.05, 0]), W([0.12, S.shY, -0.1]), W([0.1, S.shY, 0.18])); for (const w of pts) { const q = this.cam.p(w); x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); y0 = Math.min(y0, q[1]); y1 = Math.max(y1, q[1]); } continue; }
       const lj = legJoints(this.test.pos, 'R'); pts.push(WL(add(lj.knee, [0, -0.25, 0])), WL([0.2, S.hipY - 0.12, 0.12]), WL([-0.2, S.hipY - 0.12, -0.02]));
       const pr = this.test.props || {};
       if (pr.pulley) pts.push(add(pr.pulley, [0, 0.08, 0]));
@@ -1748,11 +1852,12 @@ class Fig {
     const W = p => toWorld(p, test.pos);
     const PS = propsScene(test, S);
     // ---- 3D ----
-    const ready = window.SK3D && window.SK3D.ready;
+    const ready = window.SK3D && window.SK3D.ready; let musL = [];
     if (ready) {
       const mats = boneMats(pose, test.pos, S);
+      musL = ov.MUS ? musList(mats, ov.MUS) : [];
       window.SK3D.render(this.cv, Wd, Ht, { yaw: cam.yaw, pitch: cam.pitch, left: -ox / sc, right: (Wd - ox) / sc, top: oy / sc, bottom: -(Ht - oy) / sc }, mats,
-        { badR: !!(pose.sc && pose.sc.bad), badL: !!(pose.scL && pose.scL.bad), boxes: PS.boxes, balls: PS.balls, floor: PS.floor });
+        { badR: !!(pose.sc && pose.sc.bad), badL: !!(pose.scL && pose.scL.bad), boxes: PS.boxes, balls: PS.balls, floor: PS.floor, muscles: musL, plain: !!ov.MUS });
     }
     let h = '';
     const fx = n => n.toFixed(1);
@@ -1765,7 +1870,23 @@ class Fig {
     for (const l of PS.lines) { const a = P(l.a), b = P(l.b); h += `<line x1="${fx(a[0])}" y1="${fx(a[1])}" x2="${fx(b[0])}" y2="${fx(b[1])}" stroke-width="${fx(l.w * sc)}" class="${l.cls}"/>`; }
     if (test.gh) { const g = P(W(S.nom)); h += `<circle cx="${fx(g[0])}" cy="${fx(g[1])}" r="${fx(0.045 * sc)}" class="glenoid"/>`; }
     // thumbs
-    for (const pre of ['', 'L']) { const a = P(W(S[pre + 'thumb'])); h += `<circle cx="${fx(a[0])}" cy="${fx(a[1])}" r="${fx(Math.max(3, 0.011 * sc))}" class="thumbdot${pre ? '' : ' t'}"/>`; }
+    if (ov.MUS && ov.MUS.lab) {
+      const L = [];
+      for (const [id, num] of ov.MUS.lab) {
+        const ms = musL.filter(x => x.base === id); if (!ms.length) continue; const m = ms[Math.floor(ms.length / 2)];
+        const n = m.pts.length, w = n % 2 ? m.pts[(n - 1) / 2] : mul(add(m.pts[n / 2 - 1], m.pts[n / 2]), 0.5), a = P(w);
+        L.push({ a, x: a[0], y: a[1], num, hi: m.st === 2 });
+      }
+      const ctr = P(W(S.nom)); // push labels away from the shoulder, then apart from each other
+      for (const l of L) { let dx = l.a[0] - ctr[0], dy = l.a[1] - ctr[1]; const d = Math.hypot(dx, dy) || 1; l.x += dx / d * 34; l.y += dy / d * 34; }
+      for (let it = 0; it < 60; it++) for (let i = 0; i < L.length; i++) for (let j = i + 1; j < L.length; j++) {
+        const A = L[i], B = L[j]; let dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy);
+        if (d < 24) { if (d < 0.01) { dx = 1; dy = 0.3; d = 1.04; } const k = (24 - d) / 2 / d; A.x -= dx * k; A.y -= dy * k; B.x += dx * k; B.y += dy * k; }
+      }
+      for (const l of L) { l.x = Math.max(12, Math.min(Wd - 12, l.x)); l.y = Math.max(12, Math.min(Ht - 12, l.y)); }
+      for (const l of L) h += `<g class="mlab${l.hi ? ' hi' : ''}"><line x1="${fx(l.a[0])}" y1="${fx(l.a[1])}" x2="${fx(l.x)}" y2="${fx(l.y)}"/><circle cx="${fx(l.a[0])}" cy="${fx(l.a[1])}" r="2.5" class="dot"/><circle cx="${fx(l.x)}" cy="${fx(l.y)}" r="10"/><text x="${fx(l.x)}" y="${fx(l.y + 3.8)}">${l.num}</text></g>`;
+    }
+    if (!ov.MUS) for (const pre of ['', 'L']) { const a = P(W(S[pre + 'thumb'])); h += `<circle cx="${fx(a[0])}" cy="${fx(a[1])}" r="${fx(Math.max(3, 0.011 * sc))}" class="thumbdot${pre ? '' : ' t'}"/>`; }
     if (ov.trail && ov.trail.length > 1) { const pts = ov.trail.map(q => P(W(q))); h += `<polyline points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="trail"/>`; }
     // PT hands
     for (const hnd of (ov.H || [])) {
@@ -1860,6 +1981,117 @@ function angleText(R) {
   const rot = ro > 4 ? 'ER ' + ro + '°' : ro < -4 ? 'IR ' + (-ro) + '°' : '中立旋轉';
   return [plane, rot, '肘屈 ' + eb + '°'];
 }
+
+/* ---------- muscles (right side) for the Table 5.16 section ----------
+   point = [bone, x, y, z, snap]
+   hum/ulna: local (along shaft from proximal joint, medial, anterior)
+   rad: local (along forearm from elbow, lateral, posterior)
+   scap/clav/torso: model coordinates (standing, metres)
+   snap=1 → moved onto the nearest bone surface; 0 → free via point */
+const CLV = (f, dy, dz) => { const a = MJ.clMR, b = MJ.clLR; return ['clavR', a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f + (dy || 0), a[2] + (b[2] - a[2]) * f + (dz || 0), 1]; };
+const MUS = {
+  deltA:   { n: 'Deltoid（前）', r: 0.016, p: [CLV(0.78, 0, 0.01), ['humR', 0.0, -0.04, 0.032, 0], ['humR', 0.08, -0.03, 0.022, 0], ['humR', 0.14, -0.016, 0.006, 1]] },
+  deltM:   { n: 'Deltoid（中）', r: 0.017, p: [['scapR', -0.183, 1.52, 0.0, 1], ['humR', -0.005, -0.05, 0.0, 0], ['humR', 0.08, -0.034, 0.0, 0], ['humR', 0.145, -0.018, 0.0, 1]] },
+  deltP:   { n: 'Deltoid（後）', r: 0.016, p: [['scapR', -0.13, 1.5, -0.045, 1], ['humR', 0.0, -0.035, -0.036, 0], ['humR', 0.08, -0.028, -0.024, 0], ['humR', 0.14, -0.016, -0.006, 1]] },
+  supra:   { n: 'Supraspinatus', r: 0.011, f: ['scapR', -0.075, 1.5, -0.04, 1], k: 3, p: [['scapR', -0.095, 1.497, -0.03, 1], ['scapR', -0.14, 1.51, -0.012, 0], ['humR', -0.026, -0.016, 0.0, 0], ['humR', 0.004, -0.028, 0.006, 1]] },
+  infra:   { n: 'Infraspinatus', r: 0.016, f: ['scapR', -0.095, 1.36, -0.04, 1], k: 4, fv: [0, 0, 0.02], p: [['scapR', -0.075, 1.43, -0.05, 1], ['humR', 0.0, -0.022, -0.034, 0], ['humR', 0.014, -0.028, -0.015, 1]] },
+  terMin:  { n: 'Teres minor', r: 0.008, p: [['scapR', -0.14, 1.42, -0.03, 1], ['humR', 0.03, -0.018, -0.03, 0], ['humR', 0.03, -0.024, -0.018, 1]] },
+  subscap: { n: 'Subscapularis', r: 0.016, f: ['scapR', -0.09, 1.36, 0.02, 1], k: 4, fv: [0, 0, 0.02], p: [['scapR', -0.105, 1.41, 0.02, 1], ['humR', 0.012, 0.012, 0.038, 0], ['humR', 0.02, 0.002, 0.026, 1]] },
+  terMaj:  { n: 'Teres major', r: 0.011, p: [['scapR', -0.1, 1.345, -0.03, 1], ['humR', 0.06, 0.02, -0.005, 0], ['humR', 0.07, 0.006, 0.014, 1]] },
+  latU:    { n: 'Latissimus dorsi（上）', r: 0.016, f: ['torso', 0, 1.2, -0.03, 1], k: 3, p: [['torso', 0, 1.3, -0.05, 1], ['torso', -0.1, 1.33, -0.06, 0], ['humR', 0.07, 0.025, 0.0, 0], ['humR', 0.06, -0.002, 0.02, 1]] },
+  latL:    { n: 'Latissimus dorsi（下）', r: 0.015, p: [['torso', -0.1, 1.09, -0.03, 1], ['torso', -0.15, 1.24, -0.03, 0], ['humR', 0.07, 0.03, 0.005, 0], ['humR', 0.065, -0.002, 0.02, 1]] },
+  pecC:    { n: 'Pectoralis major（鎖骨部）', r: 0.016, f: CLV(0.5, 0, 0.012), k: 3, p: [CLV(0.3, 0, 0.012), ['torso', -0.12, 1.47, 0.14, 0], ['humR', 0.07, -0.01, 0.04, 0], ['humR', 0.07, -0.012, 0.02, 1]] },
+  pecS:    { n: 'Pectoralis major（胸肋部）', r: 0.02, f: ['torso', -0.02, 1.26, 0.17, 1], k: 4, fv: [0, -0.06, 0], p: [['torso', -0.01, 1.36, 0.19, 1], ['torso', -0.11, 1.38, 0.2, 0], ['humR', 0.06, 0.0, 0.045, 0], ['humR', 0.08, -0.012, 0.02, 1]] },
+  pecMin:  { n: 'Pectoralis minor', r: 0.009, p: [['torso', -0.08, 1.33, 0.17, 1], ['torso', -0.11, 1.42, 0.16, 0], ['scapR', -0.14, 1.5, 0.06, 1]] },
+  coraco:  { n: 'Coracobrachialis', r: 0.007, p: [['scapR', -0.14, 1.5, 0.06, 1], ['humR', 0.07, 0.022, 0.022, 0], ['humR', 0.15, 0.014, 0.0, 1]] },
+  bicL:    { n: 'Biceps（長頭）', r: 0.008, p: [['scapR', -0.155, 1.5, 0.004, 1], ['humR', -0.02, -0.008, 0.026, 0], ['humR', 0.04, -0.01, 0.032, 0], ['humR', 0.2, 0.0, 0.04, 0], ['radR', 0.035, 0.0, 0.006, 1]] },
+  bicS:    { n: 'Biceps（短頭）', r: 0.008, p: [['scapR', -0.14, 1.5, 0.06, 1], ['humR', 0.08, 0.012, 0.04, 0], ['humR', 0.2, 0.006, 0.042, 0], ['radR', 0.035, 0.002, 0.008, 1]] },
+  triLong: { n: 'Triceps（長頭）', r: 0.011, p: [['scapR', -0.15, 1.455, -0.012, 1], ['humR', 0.1, 0.012, -0.038, 0], ['humR', 0.23, 0.005, -0.036, 0], ['ulnaR', -0.02, 0.0, -0.022, 1]] },
+  triLat:  { n: 'Triceps（外側頭）', r: 0.01, p: [['humR', 0.07, -0.016, -0.016, 1], ['humR', 0.2, -0.014, -0.034, 0], ['ulnaR', -0.02, -0.004, -0.022, 1]] },
+  triMed:  { n: 'Triceps（內側頭）', r: 0.009, p: [['humR', 0.16, 0.006, -0.014, 1], ['humR', 0.24, 0.006, -0.03, 0], ['ulnaR', -0.018, 0.004, -0.022, 1]] },
+  brachi:  { n: 'Brachialis', r: 0.011, p: [['humR', 0.16, 0.0, 0.014, 1], ['humR', 0.25, 0.004, 0.03, 0], ['ulnaR', 0.03, 0.006, 0.012, 1]] },
+  brRad:   { n: 'Brachioradialis', r: 0.008, p: [['humR', 0.21, -0.026, 0.004, 1], ['radR', 0.02, 0.03, -0.012, 0], ['radR', 0.13, 0.022, -0.004, 0], ['radR', 0.23, 0.016, 0.0, 1]] },
+  pronT:   { n: 'Pronator teres', r: 0.007, p: [['humR', 0.28, 0.035, 0.0, 1], ['radR', 0.07, -0.012, -0.018, 0], ['radR', 0.12, 0.012, 0.0, 1]] },
+  fcu:     { n: 'Flexor carpi ulnaris', r: 0.006, p: [['humR', 0.285, 0.036, -0.004, 1], ['ulnaR', 0.12, 0.024, -0.004, 0], ['radR', 0.255, -0.034, -0.012, 1]] },
+  ancon:   { n: 'Anconeus', r: 0.006, p: [['humR', 0.285, -0.03, -0.004, 1], ['ulnaR', 0.05, -0.006, -0.016, 1]] },
+  trapU:   { n: 'Trapezius（上）', r: 0.016, f: ['torso', 0, 1.52, -0.01, 1], k: 3, p: [['torso', -0.02, 1.6, 0.05, 1], ['torso', -0.06, 1.55, 0.03, 0], CLV(0.82, 0.006, -0.012)] },
+  trapM:   { n: 'Trapezius（中）', r: 0.016, f: ['torso', 0, 1.40, -0.05, 1], k: 3, p: [['torso', 0, 1.47, -0.03, 1], ['scapR', -0.15, 1.515, -0.03, 1]] },
+  trapL:   { n: 'Trapezius（下）', r: 0.015, f: ['torso', 0, 1.33, -0.045, 1], k: 3, p: [['torso', 0, 1.25, -0.03, 1], ['scapR', -0.07, 1.46, -0.045, 1]] },
+  levator: { n: 'Levator scapulae', r: 0.008, p: [['torso', -0.035, 1.57, 0.03, 1], ['torso', -0.05, 1.53, 0.0, 0], ['scapR', -0.061, 1.496, -0.042, 1]] },
+  rhomMin: { n: 'Rhomboid minor', r: 0.008, p: [['torso', 0, 1.5, -0.02, 1], ['scapR', -0.066, 1.47, -0.04, 1]] },
+  rhomMaj: { n: 'Rhomboid major', r: 0.014, f: ['torso', 0, 1.36, -0.05, 1], k: 3, p: [['torso', 0, 1.42, -0.045, 1], ['scapR', -0.078, 1.38, -0.035, 1]] },
+  serr1:   { n: 'Serratus anterior（上）', r: 0.009, p: [['torso', -0.12, 1.43, 0.08, 1], ['torso', -0.11, 1.46, 0.0, 0], ['scapR', -0.066, 1.47, -0.02, 1]] },
+  serr2:   { n: 'Serratus anterior（中）', r: 0.01, p: [['torso', -0.145, 1.33, 0.07, 1], ['torso', -0.12, 1.38, -0.01, 0], ['scapR', -0.075, 1.4, -0.016, 1]] },
+  serr3:   { n: 'Serratus anterior（下）', r: 0.011, p: [['torso', -0.14, 1.24, 0.06, 1], ['torso', -0.12, 1.3, -0.01, 0], ['scapR', -0.088, 1.335, -0.012, 1]] }
+};
+/* which strands make up each muscle named in the table */
+const MG = {
+  'Deltoid': ['deltA', 'deltM', 'deltP'], 'Deltoid (anterior fibers)': ['deltA'], 'Deltoid (posterior fibers)': ['deltP'],
+  'Pectoralis major': ['pecC', 'pecS'], 'Pectoralis major (clavicular fibers)': ['pecC'], 'Pectoralis major (sternocostal fibers)': ['pecS'],
+  'Pectoralis minor': ['pecMin'], 'Coracobrachialis': ['coraco'], 'Biceps (when strong contraction required)': ['bicL', 'bicS'],
+  'Long head of biceps (if arm laterally rotated first, trick movement)': ['bicL'], 'Biceps brachii': ['bicL', 'bicS'],
+  'Teres major': ['terMaj'], 'Teres minor': ['terMin'], 'Latissimus dorsi': ['latU', 'latL'], 'Triceps (long head)': ['triLong'],
+  'Triceps': ['triLong', 'triLat', 'triMed'], 'Supraspinatus': ['supra'], 'Infraspinatus': ['infra'], 'Subscapularis': ['subscap'],
+  'Subscapularis (when arm is by side)': ['subscap'], 'Trapezius (upper fibers)': ['trapU'], 'Trapezius (lower fibers)': ['trapL'],
+  'Trapezius': ['trapU', 'trapM', 'trapL'], 'Trapezius (upper and lower fibers)': ['trapU', 'trapL'], 'Levator scapulae': ['levator'],
+  'Rhomboid major': ['rhomMaj'], 'Rhomboid minor': ['rhomMin'], 'Serratus anterior': ['serr1', 'serr2', 'serr3'],
+  'Brachialis': ['brachi'], 'Brachioradialis': ['brRad'], 'Pronator teres': ['pronT'], 'Flexor carpi ulnaris': ['fcu'], 'Anconeus': ['ancon']
+};
+const SIDE0 = [0, 0, 0, 5, 90];
+/* Table 5.16 (Magee 7th ed.) — [muscle, nerve, root]; motion keyframes [t, R, sc] */
+const MACT = [
+  { id: 'flex', zh: '前屈', en: 'Forward flexion', view: [-90, 6], kf: [[0, SIDE0], [1.8, [90, 165, 0, 5, 90]]],
+    m: [['Deltoid (anterior fibers)', 'Axillary (circumflex)', 'C5, C6 (posterior cord)'], ['Pectoralis major (clavicular fibers)', 'Lateral pectoral', 'C5, C6 (lateral cord)'], ['Coracobrachialis', 'Musculocutaneous', 'C5–C7 (lateral cord)'], ['Biceps (when strong contraction required)', 'Musculocutaneous', 'C5–C7 (lateral cord)']] },
+  { id: 'ext', zh: '伸直', en: 'Extension', view: [-90, 6], kf: [[0, SIDE0], [1.6, [-90, 55, 0, 5, 90]]],
+    m: [['Deltoid (posterior fibers)', 'Axillary (circumflex)', 'C5, C6 (posterior cord)'], ['Teres major', 'Subscapular', 'C5, C6 (posterior cord)'], ['Teres minor', 'Axillary (circumflex)', 'C5, C6 (posterior cord)'], ['Latissimus dorsi', 'Thoracodorsal', 'C6–C8 (posterior cord)'], ['Pectoralis major (sternocostal fibers)', 'Lateral pectoral／Medial pectoral', 'C5, C6 (lateral cord)／C8, T1 (medial cord)'], ['Triceps (long head)', 'Radial', 'C5–C8, T1 (posterior cord)']],
+    note: 'Pec major 胸肋部與 triceps 長頭主要在「從前屈位置往回拉」時出力。' },
+  { id: 'hadd', zh: '水平內收', en: 'Horizontal adduction', view: [20, 48], kf: [[0, [0, 90, 0, 5, 90]], [1.8, [130, 90, 0, 5, 90]]],
+    m: [['Pectoralis major', 'Lateral pectoral', 'C5, C6 (lateral cord)'], ['Deltoid (anterior fibers)', 'Axillary (circumflex)', 'C5, C6 (posterior cord)']] },
+  { id: 'habd', zh: '水平外展', en: 'Horizontal abduction', view: [-160, 45], kf: [[0, [100, 90, 0, 5, 90]], [1.8, [-25, 90, 0, 5, 90]]],
+    m: [['Deltoid (posterior fibers)', 'Axillary (circumflex)', 'C5, C6 (posterior cord)'], ['Teres major', 'Subscapular', 'C5, C6 (posterior cord)'], ['Teres minor', 'Axillary (circumflex)', 'C5, C6 (brachial plexus trunk)'], ['Infraspinatus', 'Suprascapular', 'C5, C6 (brachial plexus trunk)']] },
+  { id: 'abd', zh: '外展', en: 'Abduction', view: [0, 6], kf: [[0, [0, 0, 0, 5, 0]], [2, [0, 165, 0, 5, 0]]],
+    m: [['Deltoid', 'Axillary (circumflex)', 'C5, C6 (posterior cord)'], ['Supraspinatus', 'Suprascapular', 'C5, C6 (brachial plexus trunk)'], ['Infraspinatus', 'Suprascapular', 'C5, C6 (brachial plexus trunk)'], ['Subscapularis', 'Subscapular', 'C5, C6 (posterior cord)'], ['Teres minor', 'Axillary (circumflex)', 'C5, C6 (posterior cord)'], ['Long head of biceps (if arm laterally rotated first, trick movement)', 'Musculocutaneous', 'C5–C7 (lateral cord)']],
+    note: 'Infraspinatus、subscapularis、teres minor 在外展時主要是把肱骨頭往下壓、穩定在關節盂（force couple）。' },
+  { id: 'add', zh: '內收', en: 'Adduction', view: [0, 6], kf: [[0, [0, 130, 0, 5, 0]], [2, [0, 0, 0, 5, 0]]],
+    m: [['Pectoralis major', 'Lateral pectoral', 'C5, C6 (lateral cord)'], ['Latissimus dorsi', 'Thoracodorsal', 'C6–C8 (posterior cord)'], ['Teres major', 'Subscapular', 'C5, C6 (posterior cord)'], ['Subscapularis', 'Subscapular', 'C5, C6 (posterior cord)'], ['Coracobrachialis', 'Musculocutaneous', 'C5–C7 (lateral cord)']] },
+  { id: 'ir', zh: '內轉', en: 'Medial rotation', view: [25, 15], kf: [[0, [0, 10, 40, 90, 90]], [1.8, [0, 10, -75, 90, 90]]],
+    m: [['Pectoralis major', 'Lateral pectoral', 'C5, C6 (lateral cord)'], ['Deltoid (anterior fibers)', 'Axillary (circumflex)', 'C5, C6 (posterior cord)'], ['Latissimus dorsi', 'Thoracodorsal', 'C6–C8 (posterior cord)'], ['Teres major', 'Subscapular', 'C5, C6 (posterior cord)'], ['Subscapularis (when arm is by side)', 'Subscapular', 'C5, C6 (posterior cord)']] },
+  { id: 'er', zh: '外轉', en: 'Lateral rotation', view: [-140, 15], kf: [[0, [0, 10, -40, 90, 90]], [1.8, [0, 10, 80, 90, 90]]],
+    m: [['Infraspinatus', 'Suprascapular', 'C5, C6 (brachial plexus trunk)'], ['Deltoid (posterior fibers)', 'Axillary (circumflex)', 'C5, C6 (posterior cord)'], ['Teres minor', 'Axillary (circumflex)', 'C5, C6 (posterior cord)']] },
+  { id: 'selev', zh: '肩胛上提', en: 'Elevation of scapula', view: [180, 8], kf: [[0, SIDE0, {}], [1.4, SIDE0, { elev: 0.04 }]],
+    m: [['Trapezius (upper fibers)', 'Accessory (CN XI)；C3, C4 nerve roots', 'CN XI；C3, C4'], ['Levator scapulae', 'C3, C4 nerve roots；Dorsal scapular', 'C3, C4；C5'], ['Rhomboid major', 'Dorsal scapular', '(C4), C5'], ['Rhomboid minor', 'Dorsal scapular', '(C4), C5']] },
+  { id: 'sdep', zh: '肩胛下壓', en: 'Depression of scapula', view: [180, 8], kf: [[0, SIDE0, { elev: 0.02 }], [1.4, SIDE0, { elev: -0.03 }]],
+    m: [['Serratus anterior', 'Long thoracic', 'C5, C6 (C7)'], ['Pectoralis major', 'Lateral pectoral', 'C5, C6 (lateral cord)'], ['Pectoralis minor', 'Medial pectoral', 'C8, T1 (medial cord)'], ['Latissimus dorsi', 'Thoracodorsal', 'C6–C8 (posterior cord)'], ['Trapezius (lower fibers)', 'Accessory (CN XI)；C3, C4 nerve roots', 'CN XI；C3, C4']] },
+  { id: 'spro', zh: '肩胛前突', en: 'Protraction of scapula', view: [-60, 40], kf: [[0, [90, 80, 0, 5, 90], { pro: -0.01 }], [1.4, [90, 80, 0, 5, 90], { pro: 0.035 }]],
+    m: [['Serratus anterior', 'Long thoracic', 'C5, C6 (C7)'], ['Pectoralis major', 'Lateral pectoral', 'C5, C6 (lateral cord)'], ['Pectoralis minor', 'Medial pectoral', 'C8, T1 (medial cord)'], ['Latissimus dorsi', 'Thoracodorsal', 'C6–C8 (posterior cord)']] },
+  { id: 'sret', zh: '肩胛後縮', en: 'Retraction of scapula', view: [180, 40], kf: [[0, SIDE0, { pro: 0.015 }], [1.4, SIDE0, { pro: -0.035 }]],
+    m: [['Trapezius', 'Accessory (CN XI)', 'CN XI'], ['Rhomboid major', 'Dorsal scapular', '(C4), C5'], ['Rhomboid minor', 'Dorsal scapular', '(C4), C5']] },
+  { id: 'sup', zh: '肩胛上旋', en: 'Lateral (upward) rotation of inferior angle', view: [180, 8], kf: [[0, [0, 0, 0, 5, 0]], [2, [0, 165, 0, 5, 0]]],
+    m: [['Trapezius (upper and lower fibers)', 'Accessory (CN XI)', 'CN XI；C3, C4'], ['Serratus anterior', 'Long thoracic', 'C5, C6 (C7)']],
+    note: '上斜方肌往上拉、下斜方肌往下拉肩胛棘根部、前鋸肌把下角往外拉 → 一起形成上旋的 force couple。' },
+  { id: 'sdown', zh: '肩胛下旋', en: 'Medial (downward) rotation of inferior angle', view: [180, 8], kf: [[0, [0, 150, 0, 5, 0]], [2, [0, 0, 0, 5, 0], { up: -8 }]],
+    m: [['Levator scapulae', 'C3, C4 nerve roots；Dorsal scapular', 'C3, C4；C5'], ['Rhomboid major', 'Dorsal scapular', '(C4), C5'], ['Rhomboid minor', 'Dorsal scapular', '(C4), C5'], ['Pectoralis minor', 'Medial pectoral', 'C8, T1 (medial cord)']] },
+  { id: 'eflex', zh: '肘屈曲', en: 'Flexion of elbow', view: [-90, 6], kf: [[0, [0, 0, 0, 0, 0]], [1.6, [0, 0, 0, 140, 0]]],
+    m: [['Brachialis', 'Musculocutaneous', 'C5, C6 (C7)'], ['Biceps brachii', 'Musculocutaneous', 'C5, C6'], ['Brachioradialis', 'Radial', 'C5, C6 (C7)'], ['Pronator teres', 'Median', 'C6, C7'], ['Flexor carpi ulnaris', 'Ulnar', 'C7, C8']] },
+  { id: 'eext', zh: '肘伸直', en: 'Extension of elbow', view: [-130, 6], kf: [[0, [0, 0, 0, 140, 0]], [1.6, [0, 0, 0, 0, 0]]],
+    m: [['Triceps', 'Radial', 'C6–C8'], ['Anconeus', 'Radial', 'C7, C8, (T1)']] }
+];
+/* nerve → muscles (for the 依神經 mode) */
+const MNERVE = [
+  { n: 'Axillary（腋神經）', r: 'C5, C6・posterior cord', m: ['Deltoid', 'Teres minor'], tip: '肱骨外科頸骨折、前脫位最容易傷到 → deltoid 萎縮、外展無力、肩外側感覺異常' },
+  { n: 'Suprascapular（肩胛上神經）', r: 'C5, C6・upper trunk', m: ['Supraspinatus', 'Infraspinatus'], tip: '經過 suprascapular notch／spinoglenoid notch，可被壓迫 → 外展起始、外轉無力' },
+  { n: 'Subscapular（肩胛下神經）', r: 'C5, C6・posterior cord', m: ['Subscapularis', 'Teres major'], tip: '上、下兩支；都跟內轉有關' },
+  { n: 'Thoracodorsal（胸背神經）', r: 'C6–C8・posterior cord', m: ['Latissimus dorsi'], tip: '伸直＋內收＋內轉（從背後摸口袋）' },
+  { n: 'Long thoracic（長胸神經）', r: 'C5, C6 (C7)', m: ['Serratus anterior'], tip: '受傷 → medial winging（推牆時肩胛內緣翹起）' },
+  { n: 'Accessory（副神經 CN XI）', r: 'CN XI＋C3, C4', m: ['Trapezius'], tip: '受傷 → 聳肩無力、lateral winging、肩下垂' },
+  { n: 'Dorsal scapular（背肩胛神經）', r: '(C4), C5', m: ['Rhomboid major', 'Rhomboid minor', 'Levator scapulae'], tip: 'Levator 另有 C3, C4 直接分支' },
+  { n: 'Lateral pectoral（外胸神經）', r: 'C5, C6・lateral cord', m: ['Pectoralis major (clavicular fibers)'], tip: '「外側」反而支配鎖骨部（上方）' },
+  { n: 'Medial pectoral（內胸神經）', r: 'C8, T1・medial cord', m: ['Pectoralis minor', 'Pectoralis major (sternocostal fibers)'], tip: '穿過 pec minor 再到 pec major 胸肋部' },
+  { n: 'Musculocutaneous（肌皮神經）', r: 'C5–C7・lateral cord', m: ['Coracobrachialis', 'Biceps brachii', 'Brachialis'], tip: '「前臂屈肘三兄弟」，穿過 coracobrachialis' },
+  { n: 'Radial（橈神經）', r: 'C5–T1・posterior cord', m: ['Triceps', 'Anconeus', 'Brachioradialis'], tip: '肱骨幹骨折（spiral groove）→ 垂腕 wrist drop' },
+  { n: 'Median（正中神經）', r: 'C6, C7', m: ['Pronator teres'], tip: '' },
+  { n: 'Ulnar（尺神經）', r: 'C7, C8', m: ['Flexor carpi ulnaris'], tip: '' }
+];
 
 /* ---------- special tests (from UE1-2 Practice slides) ---------- */
 const G = {
@@ -2879,8 +3111,8 @@ function loop(now) {
   if (cur && stageVisible()) render();
   heroTick(dt);
   gTick(dt);
-  window.addEventListener('sk3d-ready', () => shr());
-requestAnimationFrame(loop);
+  mTick(dt);
+  requestAnimationFrame(loop);
 }
 function updBtn() { const b = $('#play'); b.textContent = playing ? '❚❚' : '▶'; b.setAttribute('aria-label', playing ? '暫停' : '播放'); }
 $('#play').addEventListener('click', () => { if (t >= T) t = 0; playing = !playing; updBtn(); });
@@ -3109,7 +3341,87 @@ const fromHash = TESTS.some(x => x.id === h0);
 load(fromHash ? h0 : 'whipple', false);
 if (fromHash) $('#tests').scrollIntoView();
 if (h0.startsWith('dz-') && document.getElementById(h0)) { showDz(h0); $('#lesions').scrollIntoView(); }
-window.addEventListener('sk3d-ready', () => shr());
+
+/* ---------- muscles × actions (Table 5.16) ---------- */
+const mfig = new Fig($('#mSvg')); mfig.focus = true;
+let mMode = 'act', mSel = MACT[0], mK = null, mT = 1, mt = 0, mPlay = true, mHi = null, mPin = null, mRows = [], mTest = null, mTimes = null;
+const mStr = name => MG[name] || [];
+function mChips() {
+  if (mMode === 'act') {
+    const grp = [['flex', 'ext', 'hadd', 'habd', 'abd', 'add', 'ir', 'er'], ['selev', 'sdep', 'spro', 'sret', 'sup', 'sdown'], ['eflex', 'eext']];
+    $('#mchips').innerHTML = grp.map(g => g.map(id => { const a = MACT.find(x => x.id === id); return `<button data-m="${id}" class="${a === mSel ? 'on' : ''}">${esc(a.zh)}<small>${esc(a.en)}</small></button>`; }).join('')).join('<span class="msep"></span>');
+  } else {
+    $('#mchips').innerHTML = MNERVE.map((n, i) => `<button data-n="${i}" class="${n === mSel ? 'on' : ''}">${esc(n.n.replace(/（.*）/, ''))}<small>${esc(n.n.match(/（(.*)）/)?.[1] || '')}</small></button>`).join('');
+  }
+}
+function mLoad(sel) {
+  mSel = sel; mPin = null; mHi = null;
+  let kf, view;
+  if (mMode === 'act') {
+    const [, R0, s0] = sel.kf[0], [d, R1, s1] = sel.kf[1];
+    mTimes = [0.5, 0.5 + d, 1.3 + d, 1.3 + 2 * d];
+    kf = [{ t: 0, R: R0, sc: s0 || null }, { t: mTimes[0], R: R0, sc: s0 || null }, { t: mTimes[1], R: R1, sc: s1 || null }, { t: mTimes[2], R: R1, sc: s1 || null }, { t: mTimes[3], R: R0, sc: s0 || null }, { t: mTimes[3] + 0.4 }];
+    view = sel.view;
+    mRows = sel.m.map(([mu, nv, rt]) => ({ mu, nv, rt, s: mStr(mu) }));
+    $('#mtitle').textContent = sel.en + '｜' + sel.zh;
+    $('#mnote').textContent = sel.note || '';
+  } else {
+    mTimes = null;
+    kf = [{ t: 0, R: [0, 20, 0, 30, 90] }, { t: 1 }];
+    view = [35, 10];
+    mRows = sel.m.map(mu => ({ mu, nv: sel.n.replace(/（.*）/, ''), rt: sel.r, s: mStr(mu) }));
+    $('#mtitle').textContent = sel.n;
+    $('#mnote').textContent = sel.tip ? '臨床：' + sel.tip : '';
+  }
+  mTest = { pos: 'stand', view, props: {}, kf };
+  mK = prepKF(mTest); mT = mK[mK.length - 1].t; mt = 0;
+  const samples = []; for (let i = 0; i <= 10; i++) samples.push(poseAt(mK, mT * i / 10).pose);
+  mfig.setTest(mTest, samples);
+  $('#mbody').innerHTML = mRows.map((r, i) => `<tr class="mr" data-i="${i}"><td><span class="num">${i + 1}</span></td><td class="mn">${esc(r.mu)}</td><td>${esc(r.nv)}</td><td class="mrt">${esc(r.rt)}</td></tr>`).join('');
+  $('#mplay').hidden = mMode !== 'act'; $('#mscrub').hidden = mMode !== 'act';
+  mChips(); mRender();
+}
+function mRender() {
+  if (!mK) return;
+  const { pose } = poseAt(mK, mt);
+  const act = new Set(mRows.flatMap(r => r.s));
+  const lab = mRows.map((r, i) => [r.s[Math.floor(r.s.length / 2)], i + 1]).filter(x => x[0]);
+  const hi = mPin !== null ? new Set(mRows[mPin].s) : mHi;
+  mfig.draw(pose, { H: [], A: [], X: [], MUS: { act, hi, lab, ghost: $('#mghost').checked } });
+  if (mTimes) {
+    $('#mscrub').value = Math.round(mt / mT * 1000);
+    $('#mcap').textContent = mt < mTimes[0] ? '起始姿勢' : mt < mTimes[1] ? mSel.zh + '：紅色肌肉收縮（向心）' : mt < mTimes[2] ? '維持' : '回到起始（同一群肌肉離心控制）';
+  } else $('#mcap').textContent = mSel.n + '：' + mRows.map(r => r.mu).join('、');
+  document.querySelectorAll('#mbody tr').forEach((tr, i) => tr.classList.toggle('hi', i === mPin));
+}
+function mVisible() { const r = $('#muscles').getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight; }
+function mTick(dt) {
+  if (!mK || !mVisible()) return;
+  if (mPlay && mTimes) { mt += dt; if (mt >= mT) mt = 0; }
+  mRender();
+}
+document.querySelector('.mtabs').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  mMode = b.dataset.mm; document.querySelectorAll('.mtabs button').forEach(x => x.classList.toggle('on', x === b));
+  mLoad(mMode === 'act' ? MACT[0] : MNERVE[0]);
+});
+$('#mchips').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  mLoad(b.dataset.m ? MACT.find(x => x.id === b.dataset.m) : MNERVE[+b.dataset.n]);
+});
+$('#mbody').addEventListener('mouseover', e => { const tr = e.target.closest('tr'); mHi = tr ? new Set(mRows[+tr.dataset.i].s) : null; });
+$('#mbody').addEventListener('mouseleave', () => { mHi = null; });
+$('#mbody').addEventListener('click', e => { const tr = e.target.closest('tr'); if (!tr) return; const i = +tr.dataset.i; mPin = mPin === i ? null : i; mRender(); });
+$('#mplay').addEventListener('click', () => { mPlay = !mPlay; $('#mplay').textContent = mPlay ? '❚❚' : '▶'; $('#mplay').setAttribute('aria-label', mPlay ? '暫停' : '播放'); });
+$('#mscrub').addEventListener('input', e => { mPlay = false; $('#mplay').textContent = '▶'; mt = e.target.value / 1000 * mT; mRender(); });
+$('#mghost').addEventListener('change', mRender);
+$('#mviews').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; const v = b.dataset.v === 'def' ? mTest.view : VIEWS[b.dataset.v]; mfig.setView(v[0], v[1]); mRender(); });
+{ const ms = $('#mSvg'); let md = null;
+  ms.addEventListener('pointerdown', e => { md = { x: e.clientX, y: e.clientY, yaw: mfig.cam.yaw, pitch: mfig.cam.pitch }; ms.setPointerCapture(e.pointerId); });
+  ms.addEventListener('pointermove', e => { if (md) { mfig.setView(md.yaw - (e.clientX - md.x) * 0.5, md.pitch + (e.clientY - md.y) * 0.3); if (!mPlay) mRender(); } });
+  const up = () => { md = null; }; ms.addEventListener('pointerup', up); ms.addEventListener('pointercancel', up); }
+mLoad(MACT[0]);
+window.addEventListener('sk3d-ready', () => { shr(); mRender(); });
 requestAnimationFrame(loop);
 }
 
@@ -3150,6 +3462,41 @@ try {
     while (ballMeshes.length < balls.length) { const m = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), matBall); scene.add(m); ballMeshes.push(m); }
     ballMeshes.forEach((m, i) => { const b = balls[i]; m.visible = !!b; if (b) { m.position.set(b.c[0], b.c[1], b.c[2]); m.scale.setScalar(b.r); } });
   }
+  /* ---- muscles: tapered tubes along a Catmull-Rom path ---- */
+  const MSEG = 26, MRING = 10, musMeshes = [];
+  const MCOL = [[0xb8c2c4, 0.32, 0x000000], [0xd23b33, 0.96, 0x3a0805], [0xff6a2b, 1, 0x5a1a00]];
+  function musMesh() {
+    const g = new THREE.BufferGeometry(), n = (MSEG + 1) * MRING;
+    g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+    g.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(n * 3), 3));
+    const idx = [];
+    for (let i = 0; i < MSEG; i++) for (let j = 0; j < MRING; j++) { const a = i * MRING + j, b = i * MRING + (j + 1) % MRING, c = a + MRING, d = b + MRING; idx.push(a, c, b, b, c, d); }
+    g.setIndex(idx);
+    const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0, transparent: true }));
+    m.frustumCulled = false; scene.add(m); return m;
+  }
+  const vA = new THREE.Vector3(), vB = new THREE.Vector3(), vN = new THREE.Vector3();
+  function syncMuscles(list) {
+    while (musMeshes.length < list.length) musMeshes.push(musMesh());
+    musMeshes.forEach((m, k) => {
+      const ms = list[k]; m.visible = !!ms; if (!ms) return;
+      const st = MCOL[ms.st || 0]; m.material.color.setHex(st[0]); m.material.opacity = st[1]; m.material.emissive.setHex(st[2]);
+      m.material.depthWrite = st[1] > 0.5; m.renderOrder = st[1] > 0.5 ? 0 : 2;
+      const curve = new THREE.CatmullRomCurve3(ms.pts.map(p => new THREE.Vector3(p[0], p[1], p[2])), false, 'centripetal');
+      const fr = curve.computeFrenetFrames(MSEG, false), P = m.geometry.attributes.position.array, N = m.geometry.attributes.normal.array;
+      for (let i = 0; i <= MSEG; i++) {
+        const s = i / MSEG; curve.getPointAt(s, vA);
+        const r = ms.r * (0.28 + 0.72 * Math.pow(Math.sin(Math.PI * Math.min(1, Math.max(0, (s - 0.04) / 0.92))), 0.7));
+        for (let j = 0; j < MRING; j++) {
+          const a = j / MRING * Math.PI * 2;
+          vN.copy(fr.normals[i]).multiplyScalar(Math.cos(a)).addScaledVector(fr.binormals[i], Math.sin(a));
+          const o = (i * MRING + j) * 3; vB.copy(vA).addScaledVector(vN, r);
+          P[o] = vB.x; P[o + 1] = vB.y; P[o + 2] = vB.z; N[o] = vN.x; N[o + 1] = vN.y; N[o + 2] = vN.z;
+        }
+      }
+      m.geometry.attributes.position.needsUpdate = true; m.geometry.attributes.normal.needsUpdate = true;
+    });
+  }
   const q = new THREE.Quaternion(), eul = new THREE.Euler();
   function render(cv, W, H, cp, mats, o) {
     const dpr = Math.min(2, window.devicePixelRatio || 1), w = Math.max(1, Math.round(W * dpr)), h = Math.max(1, Math.round(H * dpr));
@@ -3160,7 +3507,8 @@ try {
     for (const n in groups) { const m = mats[n]; if (m) groups[n].matrix.fromArray(m); }
     if (groups.scapR) groups.scapR.children[0].material = o.badR ? matBad : matBone;
     if (groups.scapL) groups.scapL.children[0].material = o.badL ? matBad : matBone;
-    syncExtra(o); syncBalls(o.balls || []);
+    for (const n of TEST) if (groups[n]) groups[n].children[0].material = o.plain ? matBone : matTest;
+    syncExtra(o); syncBalls(o.balls || []); syncMuscles(o.muscles || []);
     R.render(scene, cam);
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     const ctx = cv.getContext('2d'); ctx.clearRect(0, 0, w, h); ctx.drawImage(R.domElement, 0, 0);
@@ -3175,7 +3523,7 @@ try {
       ob.material = TEST.includes(name) ? matTest : matBone; ob.frustumCulled = false;
       wrap.add(ob); groups[name] = wrap;
     }
-    window.SK3D = { ready: true, render };
+    window.SK3D = { ready: true, render, geo: n => groups[n] && { pos: groups[n].children[0].geometry.attributes.position.array, nrm: groups[n].children[0].geometry.attributes.normal.array } };
     window.dispatchEvent(new Event('sk3d-ready'));
   };
   const onErr = err => { window.SK3D_ERR = String(err && err.message || err); };
