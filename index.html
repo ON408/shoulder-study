@@ -293,6 +293,12 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 .exchips{border-top:0;margin-top:6px}
 
 .dgf>svg{max-width:820px;margin-inline:auto}
+
+.ptb{fill:rgba(255,154,118,.16);stroke:rgba(255,170,140,.75);stroke-width:1.5;stroke-dasharray:5 4}
+.ptl{stroke:rgba(255,154,118,.42);stroke-linecap:round}
+.ptlabel{fill:#ffb59c;font-size:13px;font-weight:800;text-anchor:middle;paint-order:stroke;stroke:#0a2a2f;stroke-width:4px}
+.views button.on{background:rgba(255,106,61,.35);border-color:rgba(255,154,118,.8)}
+.lg.ptfig{background:rgba(255,154,118,.25);border:1.5px dashed #ff9a76;border-radius:4px}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head><body>
@@ -1235,7 +1241,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 <!-- ============ TESTS ============ -->
 <section class="band testband" id="tests"><div class="wrap">
   <h2>Special tests ＆ 治療運動動畫</h2>
-  <p class="lede2 legend"><span><i class="lg pat0"></i>病人（亮色手臂＝受測右手）</span><span><i class="lg thumbL"></i>拇指方向</span><span><i class="lg pt"></i>PT 的手</span><span><i class="lg ptA"></i>PT 施力</span><span><i class="lg patA"></i>病人用力</span><span><i class="lg pain"></i>疼痛／陽性</span><span><i class="lg trailL"></i>手的移動軌跡</span></p>
+  <p class="lede2 legend"><span><i class="lg pat0"></i>病人（亮色手臂＝受測右手）</span><span><i class="lg thumbL"></i>拇指方向</span><span><i class="lg ptfig"></i>PT（半透明人形）</span><span><i class="lg pt"></i>PT 的手</span><span><i class="lg ptA"></i>PT 施力</span><span><i class="lg patA"></i>病人用力</span><span><i class="lg pain"></i>疼痛／陽性</span><span><i class="lg trailL"></i>手的移動軌跡</span></p>
   <div class="player">
     <aside class="list">
       <input id="q" type="search" placeholder="搜尋測試或疾病…" aria-label="搜尋測試">
@@ -1252,7 +1258,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
           <svg id="figSvg" role="img" aria-label="測試動作動畫"></svg>
           <span id="posTag" class="posTag">陽性表現</span>
           <div class="hud" id="hud"></div>
-          <div class="views" role="group" aria-label="視角"><button data-v="def">預設</button><button data-v="front">正面</button><button data-v="back">背面</button><button data-v="side">側面</button><button data-v="top">上方</button></div>
+          <div class="views" role="group" aria-label="視角"><button data-v="pt" class="on" aria-pressed="true">PT 人形</button><button data-v="def">預設</button><button data-v="front">正面</button><button data-v="back">背面</button><button data-v="side">側面</button><button data-v="top">上方</button></div>
           <p id="cap" class="cap" aria-live="polite"></p>
         </div>
         <ol class="phases" id="phases"></ol>
@@ -1536,14 +1542,67 @@ function lmk(S, name, off) {
   return off ? add(p, off) : p;
 }
 
+/* ---------- PT figure ---------- */
+const normH = h => typeof h === 'string' ? { at: h } : (Array.isArray(h) ? { at: h[0], o: h[1] } : h);
+function ptStance(test, K) {
+  const pts = []; const T = K[K.length - 1].t;
+  for (let i = 0; i <= 24; i++) {
+    const { pose, ov } = poseAt(K, T * i / 24); const S = skeleton(pose, test.pos);
+    for (const h of (ov.H || [])) { const sp = normH(h); const p = lmk(S, sp.at, sp.o); if (p) pts.push(toWorld(p, test.pos)); }
+  }
+  const S0 = skeleton(poseAt(K, 0).pose, test.pos);
+  const pc = toWorld([0, (S0.hipY + S0.shY) / 2, 0], test.pos);
+  let dir;
+  if (!pts.length) { if (!test.obs) return null; dir = dirWorld(test.obs, test.pos); }
+  else if (test.st) dir = dirWorld(test.st, test.pos);
+  else { const C = mul(pts.reduce((a, b) => add(a, b), [0, 0, 0]), 1 / pts.length); dir = [C[0] - pc[0], 0, C[2] - pc[2]]; }
+  dir[1] = 0; if (vlen(dir) < 0.05) { dir = dirWorld([-1, 0, 0], test.pos); dir[1] = 0; } dir = norm(dir);
+  let dist = 0.62;
+  for (const p of pts) dist = Math.max(dist, (p[0] - pc[0]) * dir[0] + (p[2] - pc[2]) * dir[2] + 0.34);
+  if (['supine', 'prone', 'side', 'sideR'].includes(test.pos)) dist = Math.max(dist, 0.72);
+  if (!pts.length) dist = 0.9;
+  const maxY = pts.length ? Math.max(...pts.map(p => p[1])) : 1.4;
+  return { base: [pc[0] + dir[0] * dist, 0, pc[2] + dir[2] * dist], dir, shT: Math.min(1.42, Math.max(1.02, maxY + 0.32)) };
+}
+function ptFigure(st, contacts) {
+  const up = [0, 1, 0], f = mul(st.dir, -1), rgt = norm(cross(f, up));
+  const a = Math.acos(Math.min(1, Math.max(0.35, (st.shT - 0.92) / 0.5)));
+  const H = add(st.base, [0, 0.92, 0]);
+  const tu = norm(add(mul(up, Math.cos(a)), mul(f, Math.sin(a))));
+  const shC = add(H, mul(tu, 0.5)), head = add(H, mul(tu, 0.74));
+  const segs = [], hullPts = [];
+  for (const [c, hw] of [[shC, 0.19], [add(H, mul(tu, 0.25)), 0.16], [H, 0.15]]) for (const sx of [-1, 1]) for (const sz of [-1, 1]) hullPts.push(add(add(c, mul(rgt, sx * hw)), mul(f, sz * 0.09)));
+  for (const sx of [-1, 1]) {
+    const hp = add(H, mul(rgt, sx * 0.1)), ft = add(st.base, mul(rgt, sx * 0.13)), kn = add(mul(add(hp, ft), 0.5), mul(f, 0.04 + Math.sin(a) * 0.12));
+    segs.push([hp, kn, 0.09, 'ptl'], [kn, ft, 0.08, 'ptl']);
+  }
+  const Sh = { r: add(shC, mul(rgt, 0.19)), l: add(shC, mul(rgt, -0.19)) };
+  const cs = contacts.slice().sort((p, q) => dot(sub(q, shC), rgt) - dot(sub(p, shC), rgt));
+  const asg = {};
+  if (cs.length >= 2) { asg.r = cs[0]; asg.l = cs[cs.length - 1]; }
+  else if (cs.length === 1) asg[dot(sub(cs[0], shC), rgt) >= 0 ? 'r' : 'l'] = cs[0];
+  for (const side of ['r', 'l']) {
+    const S = Sh[side], sg = side === 'r' ? 1 : -1;
+    const T = asg[side] || add(add(S, mul(up, -0.56)), add(mul(f, 0.06), mul(rgt, sg * 0.04)));
+    const v = sub(T, S), d = vlen(v), m = add(S, mul(v, 0.5));
+    let bend = add(add(mul(up, -0.6), mul(rgt, sg * 0.5)), mul(f, -0.2));
+    bend = norm(sub(bend, mul(norm(v), dot(bend, norm(v)))));
+    const hgt = Math.sqrt(Math.max(0, 0.31 * 0.31 - (d / 2) * (d / 2)));
+    const E = add(m, mul(bend, hgt));
+    segs.push([S, E, 0.075, 'ptl'], [E, T, 0.06, 'ptl']);
+  }
+  return { hullPts, segs, head, cz: H };
+}
+
 /* ---------- renderer ---------- */
 const NS = 'http://www.w3.org/2000/svg';
 class Fig {
   constructor(svg) {
-    this.svg = svg; this.cam = new Cam(0, 8); this.fit = null; this.test = null;
+    this.svg = svg; this.cam = new Cam(0, 8); this.fit = null; this.test = null; this.showPT = true; this.st = null;
   }
-  setTest(test, poses) {
-    this.test = test; this.poses = poses; this.cam = new Cam(test.view[0], test.view[1]); this.refit();
+  setTest(test, poses, K) {
+    this.test = test; this.poses = poses; this.st = K ? ptStance(test, K) : null;
+    this.cam = new Cam(test.view[0], test.view[1]); this.refit();
   }
   setView(y, p) { this.cam.yaw = y; this.cam.pitch = Math.max(-20, Math.min(85, p)); this.refit(); }
   refit() {
@@ -1558,6 +1617,7 @@ class Fig {
       const pr = this.test.props || {};
       if (pr.pulley) pts.push(add(pr.pulley, [0, 0.08, 0]));
       if (pr.clock) pts.push(add(pr.clock, [0, 0.22, 0]), add(pr.clock, [0, -0.22, 0]));
+      if (this.st && this.showPT) { const pf = ptFigure(this.st, []); pts.push(add(pf.head, [0, 0.12, 0]), ...pf.hullPts, add(this.st.base, [0, 0.3, 0])); }
       pts.push(W(add(S.head,[0,0.13,0])), W([0.2,lowY,0.12]), W([-0.2,lowY,-0.12]), W([0.2,lowY,-0.12]), W([-0.2,lowY,0.12]));
       for (const w of pts) { const q = this.cam.p(w); x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); y0 = Math.min(y0, q[1]); y1 = Math.max(y1, q[1]); }
     }
@@ -1605,6 +1665,19 @@ class Fig {
       const g = P(W(S.nom));
       dr.push({ z: g[2] + 0.06, s: `<circle cx="${fx(g[0])}" cy="${fx(g[1])}" r="${fx(0.062 * sc)}" class="glenoid"/>` });
     }
+    // PT figure
+    const usePT = this.st && this.showPT;
+    if (usePT) {
+      const contacts = [];
+      for (const hnd of (ov.H || [])) { const sp = normH(hnd); const p0 = lmk(S, sp.at, sp.o); if (p0) contacts.push(W(p0)); }
+      const pf = ptFigure(this.st, contacts);
+      const hp = hull(pf.hullPts.map(P)); const hz = P(pf.cz)[2];
+      dr.push({ z: hz, s: `<polygon points="${hp.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="ptb"/>` });
+      const hc = P(pf.head); dr.push({ z: hc[2], s: `<circle cx="${fx(hc[0])}" cy="${fx(hc[1])}" r="${fx(0.1 * sc)}" class="ptb"/>` });
+      for (const [a0, b0, w, cl] of pf.segs) { const a1 = P(a0), b1 = P(b0); dr.push({ z: (a1[2] + b1[2]) / 2, s: `<line x1="${fx(a1[0])}" y1="${fx(a1[1])}" x2="${fx(b1[0])}" y2="${fx(b1[1])}" stroke-width="${fx(w * sc)}" class="${cl}"/>` }); }
+      const lbp = P(add(pf.head, [0, 0.17, 0]));
+      dr.push({ z: 99, s: `<text x="${fx(lbp[0])}" y="${fx(lbp[1])}" class="ptlabel">PT</text>` });
+    }
     // PT hands (sorted, so hidden ones are covered)
     const ghosts = [];
     for (const hnd of (ov.H || [])) {
@@ -1612,6 +1685,7 @@ class Fig {
       const p0 = lmk(S, spec.at, spec.o); if (!p0) continue;
       const c = P(W(p0));
       if (spec.palp) { ghosts.push(`<circle cx="${fx(c[0])}" cy="${fx(c[1])}" r="${fx(0.04 * sc)}" class="palp"/>`); continue; }
+      if (usePT) { dr.push({ z: c[2] + 0.04, s: `<circle cx="${fx(c[0])}" cy="${fx(c[1])}" r="${fx(0.042 * sc)}" class="pth"/>` }); ghosts.push(`<circle cx="${fx(c[0])}" cy="${fx(c[1])}" r="${fx(0.042 * sc)}" class="pthg"/>`); continue; }
       const cen = [0, Math.min(Math.max(p0[1], S.hipY), S.shY), 0];
       let out = sub(p0, cen); out[1] *= 0.3; out = spec.from ? norm(spec.from) : norm(out);
       const f2 = P(W(add(p0, mul(out, 0.24))));
@@ -1737,7 +1811,7 @@ const DN3 = [0, -1, 0], UP3 = [0, 1, 0], FW = [0, 0, 1], BK = [0, 0, -1], LAT = 
 const TESTS = [
   /* ===== basic ===== */
   {
-    id: 'apley', g: 'other', name: "Apley's scratch test", alt: 'Combined movements', pos: 'stand', view: [180, 6],
+    id: 'apley', obs: [-0.6, 0, -0.8], g: 'other', name: "Apley's scratch test", alt: 'Combined movements', pos: 'stand', view: [180, 6],
     steps: [['病人', '上側手從肩上往下摸背（neck reach）：GH ABD + flex + ER'], ['病人', '下側手從腰後往上摸背（back reach）：GH ADD + ext + IR'], ['病人', '兩側交換，比較左右差異'], ['病人', 'Reaching across the body：手摸對側肩（GH flex + horizontal ADD + ER）']],
     sign: '兩側活動度不對稱、無法完成或誘發疼痛', ind: '整體 GH 活動度（ER/ABD 與 IR/ADD 組合動作）受限的篩檢',
     more: '屬於 active movement 的 combined movements；上側＝ER + ABD，下側＝IR + ADD。',
@@ -1769,7 +1843,7 @@ const TESTS = [
     ], dz: ['rc', 'labral']
   },
   {
-    id: 'rent', g: 'other', name: 'Rent test', pos: 'sit', view: [125, 12],
+    id: 'rent', st: [0, 0, -1], g: 'other', name: 'Rent test', pos: 'sit', view: [125, 12],
     steps: [['病人', '坐姿，手臂垂在身側'], ['PT', '站在病人後方，一手摸肩峰前緣，另一手托住病人手肘（屈曲 90°）'], ['PT', '被動將肩關節 extension'], ['PT', '慢慢 IR / ER 病人肱骨，同時觸診 greater tuberosity 和 rotator cuff 肌腱']],
     sign: '摸到約一指寬的凹陷（"rent"／缺損）；患側 greater tuberosity 比對側突出', ind: 'Rotator cuff tear（觸診）',
     more: '投影片把它歸在 Palpation。',
@@ -1784,7 +1858,7 @@ const TESTS = [
     ], dz: ['rc']
   },
   {
-    id: 'trap', g: 'other', name: 'Trapezius weakness', alt: 'General & upper trapezius', pos: 'sit', view: [200, 10], bi: true,
+    id: 'trap', st: [0, 0, -1], g: 'other', name: 'Trapezius weakness', alt: 'General & upper trapezius', pos: 'sit', view: [200, 10], bi: true,
     steps: [['病人', 'General：坐姿，雙手在頭上合十'], ['PT', '站在病人後方，把雙肘往前推'], ['病人', 'Upper trapezius：手臂微 ABD 下聳肩'], ['PT', '阻抗肩 ABD 和頭側屈']],
     sign: 'General：正常時斜方肌三部分都會收縮穩定肩胛。Upper：手臂在身側就能聳肩 → levator scapulae 和 rhomboids 也較可能參與', ind: 'Trapezius 無力',
     more: '屬於 muscle strength tests。',
@@ -1989,7 +2063,7 @@ const TESTS = [
   },
   /* ===== labrum ===== */
   {
-    id: 'obrien', g: 'lab', name: "Active compression test of O'Brien", pos: 'stand', view: [60, 10],
+    id: 'obrien', st: [0, 0, -1], g: 'lab', name: "Active compression test of O'Brien", pos: 'stand', view: [60, 10],
     steps: [['病人', '站姿，手臂 forward flexion 90°、手肘完全伸直，再水平內收 10–15°'], ['病人', '第一部分：IR（拇指朝下）→ PT 往下壓'], ['病人', '第二部分：回到 ER（手掌朝上）→ PT 再往下壓'], ['PT', '站在病人後方，施加向下的力']],
     sign: '第一部分在關節線出現疼痛，或肩內部深處疼痛性 click（不是在 AC joint）；第二部分症狀消失或減輕', ind: 'SLAP（type II）或 superior labral 病灶',
     more: '這個測試也會 load 到 AC joint：如果痛在肩頂（AC joint）要想到 AC 問題。',
@@ -2004,7 +2078,7 @@ const TESTS = [
     ], dz: ['labral', 'acsep']
   },
   {
-    id: 'mobrien', g: 'lab', name: "Modified O'Brien test", pos: 'stand', view: [0, 10], bi: true,
+    id: 'mobrien', st: [0, 0, 1], g: 'lab', name: "Modified O'Brien test", pos: 'stand', view: [35, 12], bi: true,
     steps: [['病人', '雙手前屈 90°，手背靠近，拇指朝下（IR）→ PT 往下壓'], ['病人', '再 ER，讓手掌朝上、雙手靠近 → PT 再往下壓'], ['PT', '站在病人前方，同時對雙臂施加相同的向下力，比較左右差異']],
     sign: '同原本 O\'Brien test', ind: 'SLAP（type II）或 superior labral 病灶',
     kf: [
@@ -2043,7 +2117,7 @@ const TESTS = [
     ], dz: ['labral']
   },
   {
-    id: 'porcellini', g: 'lab', name: 'Porcellini test', pos: 'stand', view: [150, 10],
+    id: 'porcellini', st: [0, 0, -1], g: 'lab', name: 'Porcellini test', pos: 'stand', view: [150, 10],
     steps: [['病人', '站姿，手臂前屈 90°、ABD 10–15°、最大 IR（類似 O\'Brien 第一部分）'], ['PT', '站在病人後方，一手穩定肩胛；請病人抬手，PT 另一手往下壓（記錄疼痛與力量）'], ['PT', '第二次：穩定肩胛那隻手的拇指放在後側 GH 關節線外側，穩住肱骨頭後側並往前施力，防止肱骨頭往後半脫位，再測一次']],
     sign: '第二部分疼痛減輕（力量可能改變、也可能不變）', ind: 'Posterior instability 與 posterior labral tear',
     kf: [
@@ -2261,7 +2335,7 @@ const TESTS = [
   },
   /* ===== scapula ===== */
   {
-    id: 'kibler', g: 'scap', name: 'Scapular dyskinesia test', alt: 'Kibler test', pos: 'stand', view: [180, 8], bi: true, wt: true,
+    id: 'kibler', obs: [-0.6, 0, -0.8], g: 'scap', name: 'Scapular dyskinesia test', alt: 'Kibler test', pos: 'stand', view: [180, 8], bi: true, wt: true,
     steps: [['病人', '站姿，露出背部，手拿重物：體重 < 68 kg 拿 1.4 kg（3 lb）；> 68 kg 拿 2.3 kg（5 lb）'], ['病人', '雙手同時 ABD 到最高 ×3，拇指朝上，上 3 秒、下 3 秒'], ['病人', '再做 forward flexion、scaption 到最高並放下'], ['PT', '觀察肩胛動作']],
     sign: '肩胛出現任何異常動作（放下時更容易看到）', ind: 'Scapular dyskinesia',
     kf: [
@@ -2277,7 +2351,7 @@ const TESTS = [
     ], dz: ['dysk']
   },
   {
-    id: 'sat', g: 'scap', name: 'Scapular assistance test', pos: 'stand', view: [200, 8],
+    id: 'sat', st: [0, 0, -1], g: 'scap', name: 'Scapular assistance test', pos: 'stand', view: [200, 8],
     steps: [['病人', '站姿'], ['PT', '接觸肩胛內下角，在病人主動抬手時把肩胛推向 upward rotation'], ['PT', '改良版：另一手放在肩胛上方，讓肩胛稍微 posterior tilt']],
     sign: '在 PT 協助肩胛動作下，抬手時的疼痛減輕', ind: 'Scapular dyskinesia 是肩痛的原因',
     kf: [
@@ -2291,7 +2365,7 @@ const TESTS = [
     ], dz: ['dysk', 'impinge']
   },
   {
-    id: 'srt', g: 'scap', name: 'Scapular retraction test', pos: 'stand', view: [210, 10],
+    id: 'srt', st: [0, 0, -1], g: 'scap', name: 'Scapular retraction test', pos: 'stand', view: [210, 10],
     steps: [['病人', '站或坐，手臂在 scapular plane 抬到 90°，IR（拇指朝下）'], ['PT', '第一次：施加向下的力'], ['PT', '第二次：用前臂把肩胛穩定在 retracted＋posterior tilt 的位置，再施加向下的力']],
     sign: '第一次出現疼痛或無力，肩胛穩定後減輕', ind: 'Scapular dyskinesia 是肩痛的原因',
     kf: [
@@ -2607,7 +2681,7 @@ function load(id, autoplay) {
   const tt = TESTS.find(x => x.id === id); if (!tt) return;
   cur = tt; K = prepKF(tt); T = K[K.length - 1].t;
   const samples = []; for (let i = 0; i <= 16; i++) samples.push(poseAt(K, T * i / 16).pose);
-  fig.setTest(tt, samples);
+  fig.setTest(tt, samples, K);
   $('#tg').textContent = G[tt.g];
   $('#tn').textContent = tt.name;
   $('#ta').textContent = tt.alt || '';
@@ -2670,6 +2744,7 @@ $('#phases').addEventListener('click', jump);
 $('#spd').addEventListener('change', e => spd = +e.target.value);
 document.querySelector('.views').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || !cur) return;
+  if (b.dataset.v === 'pt') { fig.showPT = !fig.showPT; b.setAttribute('aria-pressed', fig.showPT); b.classList.toggle('on', fig.showPT); fig.refit(); return; }
   const v = b.dataset.v === 'def' ? cur.view : VIEWS[b.dataset.v];
   fig.setView(v[0], v[1]);
 });
@@ -2697,7 +2772,7 @@ function heroNext() {
   hi = (hi + 1) % HERO.length; const tt = TESTS.find(x => x.id === HERO[hi]);
   hK = prepKF(tt); hT = hK[hK.length - 1].t; ht = 0;
   const s = []; for (let i = 0; i <= 12; i++) s.push(poseAt(hK, hT * i / 12).pose);
-  hfig.setTest(tt, s);
+  hfig.setTest(tt, s, hK);
   $('#heroName').textContent = tt.name;
 }
 heroNext();
