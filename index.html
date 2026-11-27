@@ -1241,7 +1241,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 <!-- ============ TESTS ============ -->
 <section class="band testband" id="tests"><div class="wrap">
   <h2>Special tests ＆ 治療運動動畫</h2>
-  <p class="lede2 legend"><span><i class="lg pat0"></i>病人（亮色手臂＝受測右手）</span><span><i class="lg thumbL"></i>拇指方向</span><span><i class="lg ptfig"></i>PT（半透明人形）</span><span><i class="lg pt"></i>PT 的手</span><span><i class="lg ptA"></i>PT 施力</span><span><i class="lg patA"></i>病人用力</span><span><i class="lg pain"></i>疼痛／陽性</span><span><i class="lg trailL"></i>手的移動軌跡</span></p>
+  <p class="lede2 legend"><span><i class="lg pat0"></i>病人（亮色手臂＝受測右手）</span><span><i class="lg thumbL"></i>拇指方向</span><span><i class="lg pt"></i>PT 的手</span><span><i class="lg ptA"></i>PT 施力</span><span><i class="lg patA"></i>病人用力</span><span><i class="lg pain"></i>疼痛／陽性</span><span><i class="lg trailL"></i>手的移動軌跡</span></p>
   <div class="player">
     <aside class="list">
       <input id="q" type="search" placeholder="搜尋測試或疾病…" aria-label="搜尋測試">
@@ -1258,7 +1258,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
           <svg id="figSvg" role="img" aria-label="測試動作動畫"></svg>
           <span id="posTag" class="posTag">陽性表現</span>
           <div class="hud" id="hud"></div>
-          <div class="views" role="group" aria-label="視角"><button data-v="pt" class="on" aria-pressed="true">PT 人形</button><button data-v="def">預設</button><button data-v="front">正面</button><button data-v="back">背面</button><button data-v="side">側面</button><button data-v="top">上方</button></div>
+          <div class="views" role="group" aria-label="視角"><button data-v="def">預設</button><button data-v="front">正面</button><button data-v="back">背面</button><button data-v="side">側面</button><button data-v="top">上方</button></div>
           <p id="cap" class="cap" aria-live="polite"></p>
         </div>
         <ol class="phases" id="phases"></ol>
@@ -1598,7 +1598,7 @@ function ptFigure(st, contacts) {
 const NS = 'http://www.w3.org/2000/svg';
 class Fig {
   constructor(svg) {
-    this.svg = svg; this.cam = new Cam(0, 8); this.fit = null; this.test = null; this.showPT = true; this.st = null;
+    this.svg = svg; this.cam = new Cam(0, 8); this.fit = null; this.test = null; this.showPT = false; this.st = null;
   }
   setTest(test, poses, K) {
     this.test = test; this.poses = poses; this.st = K ? ptStance(test, K) : null;
@@ -2744,7 +2744,6 @@ $('#phases').addEventListener('click', jump);
 $('#spd').addEventListener('change', e => spd = +e.target.value);
 document.querySelector('.views').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || !cur) return;
-  if (b.dataset.v === 'pt') { fig.showPT = !fig.showPT; b.setAttribute('aria-pressed', fig.showPT); b.classList.toggle('on', fig.showPT); fig.refit(); return; }
   const v = b.dataset.v === 'def' ? cur.view : VIEWS[b.dataset.v];
   fig.setView(v[0], v[1]);
 });
