@@ -1421,6 +1421,8 @@ canvas.gl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 <script>
 const MJ = {"shR": [-0.1737, 1.4804, -0.0005], "shrR": 0.024, "elbR": [-0.4632, 1.4471, -0.0096], "radPR": [-0.4646, 1.4569, -0.0047], "ulnPR": [-0.4558, 1.4386, -0.0235], "radDR": [-0.6741, 1.4326, 0.0966], "ulnDR": [-0.6859, 1.4255, 0.0797], "wriR": [-0.68, 1.4291, 0.0882], "scInfR": [-0.0878, 1.3305, -0.0218], "scLatR": [-0.178, 1.5131, -0.0025], "scSupR": [-0.0611, 1.4959, -0.0422], "clMR": [-0.0206, 1.4984, 0.0976], "clLR": [-0.156, 1.529, 0.0499], "hipR": [-0.0974, 0.9723, 0.0465], "kneeR": [-0.1123, 0.5282, 0.136], "ankR": [-0.1461, 0.066, 0.0901], "toeR": [-0.1445, 0.0025, 0.2906], "shL": [0.1737, 1.4804, -0.0005], "shrL": 0.024, "elbL": [0.4632, 1.4471, -0.0096], "radPL": [0.4646, 1.4569, -0.0047], "ulnPL": [0.4558, 1.4386, -0.0235], "radDL": [0.6741, 1.4326, 0.0966], "ulnDL": [0.6859, 1.4255, 0.0797], "wriL": [0.68, 1.4291, 0.0882], "scInfL": [0.0878, 1.3305, -0.0218], "scLatL": [0.178, 1.5131, -0.0025], "scSupL": [0.0611, 1.4959, -0.0422], "clML": [0.0206, 1.4984, 0.0976], "clLL": [0.156, 1.529, 0.0499], "hipL": [0.0974, 0.9723, 0.0465], "kneeL": [0.1123, 0.5282, 0.136], "ankL": [0.1461, 0.066, 0.0901], "toeL": [0.1196, 0.0096, 0.2912]};
 
+const BODY = [[0.88, 0.1, 0.053, 0.063], [0.9, 0.109, 0.05, 0.074], [0.92, 0.127, 0.048, 0.076], [0.94, 0.137, 0.045, 0.079], [0.96, 0.141, 0.068, 0.102], [0.98, 0.153, 0.065, 0.105], [1.0, 0.154, 0.062, 0.108], [1.02, 0.154, 0.062, 0.108], [1.04, 0.154, 0.062, 0.108], [1.06, 0.154, 0.062, 0.108], [1.08, 0.154, 0.062, 0.108], [1.1, 0.154, 0.062, 0.108], [1.12, 0.154, 0.062, 0.108], [1.14, 0.152, 0.062, 0.108], [1.16, 0.152, 0.065, 0.105], [1.18, 0.147, 0.072, 0.098], [1.2, 0.149, 0.07, 0.102], [1.22, 0.149, 0.072, 0.113], [1.24, 0.152, 0.073, 0.117], [1.26, 0.152, 0.074, 0.12], [1.28, 0.155, 0.073, 0.121], [1.3, 0.155, 0.073, 0.121], [1.32, 0.155, 0.069, 0.124], [1.34, 0.155, 0.069, 0.124], [1.36, 0.155, 0.069, 0.124], [1.38, 0.155, 0.069, 0.124], [1.4, 0.159, 0.063, 0.13], [1.42, 0.166, 0.061, 0.128], [1.44, 0.185, 0.058, 0.125], [1.46, 0.185, 0.056, 0.123], [1.48, 0.185, 0.053, 0.119], [1.5, 0.185, 0.047, 0.114]];
+
 /* ---------- pseudo-3D geometric figure engine ---------- */
 const D2R = Math.PI / 180;
 const add = (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
@@ -1465,21 +1467,29 @@ function tilt(q, cfg) {
   const a = cfg.a * D2R, y = q[1] - cfg.piv[1], z = q[2] - cfg.piv[2];
   return [q[0], cfg.piv[1] + y * Math.cos(a) - z * Math.sin(a), cfg.piv[2] + y * Math.sin(a) + z * Math.cos(a)];
 }
-/* trunk collider (rib cage box) */
-const HW = 0.15, ZC = 0.07, DZ = 0.118;
-function inBox(p, hip, shY) { return Math.abs(p[0]) < HW && Math.abs(p[2] - ZC) < DZ && p[1] > hip - 0.02 && p[1] < shY - 0.03; }
+/* trunk collider: body envelope (ellipse per height) measured from the skeleton mesh */
+function bodyAt(y) {
+  if (y < BODY[0][0] || y > 1.42) return null;
+  const i = Math.min(BODY.length - 2, Math.floor((y - BODY[0][0]) / 0.02)), A = BODY[i], B = BODY[i + 1], s = (y - A[0]) / 0.02;
+  return [A[1] + (B[1] - A[1]) * s, A[2] + (B[2] - A[2]) * s, A[3] + (B[3] - A[3]) * s];
+}
+const ZC = 0.07;
+function pushOut(p, off) {
+  const B = bodyAt(p[1] - off); if (!B) return null;
+  const [hw, zc, c] = B, x = p[0] / hw, z = (p[2] - zc) / c, r = Math.hypot(x, z);
+  if (r >= 1) return null;
+  if (r < 1e-3) return [0, 0, c * 1.04];
+  const k = 1.04 / r; return [p[0] * k - p[0], 0, zc + (p[2] - zc) * k - p[2]];
+}
 function collide(elb, wri, u, hip, shY) {
+  const off = hip - HIPY;
   elb = elb.slice(); wri = wri.slice();
-  if (inBox(elb, hip, shY)) {
-    const dx = HW - Math.abs(elb[0]), dz = DZ - Math.abs(elb[2] - ZC);
-    if (dx < dz) elb[0] = Math.sign(elb[0] || -1) * (HW + 0.01); else elb[2] = ZC + Math.sign(elb[2] - ZC || 1) * (DZ + 0.01);
-  }
-  for (let it = 0; it < 3; it++) {
-    const mid = mul(add(elb, wri), 0.5), q3 = add(mul(elb, 0.25), mul(wri, 0.75));
-    if (![wri, mid, q3].some(p => inBox(p, hip, shY))) break;
-    const ez = elb[2] - ZC, sz = Math.abs(ez) > 0.03 ? Math.sign(ez) : (Math.sign(wri[2] - ZC) || 1);
-    const need = ZC + sz * (DZ + 0.035);
-    wri[2] = sz > 0 ? Math.max(wri[2], need, 2 * need - elb[2]) : Math.min(wri[2], need, 2 * need - elb[2]);
+  const pe = pushOut(elb, off); if (pe) elb = add(elb, pe);
+  for (let it = 0; it < 10; it++) {
+    const dir = norm(sub(wri, elb)); let hit = null;
+    for (const f of [1, 1.3, 1.6, 0.75, 0.5]) { const p = add(elb, mul(dir, FA * f)); const v = pushOut(p, off); if (v) { hit = mul(v, 1 / Math.max(0.5, f)); break; } }
+    if (!hit) break;
+    wri = add(elb, mul(norm(sub(add(wri, hit), elb)), FA));
   }
   const head = [0, shY + 0.163, 0.149], hv = sub(wri, head), hl = vlen(hv);
   if (hl < 0.13) wri = add(head, mul(hv, 0.13 / (hl || 1)));
@@ -2457,9 +2467,9 @@ const EX = [
       { t: 0, R: [90, 22, 0, 70, 170], cap: '手放在球上' },
       { t: 1.8, R: [90, 58, 0, 18, 170], cap: '往前推（flexion）' },
       { t: 3.4, R: [90, 22, 0, 70, 170] },
-      { t: 4.6, R: [125, 40, 0, 45, 170], cap: '往內、往外滑（horizontal ADD／ABD）' },
+      { t: 4.6, R: [100, 40, 0, 45, 170], cap: '往內、往外滑（horizontal ADD／ABD）' },
       { t: 5.8, R: [50, 40, 0, 45, 170] },
-      { t: 7.0, R: [90, 30, 0, 60, 170], cap: '畫圈' }, { t: 7.8, R: [115, 45, 0, 35, 170] }, { t: 8.6, R: [90, 55, 0, 20, 170] }, { t: 9.4, R: [65, 45, 0, 35, 170] }, { t: 10.2, R: [90, 30, 0, 60, 170] },
+      { t: 7.0, R: [90, 30, 0, 60, 170], cap: '畫圈' }, { t: 7.8, R: [106, 45, 0, 35, 170] }, { t: 8.6, R: [90, 55, 0, 20, 170] }, { t: 9.4, R: [65, 45, 0, 35, 170] }, { t: 10.2, R: [90, 30, 0, 60, 170] },
       { t: 11.0 }
     ]
   },
@@ -2495,7 +2505,7 @@ const EX = [
     kf: [
       { t: 0, R: [90, 20, 0, 40, 90], cap: '握住直立的棍子' },
       { t: 1.4, R: [90, 38, 0, 30, 90], cap: '往前推（flexion）' }, { t: 2.6, R: [90, -10, 0, 50, 90], cap: '往後拉（extension）' }, { t: 3.6, R: [90, 20, 0, 40, 90] },
-      { t: 4.8, R: [20, 30, 0, 40, 90], cap: '往外（ABD）' }, { t: 6.0, R: [110, 30, 0, 15, 90], cap: '往內（ADD）' }, { t: 7.0, R: [90, 20, 0, 40, 90] },
+      { t: 4.8, R: [20, 30, 0, 40, 90], cap: '往外（ABD）' }, { t: 6.0, R: [98, 30, 0, 15, 90], cap: '往內（ADD）' }, { t: 7.0, R: [90, 20, 0, 40, 90] },
       { t: 7.8 }
     ]
   },
