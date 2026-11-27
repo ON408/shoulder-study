@@ -1334,6 +1334,31 @@ function tilt(q, cfg) {
   return [q[0], cfg.piv[1] + y * Math.cos(a) - z * Math.sin(a), cfg.piv[2] + y * Math.sin(a) + z * Math.cos(a)];
 }
 
+/* keep forearm/hand outside the trunk box and head (simple collider) */
+const HW = 0.165, DZ = 0.1;
+function inBox(p, hip, shY) { return Math.abs(p[0]) < HW && Math.abs(p[2]) < DZ && p[1] > hip - 0.02 && p[1] < shY - 0.01; }
+function collide(elb, wri, u, hip, shY) {
+  elb = elb.slice(); wri = wri.slice();
+  if (inBox(elb, hip, shY)) {
+    const dx = HW - Math.abs(elb[0]), dz = DZ - Math.abs(elb[2]);
+    if (dx < dz) elb[0] = Math.sign(elb[0] || -1) * (HW + 0.01); else elb[2] = Math.sign(elb[2] || 1) * (DZ + 0.01);
+  }
+  const head = [0, shY + 0.24, 0.01];
+  for (let it = 0; it < 3; it++) {
+    const mid = mul(add(elb, wri), 0.5), q3 = add(mul(elb, 0.25), mul(wri, 0.75));
+    let bad = [wri, mid, q3].some(p => inBox(p, hip, shY));
+    if (!bad) break;
+    const sz = Math.abs(elb[2]) > 0.03 ? Math.sign(elb[2]) : (Math.sign(wri[2]) || 1);
+    const need = sz * (DZ + 0.035);
+    const target = sz > 0 ? Math.max(wri[2], need, 2 * need - elb[2]) : Math.min(wri[2], need, 2 * need - elb[2]);
+    wri[2] = target;
+  }
+  const hv = sub(wri, head), hl = vlen(hv);
+  if (hl < 0.13) wri = add(head, mul(hv, 0.13 / (hl || 1)));
+  const nu = norm(sub(wri, elb));
+  return { elb, wri: add(elb, mul(nu, FA)), u: nu };
+}
+
 /* body frame: x+ = patient's LEFT, y up, z+ anterior. Right arm = test arm. */
 function skeleton(pose, posture) {
   const P = POST[posture];
@@ -1360,8 +1385,9 @@ function skeleton(pose, posture) {
     const base = [sx, shY + ((sc && sc.elev) || 0), (sc && sc.pro) ? sc.pro * 0.5 : 0];
     const tr = side === 'R' ? (pose.tr || [0, 0, 0]) : [0, 0, 0];
     const sh = add(base, tr);
-    const elb = add(sh, mul(d, UA));
-    const wri = add(elb, mul(u, FA));
+    let elb = add(sh, mul(d, UA));
+    let wri = add(elb, mul(u, FA));
+    ({ elb, wri, u } = collide(elb, wri, u, P.hip, shY));
     S[pre + 'nom'] = base;
     S[pre + 'sh'] = sh;
     S[pre + 'elb'] = elb;
@@ -1717,9 +1743,13 @@ const TESTS = [
     more: '屬於 active movement 的 combined movements；上側＝ER + ABD，下側＝IR + ADD。',
     kf: [
       { t: 0, cap: '起始：雙手自然垂放' },
-      { t: 1.6, R: [10, 165, 100, 140, 90], L: [125, -25, -90, 80, 160], cap: '右手 neck reach（ER+ABD）／左手 back reach（IR+ADD）' },
+      { t: 0.8, R: [10, 120, 60, 60, 90], L: [150, -25, -30, 50, 160] },
+      { t: 1.6, R: [10, 165, 105, 130, 90], L: [150, -25, -110, 90, 160], cap: '右手 neck reach（ER+ABD）／左手 back reach（IR+ADD）' },
+      { t: 2.5, R: [10, 120, 60, 60, 90], L: [150, -25, -30, 50, 160] },
       { t: 3.4, R: REST, L: LREST, cap: '回到起始' },
-      { t: 4.8, R: [125, -25, -90, 80, 160], L: [10, 165, 100, 140, 90], cap: '換邊：右手 back reach／左手 neck reach，比較兩側' },
+      { t: 4.1, R: [150, -25, -30, 50, 160], L: [10, 120, 60, 60, 90] },
+      { t: 4.8, R: [150, -25, -110, 90, 160], L: [10, 165, 105, 130, 90], cap: '換邊：右手 back reach／左手 neck reach，比較兩側' },
+      { t: 5.7, R: [150, -25, -30, 50, 160], L: [10, 120, 60, 60, 90] },
       { t: 6.6, R: REST, L: LREST, cap: '回到起始' },
       { t: 7.8, R: [115, 80, -100, 110, 90], cap: 'Reaching across the body：手摸對側肩' },
       { t: 9.2, R: REST, cap: '' }
@@ -1745,11 +1775,11 @@ const TESTS = [
     more: '投影片把它歸在 Palpation。',
     kf: [
       { t: 0, H: [{ at: 'acr', o: [0, 0, 0.03] }, 'elb'], cap: 'PT 在後方：一手摸肩峰前緣，一手托手肘' },
-      { t: 1.4, R: [90, 0, 0, 90, 90], cap: '手肘屈曲 90°' },
-      { t: 2.6, R: [90, -35, 0, 90, 90], cap: '被動 shoulder extension' },
-      { t: 3.6, R: [90, -35, -35, 90, 90], H: [{ at: 'ant', o: [0, -0.01, 0.01], palp: true }, 'elb'], cap: '慢慢 IR／ER，觸診 greater tuberosity 與肌腱' },
-      { t: 4.8, R: [90, -35, 35, 90, 90] },
-      { t: 6.0, R: [90, -35, -25, 90, 90], X: [{ at: 'ant', o: [0, -0.01, 0.02], txt: 'rent' }], pos: true, cap: '陽性：摸到一指寬凹陷／GT 較突出' },
+      { t: 1.4, R: [110, 0, 0, 90, 90], cap: '手肘屈曲 90°' },
+      { t: 2.6, R: [110, -35, 0, 90, 90], cap: '被動 shoulder extension' },
+      { t: 3.6, R: [110, -35, -15, 90, 90], H: [{ at: 'ant', o: [0, -0.01, 0.01], palp: true }, 'elb'], cap: '慢慢 IR／ER，觸診 greater tuberosity 與肌腱' },
+      { t: 4.8, R: [110, -35, 35, 90, 90] },
+      { t: 6.0, R: [110, -35, -10, 90, 90], X: [{ at: 'ant', o: [0, -0.01, 0.02], txt: 'rent' }], pos: true, cap: '陽性：摸到一指寬凹陷／GT 較突出' },
       { t: 7.4 }
     ], dz: ['rc']
   },
@@ -1822,9 +1852,9 @@ const TESTS = [
     sign: '疼痛／無法抵抗 IR', ind: 'Infraspinatus strain',
     kf: [
       { t: 0, cap: '起始' },
-      { t: 1.4, R: [0, 3, -45, 90, 90], cap: '手肘 90°，肱骨 IR 45°' },
+      { t: 1.4, R: [-20, 15, -40, 90, 90], cap: '手肘 90°，肱骨 IR 45°' },
       { t: 2.4, H: ['wri'], A: [{ at: 'wri', d: 'rot-', k: 'pt', t: 'PT' }, { at: 'wri', d: 'rot+', k: 'pat', t: '病人' }], cap: 'PT 往 IR 方向施力，病人往 ER 抵抗' },
-      { t: 4.2, R: [0, 3, -75, 90, 90], X: ['post'], pos: true, cap: '陽性：疼痛／抵抗不住，被推往 IR' },
+      { t: 4.2, R: [-20, 15, -55, 90, 90], X: ['post'], pos: true, cap: '陽性：疼痛／抵抗不住，被推往 IR' },
       { t: 5.8 }
     ], dz: ['rc']
   },
@@ -1891,10 +1921,11 @@ const TESTS = [
     sign: '①無法抬起手 ②肩胛出現異常動作', ind: '① Subscapularis 損傷（主要徵召下段纖維）② Scapular instability',
     kf: [
       { t: 0, cap: '起始' },
-      { t: 1.8, R: [125, -25, -90, 80, 180], cap: '手背放在腰椎中段' },
-      { t: 3.0, R: [125, -27, -112, 80, 180], cap: '病人把手抬離背部（更多 IR）' },
+      { t: 0.9, R: [150, -25, -30, 60, 180] },
+      { t: 1.8, R: [150, -25, -110, 90, 180], cap: '手背放在腰椎中段' },
+      { t: 3.0, R: [150, -28, -126, 90, 180], cap: '病人把手抬離背部（更多 IR）' },
       { t: 3.8, H: ['hand'], A: [{ at: 'hand', d: FW, k: 'pt', t: 'PT' }], cap: '能抬離：PT 把手往背推，病人抵抗' },
-      { t: 5.0, R: [125, -25, -90, 80, 180], H: [], A: [], X: ['ant'], pos: true, cap: '陽性：無法抬起（subscapularis）' },
+      { t: 5.0, R: [150, -25, -110, 90, 180], H: [], A: [], X: ['ant'], pos: true, cap: '陽性：無法抬起（subscapularis）' },
       { t: 6.6 }
     ], dz: ['rc']
   },
@@ -1903,11 +1934,11 @@ const TESTS = [
     steps: [['病人', '採 lift-off sign 的姿勢'], ['PT', '被動 IR 到最大，再稍微往回一點'], ['PT', '請病人維持這個位置']],
     sign: '手往背部移回（spring back）', ind: 'Subscapularis 無力或疼痛',
     kf: [
-      { t: 0, R: [125, -25, -90, 80, 180], H: ['hand', 'elb'], cap: 'Lift-off 姿勢' },
-      { t: 1.6, R: [125, -28, -118, 80, 180], cap: 'PT 被動 IR 到最大（手離開背）' },
-      { t: 2.3, R: [125, -28, -114, 80, 180], cap: '稍微回一點' },
+      { t: 0, R: [150, -25, -110, 90, 180], H: ['hand', 'elb'], cap: 'Lift-off 姿勢' },
+      { t: 1.6, R: [150, -28, -130, 90, 180], cap: 'PT 被動 IR 到最大（手離開背）' },
+      { t: 2.3, R: [150, -28, -126, 90, 180], cap: '稍微回一點' },
       { t: 3.0, H: ['elb'], cap: '放手，請病人維持' },
-      { t: 4.2, R: [125, -25, -90, 80, 180], X: ['ant'], pos: true, cap: '陽性：手彈回貼到背上' },
+      { t: 4.2, R: [150, -25, -110, 90, 180], X: ['ant'], pos: true, cap: '陽性：手彈回貼到背上' },
       { t: 5.6 }
     ], dz: ['rc']
   },
@@ -1918,10 +1949,10 @@ const TESTS = [
     more: '偽陽性：用肩 extension 代償（手肘往後移）。Anterior deltoid、pectoralis major、latissimus dorsi、teres major 都可能代償。Belly press (+) 加上 ER 活動度過大 → subscapularis 肌腱斷裂的可能性增加。',
     kf: [
       { t: 0, cap: '起始' },
-      { t: 1.6, R: [5, 15, -60, 100, 180], cap: '手掌壓在肚子上' },
+      { t: 1.6, R: [-5, 25, -55, 110, 180], cap: '手掌壓在肚子上' },
       { t: 2.6, H: ['wri'], A: [{ at: 'wri', d: 'rot+', k: 'pt', t: 'PT' }, { at: 'wri', d: 'rot-', k: 'pat', t: '病人' }], cap: 'PT 把手往外拉（阻抗 IR），病人往肚子壓' },
-      { t: 4.2, R: [5, 18, -30, 100, 180], X: ['ant'], pos: true, cap: '陽性：手無法維持在肚子上' },
-      { t: 5.6, R: [90, -25, -78, 100, 180], X: [{ at: 'elb', txt: '代償' }], cap: '注意代償：肩 extension（手肘往後）→ 偽陽性' },
+      { t: 4.2, R: [-5, 25, -28, 110, 180], X: ['ant'], pos: true, cap: '陽性：手無法維持在肚子上' },
+      { t: 5.6, R: [-45, 25, -35, 110, 180], X: [{ at: 'elb', txt: '代償' }], cap: '注意代償：肩 extension（手肘往後）→ 偽陽性' },
       { t: 7.2 }
     ], dz: ['rc']
   },
@@ -2316,7 +2347,7 @@ const EX = [
       { t: 2.4, R: [90, 165, 0, 5, 170], L: [90, 165, 0, 5, 170], cap: '健側手帶動，把棍子舉到頭上（flexion）' },
       { t: 4.6, R: [90, 15, 0, 5, 170], L: [90, 15, 0, 5, 170], cap: '慢慢放下' },
       { t: 5.6, R: [0, 6, 0, 90, 90], L: [0, 6, 0, 90, 90], cap: 'ER：手肘貼身側彎 90°' },
-      { t: 7.2, R: [0, 6, 50, 90, 90], L: [0, 6, -50, 90, 90], A: [{ at: 'Lhand', d: 'Lrot-', k: 'pat', t: '健側推' }], cap: '健側手把棍子往外推 → 患側肩 ER' },
+      { t: 7.2, R: [0, 15, 45, 90, 90], L: [-30, 14, -40, 100, 90], A: [{ at: 'Lhand', d: 'Lrot-', k: 'pat', t: '健側推' }], cap: '健側手把棍子往外推 → 患側肩 ER' },
       { t: 8.8, R: [0, 6, 0, 90, 90], L: [0, 6, 0, 90, 90], A: [] },
       { t: 9.6 }
     ]
@@ -2368,7 +2399,7 @@ const EX = [
     kf: [
       { t: 0, R: [90, 20, 0, 40, 90], cap: '握住直立的棍子' },
       { t: 1.4, R: [90, 38, 0, 30, 90], cap: '往前推（flexion）' }, { t: 2.6, R: [90, -10, 0, 50, 90], cap: '往後拉（extension）' }, { t: 3.6, R: [90, 20, 0, 40, 90] },
-      { t: 4.8, R: [20, 30, 0, 40, 90], cap: '往外（ABD）' }, { t: 6.0, R: [150, 18, 0, 40, 90], cap: '往內（ADD）' }, { t: 7.0, R: [90, 20, 0, 40, 90] },
+      { t: 4.8, R: [20, 30, 0, 40, 90], cap: '往外（ABD）' }, { t: 6.0, R: [110, 30, 0, 15, 90], cap: '往內（ADD）' }, { t: 7.0, R: [90, 20, 0, 40, 90] },
       { t: 7.8 }
     ]
   },
