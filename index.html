@@ -299,6 +299,11 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 .ptlabel{fill:#ffb59c;font-size:13px;font-weight:800;text-anchor:middle;paint-order:stroke;stroke:#0a2a2f;stroke-width:4px}
 .views button.on{background:rgba(255,106,61,.35);border-color:rgba(255,154,118,.8)}
 .lg.ptfig{background:rgba(255,154,118,.25);border:1.5px dashed #ff9a76;border-radius:4px}
+
+.palm{fill:#ffc7b3;stroke:#fff;stroke-width:1.5;stroke-linejoin:round}
+.dorsum{fill:#6c8b94;stroke:#a9c3ca;stroke-width:1.2;stroke-linejoin:round}.dorsum.t{fill:#d7eaec;stroke:#fff}
+.fing{stroke:#6c8b94;stroke-linecap:round}.fing.t{stroke:#eaf8f9}
+.lg.palmL{background:#ffc7b3;border-radius:3px}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head><body>
@@ -1241,7 +1246,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 <!-- ============ TESTS ============ -->
 <section class="band testband" id="tests"><div class="wrap">
   <h2>Special tests ＆ 治療運動動畫</h2>
-  <p class="lede2 legend"><span><i class="lg pat0"></i>病人（亮色手臂＝受測右手）</span><span><i class="lg thumbL"></i>拇指方向</span><span><i class="lg pt"></i>PT 的手</span><span><i class="lg ptA"></i>PT 施力</span><span><i class="lg patA"></i>病人用力</span><span><i class="lg pain"></i>疼痛／陽性</span><span><i class="lg trailL"></i>手的移動軌跡</span></p>
+  <p class="lede2 legend"><span><i class="lg pat0"></i>病人（亮色手臂＝受測右手）</span><span><i class="lg thumbL"></i>拇指</span><span><i class="lg palmL"></i>手掌面（看到粉紅色＝掌心朝向你）</span><span><i class="lg pt"></i>PT 的手</span><span><i class="lg ptA"></i>PT 施力</span><span><i class="lg patA"></i>病人用力</span><span><i class="lg pain"></i>疼痛／陽性</span><span><i class="lg trailL"></i>手的移動軌跡</span></p>
   <div class="player">
     <aside class="list">
       <input id="q" type="search" placeholder="搜尋測試或疾病…" aria-label="搜尋測試">
@@ -1320,7 +1325,8 @@ function armCanon(p) {
   const u = norm(add(mul(d, Math.cos(eb * D2R)), mul(f, Math.sin(eb * D2R))));
   const e = norm(cross(d, f));
   const t = rotv(mul(e, -1), u, su * D2R);
-  return { d, u, t };
+  const n = norm(cross(u, t));
+  return { d, u, t, n };
 }
 const mir = v => [-v[0], v[1], v[2]];
 
@@ -1385,8 +1391,8 @@ function skeleton(pose, posture) {
     const pre = side === 'R' ? '' : 'L';
     const ap = side === 'R' ? pose.R : pose.L;
     const sc = side === 'R' ? pose.sc : pose.scL;
-    let { d, u, t } = armCanon(ap);
-    if (side === 'R') { d = mir(d); u = mir(u); t = mir(t); }
+    let { d, u, t, n } = armCanon(ap);
+    if (side === 'R') { d = mir(d); u = mir(u); t = mir(t); n = mir(n); }
     const sx = side === 'R' ? -0.19 : 0.19;
     const base = [sx, shY + ((sc && sc.elev) || 0), (sc && sc.pro) ? sc.pro * 0.5 : 0];
     const tr = side === 'R' ? (pose.tr || [0, 0, 0]) : [0, 0, 0];
@@ -1398,8 +1404,10 @@ function skeleton(pose, posture) {
     S[pre + 'sh'] = sh;
     S[pre + 'elb'] = elb;
     S[pre + 'wri'] = wri;
+    t = norm(sub(t, mul(u, dot(t, u)))); n = norm(sub(n, mul(u, dot(n, u))));
     S[pre + 'hand'] = add(wri, mul(u, 0.06));
     S[pre + 'thumb'] = add(add(wri, mul(u, 0.02)), mul(t, 0.06));
+    S[pre + 't'] = t; S[pre + 'n'] = n;
     S[pre + 'hum'] = add(sh, mul(d, UA * 0.5));
     S[pre + 'hp'] = add(sh, mul(d, UA * 0.22));
     S[pre + 'fa'] = add(elb, mul(u, FA * 0.45));
@@ -1524,8 +1532,10 @@ function scene(pose, test, S) {
     items.push({ k: 'seg', a: W(S[pre + 'sh']), b: W(S[pre + 'elb']), w: 0.075, cls: c, ol: 1 });
     items.push({ k: 'seg', a: W(S[pre + 'elb']), b: W(S[pre + 'wri']), w: 0.06, cls: c, ol: 1 });
     items.push({ k: 'circ', c: W(S[pre + 'elb']), r: 0.034, cls: c + ' joint', dz: 0.002 });
-    items.push({ k: 'circ', c: W(S[pre + 'hand']), r: 0.045, cls: c + ' handc' });
-    items.push({ k: 'seg', a: W(add(S[pre + 'wri'], mul(S[pre + 'u'], 0.025))), b: W(S[pre + 'thumb']), w: 0.022, cls: 'thumb', dz: 0.01 });
+    { const w0 = S[pre + 'wri'], u0 = S[pre + 'u'], t0 = S[pre + 't'];
+      const at = (a, b) => W(add(add(w0, mul(u0, a)), mul(t0, b)));
+      const fingers = [-0.026, -0.009, 0.008, 0.024].map((b, i) => [at(0.075, b), at(0.075 + [0.05, 0.065, 0.068, 0.06][i], b * 1.1)]);
+      items.push({ k: 'hand', pts: [at(0.005, -0.03), at(0.005, 0.03), at(0.08, 0.034), at(0.08, -0.034)], n: dirWorld(S[pre + 'n'], pos), fingers, thumb: [at(0.02, 0.03), at(0.06, 0.068)], cls: c, test: !pre }); }
     if (test.wt) items.push({ k: 'seg', a: W(add(S[pre + 'hand'], [-0.05, 0, 0])), b: W(add(S[pre + 'hand'], [0.05, 0, 0])), w: 0.04, cls: 'wt', dz: 0.02 });
   }
   if (pr.wand) { const a = S.hand, b = S.Lhand, d = norm(sub(a, b)); items.push({ k: 'seg', a: W(add(a, mul(d, 0.12))), b: W(add(b, mul(d, -0.12))), w: 0.025, cls: 'prop', dz: 0.03 }); }
@@ -1658,6 +1668,15 @@ class Fig {
       if (it.k === 'seg') { const a = P(it.a), b = P(it.b); const L = `x1="${fx(a[0])}" y1="${fx(a[1])}" x2="${fx(b[0])}" y2="${fx(b[1])}"`; dr.push({ z: (a[2] + b[2]) / 2 + (it.dz || 0), s: (it.ol ? `<line ${L} stroke-width="${fx(it.w * sc + 3)}" class="ol"/>` : '') + `<line ${L} stroke-width="${fx(it.w * sc)}" class="${it.cls}"/>` }); }
       else if (it.k === 'circ') { const c = P(it.c); dr.push({ z: c[2] + (it.cls.includes('nose') ? 0.0 : 0), s: `<circle cx="${fx(c[0])}" cy="${fx(c[1])}" r="${fx(it.r * sc)}" class="${it.cls}"/>` }); }
       else if (it.k === 'hull') { const pts = hull(it.pts.map(P)); const z = P(it.dc)[2]; dr.push({ z, s: `<polygon points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="${it.cls}"/>` }); }
+      else if (it.k === 'hand') {
+        const pts = it.pts.map(P); const z = pts.reduce((a, q) => a + q[2], 0) / 4;
+        const c0 = cam.p([0, 0, 0]), c1 = cam.p(it.n); const facing = (c1[2] - c0[2]) > 0;
+        const poly = `<polygon points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="${facing ? 'palm' : 'dorsum'}${it.test ? ' t' : ''}"/>`;
+        const fl = it.fingers.map(([a, b]) => { const A = P(a), B = P(b); return `<line x1="${fx(A[0])}" y1="${fx(A[1])}" x2="${fx(B[0])}" y2="${fx(B[1])}" stroke-width="${fx(0.017 * sc)}" class="fing${it.test ? ' t' : ''}"/>`; }).join('');
+        const T0 = P(it.thumb[0]), T1 = P(it.thumb[1]);
+        const th = `<line x1="${fx(T0[0])}" y1="${fx(T0[1])}" x2="${fx(T1[0])}" y2="${fx(T1[1])}" stroke-width="${fx(0.02 * sc)}" class="thumb"/>`;
+        dr.push({ z, s: facing ? fl + th + poly : poly + fl + th });
+      }
       else if (it.k === 'poly') { const pts = it.pts.map(P); const z = pts.reduce((s, q) => s + q[2], 0) / pts.length + (it.dz || 0); dr.push({ z, s: `<polygon points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="${it.cls}"/>` }); }
     }
     // glenoid ring (translation tests)
