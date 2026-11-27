@@ -316,6 +316,24 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 .gctrl input{flex:1}
 .gbot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:10px}
 @media(max-width:640px){.gviews{bottom:auto}}
+
+.rsn{display:grid;grid-template-columns:270px minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:900px){.rsn{grid-template-columns:minmax(0,1fr);gap:0}.rlist{display:none}.rmsel{display:block}}
+.rlist{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;position:sticky;top:66px}
+.rlist button{display:block;width:100%;text-align:left;font:inherit;font-size:15px;border:0;background:none;color:var(--ink);padding:8px 10px;border-radius:9px;cursor:pointer;min-height:40px;line-height:1.35}
+.rlist button:hover{background:var(--bg2)}.rlist button.on{background:var(--deep);color:#fff;font-weight:700}
+.rpanel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}
+.rpanel>h3{font-size:24px}
+.rgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:22px}
+@media(max-width:1000px){.rgrid{grid-template-columns:minmax(0,1fr)}}
+.rtests{list-style:none;padding:0;margin:0;display:grid;gap:10px}
+.rtests li{background:var(--bg2);border-radius:12px;padding:10px 12px;margin:0}
+.rt{display:flex;align-items:center;gap:8px}.rt .chip{margin:0}
+.rn{flex:none;width:24px;height:24px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800}
+.rwhy{margin:.4em 0 .1em;font-weight:600}.rpos{margin:0;font-size:14px;color:var(--mut)}.rpos b{color:var(--pain);background:none}
+.soap{margin-top:18px;border-top:1px dashed var(--line);padding-top:6px}
+.soaph{display:flex;justify-content:space-between;align-items:center}
+.soap pre{background:var(--deep);color:#e3f2f3;border-radius:12px;padding:14px 16px;font:14px/1.7 ui-monospace,"SF Mono",Menlo,"Noto Sans TC",monospace;white-space:pre-wrap;margin:6px 0}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head><body>
@@ -336,7 +354,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
   </div>
 </header>
 <nav class="toc scroll" id="toc" aria-label="章節">
-      <a href="#intro">0 入門</a><a href="#anatomy">1 解剖</a><a href="#biomech">2 生物力學</a><a href="#exam">3 評估</a><a href="#lesions">4 常見疾病</a><a href="#ddx">5 鑑別診斷</a><a href="#exercise">6 運動治療</a><a href="#tests" class="hot">動畫</a><a href="#quiz">小測驗</a>
+      <a href="#intro">0 入門</a><a href="#anatomy">1 解剖</a><a href="#biomech">2 生物力學</a><a href="#exam">3 評估</a><a href="#lesions">4 常見疾病</a><a href="#ddx">5 鑑別診斷</a><a href="#reason">推理</a><a href="#exercise">6 運動治療</a><a href="#tests" class="hot">動畫</a><a href="#quiz">小測驗</a>
     </nav>
 
 <main>
@@ -1200,6 +1218,17 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
       <tr><td><b>Paresthesias</b></td><td>Cervical dysfunction、subluxation、thoracic outlet syndrome、peripheral nerve injury</td></tr>
     </tbody>
   </table>
+</div></section>
+
+<!-- ============ REASON ============ -->
+<section class="band alt" id="reason"><div class="wrap">
+  <h2>臨床推理：懷疑某個疾病時，要做什麼？</h2>
+  <p class="lede2">選一個你懷疑的診斷，看病史線索、理學檢查會看到什麼、該做哪些 special tests（以及為什麼），最後產生 SOAP 的 O 範本。</p>
+  <div class="rsn">
+    <div class="rlist" id="rlist" role="tablist"></div>
+    <div class="msel rmsel"><select id="rsel" aria-label="選擇懷疑的診斷"></select></div>
+    <div class="rpanel" id="rpanel" aria-live="polite"></div>
+  </div>
 </div></section>
 
 <!-- ============ 6 EXERCISE ============ -->
@@ -2666,6 +2695,82 @@ TESTS.push(...EX);
 /* treatment technique joins the exercise area */
 TESTS.find(x => x.id === 'stmob').kind = 'ex';
 
+/* ---------- clinical reasoning: suspect → what to test ---------- */
+const DXR = [
+  { id: 'rcten', name: 'Rotator cuff tendinopathy／部分撕裂', grp: '肌肉肌腱',
+    hx: ['過頭動作或重複使用（< 35 歲、運動員、工人），或年紀大退化', '痛在上臂外側（C5、C6 dermatome）', '夜間痛；手舉過頭或手放到身體後方時痛'],
+    ex: { Observation: '可能圓肩、肩胛 protraction；慢性時 supraspinatus／infraspinatus 萎縮', AROM: '中段 painful arc；SHR 異常', PROM: '大致正常；完整旋轉末端可能痛（不痛 → 退化性 tendinopathy）', Resisted: '該肌肉阻抗時疼痛（力量多半還在）', Palpation: '受影響肌腱壓痛' },
+    tests: [['jobe', 'Supraspinatus 最常受影響，先測'], ['champagne', '也是測 supraspinatus'], ['infra', '測 infraspinatus'], ['patte', '測 teres minor'], ['belly', 'Subscapularis（上段纖維）'], ['liftoff', 'Subscapularis（下段纖維）'], ['whipple', 'Partial RC tear 或 superior labrum'], ['neer', '常合併 impingement'], ['hawkins', 'Supraspinatus tendinosis／secondary impingement']],
+    ddx: '全層撕裂（看有沒有無力、lag sign 陽性）、impingement、頸椎轉移痛（C5–C6）' },
+  { id: 'rctear', name: 'Full-thickness rotator cuff tear', grp: '肌肉肌腱',
+    hx: ['外傷（FOOSH），或年紀大退化', '手抬不起來、無力', '夜間痛'],
+    ex: { Observation: '可能有肌肉萎縮', AROM: '主動抬手困難或抬不起來；聳肩代償、SHR 異常', PROM: '<b>被動正常</b>（和 frozen shoulder 最關鍵的差別）', Resisted: '<b>無力</b>（不一定痛）', Palpation: 'Rent test 可能摸到一指寬凹陷' },
+    tests: [['droparm', '可能的 full-thickness supraspinatus tear'], ['erls', 'Infraspinatus＋supraspinatus 撕裂；彈回 > 40° 想到 teres minor'], ['lrls', 'Infraspinatus、teres minor'], ['hornblower', '大範圍後側撕裂，特別是 teres minor'], ['patte', 'Teres minor'], ['mrlag', 'Subscapularis'], ['liftoff', 'Subscapularis'], ['rent', '觸診找缺損'], ['jobe', '看是否明顯無力']],
+    ddx: 'Frozen shoulder（被動也受限）、suprascapular nerve neuropathy（empty can 無力也可能是神經）、頸椎神經根' },
+  { id: 'outlet', name: 'Primary (outlet) impingement', grp: 'Impingement',
+    hx: ['> 40 歲', '手舉過頭或抬手痛，痛在上臂外側、deltoid 止點附近', '可能有夜間痛'],
+    ex: { Observation: 'Kyphosis 增加、肩胛前伸、pectoralis minor 緊', AROM: '<b>ABD 60–120° painful arc</b>；ABD 時 ER 太晚或不足', PROM: '後側關節囊緊（IR、水平 ADD 受限）', Resisted: '單一肌肉靜態負荷時痛，可能無力', Palpation: '肌腱壓痛' },
+    tests: [['neer', 'Subacromial impingement'], ['mneer', '第二部分 ER 後疼痛消失 → impingement'], ['hawkins', 'Subacromial／secondary impingement'], ['crossbody', '肩痛（不是 AC 局部痛）→ impingement'], ['supimp', '非特異性，但敏感'], ['coracoid', '懷疑前側（coracoid）impingement 時'], ['yocum', 'Coracoid impingement'], ['zaslav', 'Neer (+) 後，區分 internal／external'], ['jobe', '看 supraspinatus 是否也受影響']],
+    ddx: 'Rotator cuff tear、AC joint（痛在最後 10–20°、AC 局部）、secondary impingement（年輕、合併不穩）' },
+  { id: 'internal', name: 'Internal impingement', grp: 'Impingement',
+    hx: ['過頭運動員（投手、網球）', '肩後側深處、難定位的痛', '在 ABD 90°＋full ER（late cocking）時痛'],
+    ex: { Observation: 'GIRD（IR 減少）、GERG（ER 增加）', AROM: 'ABD＋ER 末端痛', PROM: 'IR 受限、後側關節囊緊', Resisted: '可能 IR 較弱', Palpation: '肩峰後方下緣壓痛' },
+    tests: [['crank', '加往前的力時後側痛增加 → posterior internal impingement'], ['fowler', '往後推之後後側痛減輕'], ['zaslav', 'ER 力量好、IR 弱 → internal impingement'], ['obrien', '可能合併 labral tear'], ['kim', '排除後下 labrum']],
+    ddx: 'SLAP、posterior labral tear、posterior instability' },
+  { id: 'secondary', name: 'Secondary impingement', grp: 'Impingement',
+    hx: ['15–35 歲', '不穩、半脫位、click 的感覺；運動表現下降', '痛（如果有）多在活動末端'],
+    ex: { Observation: 'Scapular dyskinesia', AROM: 'ROM 完整或過動', PROM: '過動', Resisted: '阻抗旋轉常不痛，中段力量好', Palpation: '—' },
+    tests: [['hawkins', 'Secondary impingement'], ['neer', '確認有夾擠症狀'], ['loadshift', '評估位移量'], ['crank', '前側不穩'], ['fowler', 'Relocation 後症狀減輕'], ['sulcus', '下方是否也鬆'], ['kibler', '觀察肩胛'], ['sat', '協助肩胛後痛減輕 → 肩胛是原因']],
+    ddx: 'Primary impingement（年紀大、結構性）、multidirectional instability' },
+  { id: 'biceps', name: 'Bicipital tendinitis (paratenonitis)', grp: '肌肉肌腱',
+    hx: ['反覆舉物、投擲；或續發於 impingement、肩胛不穩', '肩前側痛，可能放射到手肘', '側躺壓在患側睡覺時痛'],
+    ex: { Observation: '—', AROM: 'Impingement sign', PROM: '完整肩 extension 可能痛（拉長肌腱）', Resisted: '肩 flex 或肘 flex 阻抗時痛', Palpation: '<b>Bicipital groove 壓痛</b>' },
+    tests: [['speed', '比 Yergason 敏感；SLAP 也可能陽性'], ['yergason', '也測 transverse humeral lig.（肌腱彈出）'], ['neer', '常合併 impingement'], ['obrien', '排除 SLAP']],
+    ddx: 'SLAP lesion、impingement、subscapularis 病變' },
+  { id: 'slap', name: 'SLAP／superior labral lesion', grp: 'Labrum',
+    hx: ['手臂突然被拉扯（抓欄杆、滑雪拖繩）、FOOSH', '投擲（late cocking 的扭轉、biceps 離心過載）', '快速動作時 popping／catching；不穩定感；過頭活動痛'],
+    ex: { Observation: '—', AROM: '動作末端痛（尤其主動）、ROM 減少', PROM: 'ER 時肩前側痛', Resisted: '力量下降', Palpation: '常有 crepitus、snapping' },
+    tests: [['obrien', 'SLAP type II；痛要在關節內，不是肩頂（AC）'], ['mobrien', '兩側同時比較'], ['antslide', 'Anterior SLAP'], ['speed', 'SLAP 也可能陽性'], ['fowler', '可能是 posterior SLAP'], ['surprise', 'Labral lesion']],
+    ddx: 'AC joint（O\'Brien 痛在肩頂）、bicipital tendinitis、instability。<b>沒有單一測試能確診 SLAP</b>，要組合多個測試' },
+  { id: 'postlab', name: 'Posterior／posteroinferior labral tear', grp: 'Labrum',
+    hx: ['反覆往後的力量，或後脫位病史', '肩後側痛、click'],
+    ex: { Observation: '—', AROM: '—', PROM: '—', Resisted: '—', Palpation: '—' },
+    tests: [['kim', 'Posteroinferior labral lesion'], ['jerk', 'Recurrent posterior instability／posteroinferior labral tear'], ['porcellini', 'Posterior instability 與 posterior labral tear'], ['postapp', '後側不穩']],
+    ddx: 'Posterior instability、internal impingement' },
+  { id: 'antinst', name: 'Anterior instability（TUBS 型）', grp: 'Instability',
+    hx: ['外傷：強迫 ER＋ABD＋ext、FOOSH', '肩膀「跑出來」、鬆、滑脫、click', 'ABD＋ER＋水平 ABD 時害怕'],
+    ex: { Observation: '急性脫位：肩峰下凹陷、肱骨頭在前方', AROM: '不敢做 ABD＋ER', PROM: '—', Resisted: '—', Palpation: '肩前側與 greater tuberosity 壓痛；檢查 axillary nerve（上臂外側感覺、deltoid 力量）' },
+    tests: [['loadshift', '比較不刺激，可以先做'], ['crank', 'Apprehension > pain'], ['fowler', '往後推後不安消失'], ['surprise', '放手後疼痛／不安回來'], ['sulcus', '是否合併下方鬆']],
+    ddx: 'Labral tear（Bankart）、multidirectional instability、secondary impingement',
+    note: 'Apprehension 類測試會誘發症狀，通常放在最後做。' },
+  { id: 'postinst', name: 'Posterior instability', grp: 'Instability',
+    hx: ['撞擊肩前側、對前屈手臂的 AP 力、癲癇或電擊', '手臂維持在 IR＋ADD', 'Flex＋IR＋水平 ADD 時出現症狀'],
+    ex: { Observation: '（後脫位）肩前方的圓弧消失', AROM: '—', PROM: '（後脫位）<b>ER 明顯受限</b>', Resisted: '—', Palpation: '—' },
+    tests: [['loadshift', '往後位移量'], ['postapp', '後側不安'], ['jerk', '往後滑出時的 jerk／clunk'], ['porcellini', '穩住肱骨頭後痛減輕']],
+    ddx: 'Posterior labral tear、internal impingement' },
+  { id: 'mdi', name: 'Inferior／multidirectional instability（AMBRI 型）', grp: 'Instability',
+    hx: ['沒有明顯外傷、慢慢發生', '兩側都鬆', '提重物時痛或覺得「不對勁」'],
+    ex: { Observation: '可能看到 sulcus', AROM: 'ROM 完整或過動', PROM: '過動', Resisted: '—', Palpation: '—' },
+    tests: [['sulcus', '下方鬆：1+ 0.5–1 cm、2+ 1–2 cm、3+ > 2 cm'], ['loadshift', '前、後都鬆'], ['crank', '前側'], ['postapp', '後側']],
+    ddx: 'Secondary impingement、TUBS 型外傷性不穩' },
+  { id: 'ac', name: 'AC joint separation／病變', grp: 'AC',
+    hx: ['跌倒時肩膀著地', '痛在 AC 局部；末端 elevation、水平 ADD 時痛'],
+    ex: { Observation: '鎖骨抬高、piano key sign（type II、III）', AROM: '<b>最後 10–20°</b> painful arc', PROM: '水平 ADD 痛', Resisted: '—', Palpation: 'AC 局部壓痛；往下施力時痛或過動' },
+    tests: [['crossbody', 'AC 局部痛'], ['paxinos', 'AC 區域疼痛增加'], ['obrien', '痛在肩頂 → AC（不是 labrum）']],
+    ddx: 'Impingement、SLAP、鎖骨骨折' },
+  { id: 'dysk', name: 'Scapular dyskinesis', grp: 'Scapula',
+    hx: ['慢慢發生', '常伴隨其他肩部問題（67–100% 的肩部損傷都有）'],
+    ex: { Observation: '肩胛位置、dyskinesia 型態（Type I–III）；pectoralis minor、biceps 短頭緊', AROM: 'SHR 改變；ABD 時 upper trap 太早收縮；前屈不完整', PROM: '—', Resisted: '肩胛穩定肌無力', Palpation: 'Coracoid 壓痛' },
+    tests: [['kibler', '觀察放下手臂時的肩胛'], ['sat', '協助肩胛後疼痛減輕'], ['srt', '穩定肩胛後疼痛／無力減輕'], ['trap', '斜方肌無力']],
+    ddx: '先確認肩胛動作異常和肩痛、功能缺損之間的關係' },
+  { id: 'frozen', name: 'Adhesive capsulitis（Frozen shoulder）', grp: '關節囊',
+    hx: ['45–65 歲、女性較多、<b>糖尿病</b>', '慢慢開始，非慣用側較多', '早期夜間痛；穿衣、扣內衣、拿後口袋困難'],
+    ex: { Observation: '圓肩、肩胛前傾；保護姿勢 ADD＋IR', AROM: 'Capsular pattern 受限；reverse SHR', PROM: '<b>Capsular pattern：ER > ABD > IR</b>；慢性期 capsular end feel', Resisted: '<b>有力、不痛</b>（除非合併肌腱炎）', Palpation: '上臂外側壓痛、肌肉張力增加；joint play 受限（特別是往前、往下）' },
+    tests: [['apley', '組合動作明顯受限'], ['jobe', '有力 → 排除 cuff tear'], ['droparm', '排除 full-thickness tear']],
+    ddx: 'Rotator cuff tear（被動正常）、GH OA、secondary 原因（心肌梗塞、頸／胸椎手術、肩外傷）',
+    note: '沒有專屬的 special test，診斷主要靠 PROM 的 capsular pattern 和阻抗測試有力不痛。' }
+];
+
 /* ---------- app ---------- */
 {
 const $ = s => document.querySelector(s);
@@ -2899,6 +3004,43 @@ $('#qnext').addEventListener('click', () => {
   renderQ($('#qarea'), Q, true);
 });
 
+
+
+/* ---------- clinical reasoning ---------- */
+{
+  const TB = Object.fromEntries(TESTS.map(x => [x.id, x]));
+  const grps = [...new Set(DXR.map(d => d.grp))];
+  $('#rlist').innerHTML = grps.map(g => `<p class="gl">${esc(g)}</p>` + DXR.filter(d => d.grp === g).map(d => `<button role="tab" data-r="${d.id}">${esc(d.name)}</button>`).join('')).join('');
+  const plain = s => String(s).replace(/<[^>]+>/g, '');
+  $('#rsel').innerHTML = grps.map(g => `<optgroup label="${esc(g)}">${DXR.filter(d => d.grp === g).map(d => `<option value="${d.id}">${esc(d.name)}</option>`).join('')}</optgroup>`).join('');
+  $('#rsel').addEventListener('change', e => showR(e.target.value));
+  function showR(id) {
+    const d = DXR.find(x => x.id === id);
+    $('#rsel').value = id;
+    document.querySelectorAll('#rlist button').forEach(b => { const on = b.dataset.r === id; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); });
+    const exRows = Object.entries(d.ex).map(([k, v]) => `<tr><td>${k}</td><td>${v}</td></tr>`).join('');
+    const tl = d.tests.map(([tid, why], i) => { const t = TB[tid]; return `<li><div class="rt"><span class="rn">${i + 1}</span><button class="chip" data-test="${tid}">${esc(t.name)} ▸</button></div><p class="rwhy">${esc(why)}</p><p class="rpos"><b>(+)</b> ${esc(t.sign)}</p></li>`; }).join('');
+    const soap = ['O：'].concat(Object.entries(d.ex).filter(([, v]) => v !== '—').map(([k, v]) => `- ${k}：＿＿＿（預期：${plain(v)}）`))
+      .concat(['- Special tests：' + d.tests.map(([tid]) => TB[tid].name + ' (＋／－)').join('、')]).join('\n');
+    $('#rpanel').innerHTML = `<h3>${esc(d.name)}</h3>
+      <div class="rgrid">
+        <div><h4>病史線索（S）</h4><ul>${d.hx.map(h => `<li>${h}</li>`).join('')}</ul>
+          <h4>理學檢查預期會看到</h4><table class="mini"><thead><tr><th>項目</th><th>預期</th></tr></thead><tbody>${exRows}</tbody></table></div>
+        <div><h4>建議的 special tests（依序）</h4><ol class="rtests">${tl}</ol>
+          ${d.note ? `<p class="tip">${d.note}</p>` : ''}
+          <h4>要鑑別／排除</h4><p>${d.ddx}</p></div>
+      </div>
+      <div class="soap"><div class="soaph"><h4>SOAP：O 範本</h4><button class="chip" id="soapCopy">複製</button></div><pre id="soapTxt">${esc(soap)}</pre><p class="muted sm2">＿＿＿ 填入實際結果；括號內是這個診斷「預期」會看到的，寫報告時要刪掉。</p></div>`;
+    $('#soapCopy').addEventListener('click', () => {
+      const txt = $('#soapTxt').textContent;
+      navigator.clipboard.writeText(txt).then(() => { $('#soapCopy').textContent = '已複製'; }).catch(() => {
+        const r = document.createRange(); r.selectNodeContents($('#soapTxt')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); $('#soapCopy').textContent = '已選取，請按複製';
+      });
+    });
+  }
+  $('#rlist').addEventListener('click', e => { const b = e.target.closest('button[data-r]'); if (b) showR(b.dataset.r); });
+  showR('slap');
+}
 
 /* ---------- guess-the-test ---------- */
 const gfig = new Fig($('#gSvg'));
