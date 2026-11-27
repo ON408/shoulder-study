@@ -53,7 +53,7 @@ a{color:var(--teal)}
 .toc a{flex:none;color:var(--mut);text-decoration:none;padding:6px 12px;border-radius:10px;font-size:15px;font-weight:600;min-height:40px;display:flex;align-items:center}
 .toc a:hover{color:var(--ink);background:var(--bg2)}
 .toc a.cur{color:var(--teal);background:var(--tint)}
-.toc a.hot{background:var(--pt);color:#fff;margin-left:auto}
+.toc a.hot{background:var(--pt);color:#fff;font-weight:800}.toc a.hot2{background:var(--tint);color:var(--teal);font-weight:800}.tsep{flex:none;width:1px;background:var(--line);margin:6px 6px}
 .lede2{max-width:860px;color:var(--mut);margin:-.4em 0 1.4em}
 /* cards & tables */
 .grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
@@ -334,6 +334,14 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 .soap{margin-top:18px;border-top:1px dashed var(--line);padding-top:6px}
 .soaph{display:flex;justify-content:space-between;align-items:center}
 .soap pre{background:var(--deep);color:#e3f2f3;border-radius:12px;padding:14px 16px;font:14px/1.7 ui-monospace,"SF Mono",Menlo,"Noto Sans TC",monospace;white-space:pre-wrap;margin:6px 0}
+
+.part{margin:0 0 4px;font-weight:800;color:var(--pt);font-size:15px}
+.bigh{font-size:clamp(32px,4.4vw,48px);margin-bottom:.4em}
+.gjump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+.gj{font:inherit;font-size:15px;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:7px 14px;min-height:40px;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
+.gj span{font-size:12px;color:var(--mut);font-weight:600}
+.gj:hover{border-color:var(--pt);color:var(--pt)}
+.gj.ex{background:var(--tint);border-color:transparent}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head><body>
@@ -353,9 +361,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
     </div>
   </div>
 </header>
-<nav class="toc scroll" id="toc" aria-label="章節">
-      <a href="#intro">0 入門</a><a href="#anatomy">1 解剖</a><a href="#biomech">2 生物力學</a><a href="#exam">3 評估</a><a href="#lesions">4 常見疾病</a><a href="#ddx">5 鑑別診斷</a><a href="#reason">推理</a><a href="#exercise">6 運動治療</a><a href="#tests" class="hot">動畫</a><a href="#quiz">小測驗</a>
-    </nav>
+<nav class="toc scroll" id="toc" aria-label="章節"><a href="#tests" class="hot">▶ Special tests 動畫</a><a href="#tests" class="hot2" data-test="pendulum">▶ 治療運動</a><span class="tsep"></span><a href="#intro">0 入門</a><a href="#anatomy">1 解剖</a><a href="#biomech">2 生物力學</a><a href="#exam">3 評估</a><a href="#lesions">4 常見疾病</a><a href="#ddx">5 鑑別診斷</a><a href="#reason">推理</a><a href="#exercise">6 運動治療</a><a href="#quiz">小測驗</a></nav>
 
 <main>
 <!-- ============ 0 INTRO ============ -->
@@ -1286,7 +1292,9 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 
 <!-- ============ TESTS ============ -->
 <section class="band testband" id="tests"><div class="wrap">
-  <h2>Special tests ＆ 治療運動動畫</h2>
+  <p class="part">第二部分</p>
+  <h2 class="bigh">Special tests ＆ 治療運動動畫</h2>
+  <div class="gjump" id="gjump"></div>
   <p class="lede2 legend"><span><i class="lg pat0"></i>病人（亮色手臂＝受測右手）</span><span><i class="lg thumbL"></i>拇指</span><span><i class="lg palmL"></i>手掌面（看到粉紅色＝掌心朝向你）</span><span><i class="lg pt"></i>PT 的手</span><span><i class="lg ptA"></i>PT 施力</span><span><i class="lg patA"></i>病人用力</span><span><i class="lg pain"></i>疼痛／陽性</span><span><i class="lg trailL"></i>手的移動軌跡</span></p>
   <div class="player">
     <aside class="list">
@@ -2830,6 +2838,8 @@ document.addEventListener('click', e => {
 const step = d => { const i = ORDER.findIndex(x => x.id === cur.id); load(ORDER[(i + d + ORDER.length) % ORDER.length].id, true); };
 $('#prevT').addEventListener('click', () => step(-1));
 $('#nextT').addEventListener('click', () => step(1));
+
+$('#gjump').innerHTML = Object.keys(G).map(g => { const f = TESTS.find(x => x.g === g); const n = TESTS.filter(x => x.g === g).length; return `<button class="gj${g.startsWith('ex') || g === 'tx' ? ' ex' : ''}" data-test="${f.id}">${esc(G[g].replace('運動：', ''))}<span>${n}</span></button>`; }).join('');
 
 /* ---------- player ---------- */
 const svg = $('#figSvg');
