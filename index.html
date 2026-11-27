@@ -3069,6 +3069,7 @@ requestAnimationFrame(loop);
 }
 
 </script>
+<script src="skel.js"></script>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script type="module">
 import * as THREE from 'three';
@@ -3119,7 +3120,7 @@ try {
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     const ctx = cv.getContext('2d'); ctx.clearRect(0, 0, w, h); ctx.drawImage(R.domElement, 0, 0);
   }
-  new GLTFLoader().load(window.SKEL_URL || 'skel.glb', g => {
+  const onLoad = g => {
     const meshes = [];
     g.scene.traverse(ob => { if (ob.isMesh) meshes.push(ob); });
     for (const ob of meshes) {
@@ -3131,7 +3132,11 @@ try {
     }
     window.SK3D = { ready: true, render };
     window.dispatchEvent(new Event('sk3d-ready'));
-  }, undefined, err => { window.SK3D_ERR = String(err && err.message || err); });
+  };
+  const onErr = err => { window.SK3D_ERR = String(err && err.message || err); };
+  const loader = new GLTFLoader();
+  if (window.SKEL_B64) { const s = atob(window.SKEL_B64), u8 = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) u8[i] = s.charCodeAt(i); loader.parse(u8.buffer, '', onLoad, onErr); }
+  else loader.load('skel.glb', onLoad, undefined, onErr);
 } catch (e) { window.SK3D_ERR = String(e && e.message || e); }
 
 </script>

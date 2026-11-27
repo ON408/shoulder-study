@@ -6,7 +6,7 @@
 - 41 個 special tests ＋ 16 個治療運動的 3D 骨骼動畫（可拖進度條、旋轉視角）
 - 看動畫猜測試、隨機小測驗
 
-網站由 `index.html` 與 3D 模型 `skel.glb` 組成，用 GitHub Pages 發布。
+網站由 `index.html` 與 3D 模型（`skel.js`，內含 `skel.glb` 的資料）組成，用 GitHub Pages 發布。
 
 ## 授權與出處
 
