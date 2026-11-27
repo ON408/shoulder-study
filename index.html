@@ -371,6 +371,21 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 .cue{stroke:rgba(30,60,68,.5)}
 .dorsum{fill:#c99f85;stroke:rgba(8,30,34,.5)}.dorsum.t{fill:#f2d3be;stroke:#fff}
 .fing{stroke:#c99f85}.fing.t{stroke:#f2d3be}
+
+/* skeleton mode */
+.ghost{fill:rgba(160,205,212,.07);stroke:rgba(190,225,230,.22);stroke-width:1.5;stroke-dasharray:6 5}
+.bonec,.skull{fill:#e6dcc6;stroke:#9c8f78;stroke-width:1.2}
+.socket{fill:#3a3a40}
+.vert{fill:#d9ceb6;stroke:#8f836c;stroke-width:1}
+.rib{fill:none;stroke:#d2c7ae;stroke-linecap:round;opacity:.85}
+.bonep{fill:rgba(221,210,187,.85);stroke:#9c8f78;stroke-width:1.2;stroke-linejoin:round}
+.scapb{fill:rgba(240,232,214,.92);stroke:#9c8f78;stroke-width:1.4;stroke-linejoin:round}
+.scapb.bad{fill:#ffb3c0;stroke:var(--pain)}
+.hhead{fill:#efe6d0;stroke:#9c8f78;stroke-width:1.4}.hhead.t{fill:#fff6e2;stroke:#fff;stroke-width:2.2}
+.carp{fill:#e6dcc6;stroke:#9c8f78;stroke-width:1}.carp.t{fill:#fff4dc;stroke:#fff}
+.palm.bn{fill:rgba(255,170,150,.55)}.dorsum.bn{fill:rgba(255,255,255,.08);stroke:rgba(255,255,255,.25)}
+.fing.bn{stroke:#ddd2bb}.fing.bn.t{stroke:#fff4dc}
+.views button.mode{background:rgba(255,106,61,.32);border-color:rgba(255,154,118,.7);font-weight:700}
 </style>
 <script>new MutationObserver(()=>{for(const c of document.querySelectorAll('.stack td:not([data-l])')){let i=0,p=c;while(p=p.previousElementSibling)i+=p.colSpan;c.dataset.l=c.closest('table').rows[0].cells[i]?.textContent||''}}).observe(document,{childList:true,subtree:true})</script>
 </head><body>
@@ -1341,7 +1356,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
           <svg id="figSvg" role="img" aria-label="測試動作動畫"></svg>
           <span id="posTag" class="posTag">陽性表現</span>
           <div class="hud" id="hud"></div>
-          <div class="views" role="group" aria-label="視角"><button data-v="def">預設</button><button data-v="front">正面</button><button data-v="back">背面</button><button data-v="side">側面</button><button data-v="top">上方</button></div>
+          <div class="views" role="group" aria-label="視角"><button data-v="mode" class="mode">換成人形</button><button data-v="def">預設</button><button data-v="front">正面</button><button data-v="back">背面</button><button data-v="side">側面</button><button data-v="top">上方</button></div>
           <p id="cap" class="cap" aria-live="polite"></p>
         </div>
         <ol class="phases" id="phases"></ol>
@@ -1371,7 +1386,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
   <div class="guess">
     <div class="fig dark gstage">
       <svg id="gSvg" role="img" aria-label="猜測試動畫"></svg>
-      <div class="views gviews" role="group" aria-label="視角"><button data-gv="def">預設</button><button data-gv="front">正面</button><button data-gv="back">背面</button><button data-gv="side">側面</button><button data-gv="top">上方</button></div>
+      <div class="views gviews" role="group" aria-label="視角"><button data-gv="mode" class="mode">換成人形</button><button data-gv="def">預設</button><button data-gv="front">正面</button><button data-gv="back">背面</button><button data-gv="side">側面</button><button data-gv="top">上方</button></div>
     </div>
     <div class="gside">
       <div class="qtop"><p class="qq">這是哪一個測試？</p><span id="gscore">答對 0／0</span></div>
@@ -1426,7 +1441,7 @@ function armCanon(p) {
   const e = norm(cross(d, f));
   const t = rotv(mul(e, -1), u, su * D2R);
   const n = norm(cross(u, t));
-  return { d, u, t, n };
+  return { d, u, t, n, e };
 }
 const mir = v => [-v[0], v[1], v[2]];
 
@@ -1491,8 +1506,8 @@ function skeleton(pose, posture) {
     const pre = side === 'R' ? '' : 'L';
     const ap = side === 'R' ? pose.R : pose.L;
     const sc = side === 'R' ? pose.sc : pose.scL;
-    let { d, u, t, n } = armCanon(ap);
-    if (side === 'R') { d = mir(d); u = mir(u); t = mir(t); n = mir(n); }
+    let { d, u, t, n, e } = armCanon(ap);
+    if (side === 'R') { d = mir(d); u = mir(u); t = mir(t); n = mir(n); e = mir(e); }
     const sx = side === 'R' ? -0.19 : 0.19;
     const base = [sx, shY + ((sc && sc.elev) || 0), (sc && sc.pro) ? sc.pro * 0.5 : 0];
     const tr = side === 'R' ? (pose.tr || [0, 0, 0]) : [0, 0, 0];
@@ -1507,7 +1522,7 @@ function skeleton(pose, posture) {
     t = norm(sub(t, mul(u, dot(t, u)))); n = norm(sub(n, mul(u, dot(n, u))));
     S[pre + 'hand'] = add(wri, mul(u, 0.06));
     S[pre + 'thumb'] = add(add(wri, mul(u, 0.02)), mul(t, 0.06));
-    S[pre + 't'] = t; S[pre + 'n'] = n;
+    S[pre + 't'] = t; S[pre + 'n'] = n; S[pre + 'e'] = e;
     S[pre + 'hum'] = add(sh, mul(d, UA * 0.5));
     S[pre + 'hp'] = add(sh, mul(d, UA * 0.22));
     S[pre + 'fa'] = add(elb, mul(u, FA * 0.45));
@@ -1580,7 +1595,7 @@ class Cam {
 }
 
 /* ---------- build scene primitives ---------- */
-function scene(pose, test, S) {
+function scene(pose, test, S, mode) {
   const pos = test.pos;
   const W = p => toWorld(p, pos);
   const items = [];
@@ -1597,6 +1612,64 @@ function scene(pose, test, S) {
   if (pr.wall) statics.push({ k: 'box', pts: boxPts(-0.75, 0.75, 0.0, 2.05, pr.wall, pr.wall + 0.03), cls: 'wall' });
   if (pr.table) statics.push({ k: 'box', pts: boxPts(pr.table[0], pr.table[1], 0, pr.table[2], pr.table[3], pr.table[4]), cls: 'furn' });
   if (pr.clock) statics.push({ k: 'clock', c: pr.clock });
+  if (mode === 'bone') {
+  // ===== skeleton mode =====
+  const WL = p => toWorld(p, pos, true);
+  const shY = S.shY, hY = S.hipY;
+  const L2 = (p, q, w1, w2, col, test2, dz) => items.push({ k: 'limb', pts: [p, q], ws: [w1, w2], col, test: test2, dz });
+  // ghost silhouette
+  { const tp = []; for (const [y, hw, dz] of [[shY + 0.04, 0.15, 0.075], [shY - 0.02, 0.19, 0.095], [shY - 0.13, 0.175, 0.11], [shY - 0.27, 0.145, 0.095], [hY + 0.08, 0.14, 0.09], [hY - 0.08, 0.15, 0.08]]) for (const sx of [-hw, hw]) for (const sz of [-dz, dz]) tp.push(W([sx, y, sz]));
+    statics.push({ k: 'ghost', pts: tp }); }
+  // legs
+  for (const sx of [-0.09, 0.09]) {
+    const hip = [sx, hY, 0];
+    let kn, an, toe;
+    if (pos === 'sit') { kn = [sx * 1.15, hY, 0.42]; an = [sx * 1.15, 0.08, 0.45]; toe = [sx * 1.15, 0.03, 0.58]; }
+    else { kn = [sx, hY - 0.47, 0.015]; an = [sx, 0.08, 0]; toe = [sx, 0.03, 0.14]; }
+    items.push({ k: 'circ', c: WL(hip), r: 0.03, cls: 'bonec' });
+    items.push({ k: 'limb', pts: [hip, kn].map(WL), ws: [0.022, 0.026], col: 'bone' });
+    items.push({ k: 'circ', c: WL(kn), r: 0.03, cls: 'bonec' });
+    items.push({ k: 'limb', pts: [kn, an].map(WL), ws: [0.024, 0.017], col: 'bone' });
+    items.push({ k: 'limb', pts: [add(kn, [Math.sign(sx) * 0.03, -0.03, -0.01]), add(an, [Math.sign(sx) * 0.03, 0, -0.01])].map(WL), ws: [0.008, 0.008], col: 'bone' });
+    items.push({ k: 'limb', pts: [an, toe].map(WL), ws: [0.022, 0.016], col: 'bone' });
+  }
+  // pelvis
+  for (const sg of [-1, 1]) items.push({ k: 'poly', pts: [[sg * 0.03, hY + 0.02, -0.05], [sg * 0.16, hY + 0.1, -0.02], [sg * 0.15, hY + 0.04, 0.05], [sg * 0.09, hY - 0.06, 0.04], [sg * 0.03, hY - 0.06, 0.03]].map(W), cls: 'bonep' });
+  // spine
+  for (let i = 0; i <= 18; i++) { const f = i / 18; const y = shY + 0.16 - f * (shY + 0.16 - (hY + 0.03)); const z = -0.01 - 0.06 * Math.sin(Math.min(1, f * 1.6) * Math.PI / 2) + (f > 0.65 ? 0.03 * (f - 0.65) / 0.35 : 0); items.push({ k: 'circ', c: W([0, y, z]), r: f < 0.3 ? 0.014 : 0.019, cls: 'vert' }); }
+  // ribs (front & back halves so arms layer correctly)
+  for (let i = 0; i < 9; i++) {
+    const y = shY - 0.03 - i * 0.032, hw = 0.11 + 0.055 * Math.sin(Math.min(1, (i + 1) / 5) * Math.PI / 2) - (i > 6 ? 0.012 * (i - 6) : 0), dz = 0.075 + 0.025 * Math.min(1, i / 4);
+    for (const half of [0, 1]) { const pts = []; for (let k = 0; k <= 12; k++) { const a = Math.PI * (half + k / 12); pts.push(W([hw * Math.cos(a), y - 0.035 * Math.max(0, Math.sin(a)), dz * Math.sin(a) - 0.01])); } items.push({ k: 'ring', pts, cls: 'rib' }); }
+  }
+  L2(W([0, shY + 0.0, 0.085]), W([0, shY - 0.22, 0.095]), 0.016, 0.012, 'bone', false, 0.01);
+  // skull
+  items.push({ k: 'circ', c: W(add(S.head, [0, 0.015, -0.01])), r: 0.098, cls: 'skull' });
+  items.push({ k: 'circ', c: W(add(S.head, [0, -0.07, 0.035])), r: 0.05, cls: 'skull' });
+  for (const ex of [-0.034, 0.034]) items.push({ k: 'circ', c: W(add(S.head, [ex, 0.0, 0.088])), r: 0.019, cls: 'socket', dz: 0.004 });
+  items.push({ k: 'circ', c: W(add(S.head, [0, -0.035, 0.095])), r: 0.01, cls: 'socket', dz: 0.004 });
+  // shoulder girdle + arms
+  for (const pre of ['', 'L']) {
+    const sc = pre ? pose.scL : pose.sc;
+    items.push({ k: 'poly', pts: S[pre + 'scap'].map(W), cls: (sc && sc.bad) ? 'scapb bad' : 'scapb', dz: 0.004 });
+    items.push({ k: 'limb', pts: [S[pre + 'scapM'], S[pre + 'acr']].map(W), ws: [0.008, 0.014], col: 'bone', dz: 0.006 });
+    items.push({ k: 'limb', pts: [W([pre ? 0.02 : -0.02, shY + 0.02, 0.07]), W(add(mul([pre ? 0.09 : -0.09, shY + 0.035, 0.075], 1), [0, 0, 0])), W(S[pre + 'acr'])], ws: [0.014, 0.011, 0.012], col: 'bone' });
+  }
+  for (const pre of ['L', '']) {
+    const T2 = !pre, col = pre ? 'bone' : 'boneT';
+    const sh0 = S[pre + 'sh'], el0 = S[pre + 'elb'], wr0 = S[pre + 'wri'], e0 = S[pre + 'e'], t0 = S[pre + 't'], u0 = S[pre + 'u'];
+    items.push({ k: 'circ', c: W(sh0), r: 0.042, cls: T2 ? 'hhead t' : 'hhead' });
+    items.push({ k: 'limb', pts: [add(sh0, mul(S[pre + 'd'], 0.03)), add(mul(sh0, 0.5), mul(el0, 0.5)), el0].map(W), ws: [0.024, 0.017, 0.02], col, test: T2 });
+    items.push({ k: 'limb', pts: [add(el0, mul(e0, 0.03)), add(el0, mul(e0, -0.03))].map(W), ws: [0.016, 0.016], col, test: T2 });
+    items.push({ k: 'limb', pts: [add(el0, mul(e0, -0.02)), add(wr0, mul(t0, 0.02))].map(W), ws: [0.011, 0.016], col, test: T2 });
+    items.push({ k: 'limb', pts: [add(add(el0, mul(e0, 0.02)), mul(u0, -0.02)), add(wr0, mul(t0, -0.018))].map(W), ws: [0.015, 0.01], col, test: T2 });
+    { const at = (a, b) => W(add(add(wr0, mul(u0, a)), mul(t0, b)));
+      items.push({ k: 'circ', c: at(0.025, 0), r: 0.024, cls: T2 ? 'carp t' : 'carp' });
+      const fingers = [-0.026, -0.009, 0.008, 0.024].map((b, i) => [at(0.045, b * 0.8), at(0.075 + [0.05, 0.065, 0.068, 0.06][i], b * 1.1)]);
+      items.push({ k: 'hand', pts: [at(0.01, -0.03), at(0.01, 0.03), at(0.08, 0.034), at(0.08, -0.034)], n: dirWorld(S[pre + 'n'], pos), fingers, thumb: [at(0.02, 0.03), at(0.06, 0.068)], cls: pre ? 'arm' : 'arm test', test: T2, bone: true }); }
+    if (test.wt) items.push({ k: 'seg', a: W(add(S[pre + 'hand'], [-0.05, 0, 0])), b: W(add(S[pre + 'hand'], [0.05, 0, 0])), w: 0.04, cls: 'wt', dz: 0.02 });
+  }
+  } else {
   // legs (tapered limbs + feet)
   const WL = p => toWorld(p, pos, true);
   for (const sx of [-0.09, 0.09]) {
@@ -1643,6 +1716,7 @@ function scene(pose, test, S) {
       const fingers = [-0.026, -0.009, 0.008, 0.024].map((b, i) => [at(0.075, b), at(0.075 + [0.05, 0.065, 0.068, 0.06][i], b * 1.1)]);
       items.push({ k: 'hand', pts: [at(0.005, -0.03), at(0.005, 0.03), at(0.08, 0.034), at(0.08, -0.034)], n: dirWorld(S[pre + 'n'], pos), fingers, thumb: [at(0.02, 0.03), at(0.06, 0.068)], cls: c, test: !pre }); }
     if (test.wt) items.push({ k: 'seg', a: W(add(S[pre + 'hand'], [-0.05, 0, 0])), b: W(add(S[pre + 'hand'], [0.05, 0, 0])), w: 0.04, cls: 'wt', dz: 0.02 });
+  }
   }
   if (pr.wand) { const a = S.hand, b = S.Lhand, d = norm(sub(a, b)); items.push({ k: 'seg', a: W(add(a, mul(d, 0.12))), b: W(add(b, mul(d, -0.12))), w: 0.025, cls: 'prop', dz: 0.03 }); }
   if (pr.ball) items.push({ k: 'circ', c: W(add(S.hand, pr.ball)), r: 0.065, cls: 'ball', dz: -0.01 });
@@ -1710,7 +1784,7 @@ function ptFigure(st, contacts) {
   return { hullPts, segs, head, cz: H };
 }
 
-const COL = { skin: '#c99f85', skinT: '#f2d3be', pants: '#34505a', shoe: '#1f2f35' };
+const COL = { skin: '#c99f85', skinT: '#f2d3be', pants: '#34505a', shoe: '#1f2f35', bone: '#ddd2bb', boneT: '#fff4dc' };
 function shade(hex, k) {
   const n = parseInt(hex.slice(1), 16); let r = n >> 16, g = (n >> 8) & 255, b = n & 255;
   const t = k > 0 ? 255 : 0, a = Math.abs(k);
@@ -1721,7 +1795,7 @@ function shade(hex, k) {
 const NS = 'http://www.w3.org/2000/svg';
 class Fig {
   constructor(svg) {
-    this.svg = svg; this.cam = new Cam(0, 8); this.fit = null; this.test = null; this.showPT = false; this.st = null;
+    this.svg = svg; this.cam = new Cam(0, 8); this.fit = null; this.test = null; this.showPT = false; this.st = null; this.mode = 'bone';
   }
   setTest(test, poses, K) {
     this.test = test; this.poses = poses; this.st = K ? ptStance(test, K) : null;
@@ -1732,7 +1806,7 @@ class Fig {
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
     for (const pose of this.poses) {
       const S = skeleton(pose, this.test.pos);
-      const sc = scene(pose, this.test, S);
+      const sc = scene(pose, this.test, S, this.mode);
       const pts = [];
       const lowY = S.hipY - 0.12;
       const W = q => toWorld(q, this.test.pos);
@@ -1755,7 +1829,7 @@ class Fig {
     const ox = (Wd - sc * (f.x1 - f.x0)) / 2 - f.x0 * sc, oy = (Ht - sc * (f.y1 - f.y0)) / 2 - f.y0 * sc;
     const P = w => { const q = cam.p(w); return [q[0] * sc + ox, q[1] * sc + oy, q[2]]; };
     const S = skeleton(pose, test.pos);
-    const { items, statics } = scene(pose, test, S);
+    const { items, statics } = scene(pose, test, S, this.mode);
     const W = p => toWorld(p, test.pos);
     let h = '';
     const fx = n => n.toFixed(1);
@@ -1770,6 +1844,10 @@ class Fig {
         const ry = Math.abs(P(add(it.c, [0, 0.18, 0]))[1] - c[1]);
         h += `<ellipse cx="${fx(c[0])}" cy="${fx(c[1])}" rx="${fx(r)}" ry="${fx(ry)}" class="clockf"/>`;
         [[0, 0.18, '12'], [0.18, 0, '3'], [0, -0.18, '6'], [-0.18, 0, '9']].forEach(([x, y, n]) => { const q = P(add(it.c, [-x, y, 0])); h += `<text x="${fx(q[0])}" y="${fx(q[1] + 4)}" class="clockt">${n}</text>`; });
+      } else if (it.k === 'ghost') {
+        const pts = hull(it.pts.map(P)); const n = pts.length;
+        let d = `M${fx((pts[n - 1][0] + pts[0][0]) / 2)},${fx((pts[n - 1][1] + pts[0][1]) / 2)}`; for (let i = 0; i < n; i++) { const a = pts[i], b = pts[(i + 1) % n]; d += ` Q${fx(a[0])},${fx(a[1])} ${fx((a[0] + b[0]) / 2)},${fx((a[1] + b[1]) / 2)}`; }
+        h += `<path d="${d}Z" class="ghost"/>`;
       } else if (it.k === 'box') {
         const pts = hull(it.pts.map(P));
         h += `<polygon points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="${it.cls}"/>`;
@@ -1791,8 +1869,9 @@ class Fig {
           dr.push({ z, s: `<path d="${d}Z" class="${it.cls}" fill="url(#gTorso)"/>` });
         } else dr.push({ z, s: `<polygon points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="${it.cls}"/>` });
       }
+      else if (it.k === 'ring') { const pts = it.pts.map(P); const z = pts.reduce((a, q) => a + q[2], 0) / pts.length; dr.push({ z, s: `<polyline points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" stroke-width="${fx(0.011 * sc)}" class="${it.cls}"/>` }); }
       else if (it.k === 'limb') {
-        const SP = it.pts.map(P), n = SP.length; const z = SP.reduce((a, q) => a + q[2], 0) / n;
+        const SP = it.pts.map(P), n = SP.length; const z = SP.reduce((a, q) => a + q[2], 0) / n + (it.dz || 0);
         const dz2 = z - zc; const k = Math.max(-0.28, Math.min(0.18, dz2 * 0.9));
         const fill = shade(COL[it.col], k);
         const tot = Math.hypot(SP[n - 1][0] - SP[0][0], SP[n - 1][1] - SP[0][1]);
@@ -1813,8 +1892,8 @@ class Fig {
       else if (it.k === 'hand') {
         const pts = it.pts.map(P); const z = pts.reduce((a, q) => a + q[2], 0) / 4;
         const c0 = cam.p([0, 0, 0]), c1 = cam.p(it.n); const facing = (c1[2] - c0[2]) > 0;
-        const poly = `<polygon points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="${facing ? 'palm' : 'dorsum'}${it.test ? ' t' : ''}"/>`;
-        const fl = it.fingers.map(([a, b]) => { const A = P(a), B = P(b); return `<line x1="${fx(A[0])}" y1="${fx(A[1])}" x2="${fx(B[0])}" y2="${fx(B[1])}" stroke-width="${fx(0.017 * sc)}" class="fing${it.test ? ' t' : ''}"/>`; }).join('');
+        const poly = `<polygon points="${pts.map(q => fx(q[0]) + ',' + fx(q[1])).join(' ')}" class="${facing ? 'palm' : 'dorsum'}${it.test ? ' t' : ''}${it.bone ? ' bn' : ''}"/>`;
+        const fl = it.fingers.map(([a, b]) => { const A = P(a), B = P(b); return `<line x1="${fx(A[0])}" y1="${fx(A[1])}" x2="${fx(B[0])}" y2="${fx(B[1])}" stroke-width="${fx((it.bone ? 0.009 : 0.017) * sc)}" class="fing${it.test ? ' t' : ''}${it.bone ? ' bn' : ''}"/>`; }).join('');
         const T0 = P(it.thumb[0]), T1 = P(it.thumb[1]);
         const th = `<line x1="${fx(T0[0])}" y1="${fx(T0[1])}" x2="${fx(T1[0])}" y2="${fx(T1[1])}" stroke-width="${fx(0.02 * sc)}" class="thumb"/>`;
         dr.push({ z, s: facing ? fl + th + poly : poly + fl + th });
@@ -2056,7 +2135,7 @@ const TESTS = [
       { t: 1.5, R: [0, 90, 0, 3, 0], cap: 'Step 1：ABD 90°，中立旋轉' },
       { t: 2.4, H: ['wri'], A: [{ at: 'wri', d: DN3, k: 'pt', t: 'PT' }], cap: 'PT 阻抗 ABD' },
       { t: 3.8, H: [], A: [] },
-      { t: 4.8, R: [30, 90, -90, 3, 180], cap: 'Step 2 Empty can：scaption 90°＋IR（拇指朝下）' },
+      { t: 4.8, R: [30, 90, -90, 3, 120], cap: 'Step 2 Empty can：scaption 90°＋IR（拇指朝下）' },
       { t: 5.6, H: ['wri'], A: [{ at: 'wri', d: DN3, k: 'pt', t: 'PT' }, { at: 'wri', d: UP3, k: 'pat' }], cap: 'PT 往下壓，病人抵抗' },
       { t: 7.0, H: [], A: [] },
       { t: 8.0, R: [30, 90, 0, 3, 0], cap: 'Full can：scaption 90°＋ER（拇指朝上）' },
@@ -2156,11 +2235,11 @@ const TESTS = [
     sign: '①無法抬起手 ②肩胛出現異常動作', ind: '① Subscapularis 損傷（主要徵召下段纖維）② Scapular instability',
     kf: [
       { t: 0, cap: '起始' },
-      { t: 0.9, R: [150, -25, -30, 60, 180] },
-      { t: 1.8, R: [150, -25, -110, 90, 180], cap: '手背放在腰椎中段' },
-      { t: 3.0, R: [150, -28, -126, 90, 180], cap: '病人把手抬離背部（更多 IR）' },
+      { t: 0.9, R: [150, -25, -30, 60, 105] },
+      { t: 1.8, R: [150, -25, -110, 90, 105], cap: '手背放在腰椎中段' },
+      { t: 3.0, R: [150, -28, -118, 90, 105], cap: '病人把手抬離背部（更多 IR）' },
       { t: 3.8, H: ['hand'], A: [{ at: 'hand', d: FW, k: 'pt', t: 'PT' }], cap: '能抬離：PT 把手往背推，病人抵抗' },
-      { t: 5.0, R: [150, -25, -110, 90, 180], H: [], A: [], X: ['ant'], pos: true, cap: '陽性：無法抬起（subscapularis）' },
+      { t: 5.0, R: [150, -25, -110, 90, 105], H: [], A: [], X: ['ant'], pos: true, cap: '陽性：無法抬起（subscapularis）' },
       { t: 6.6 }
     ], dz: ['rc']
   },
@@ -2169,11 +2248,11 @@ const TESTS = [
     steps: [['病人', '採 lift-off sign 的姿勢'], ['PT', '被動 IR 到最大，再稍微往回一點'], ['PT', '請病人維持這個位置']],
     sign: '手往背部移回（spring back）', ind: 'Subscapularis 無力或疼痛',
     kf: [
-      { t: 0, R: [150, -25, -110, 90, 180], H: ['hand', 'elb'], cap: 'Lift-off 姿勢' },
-      { t: 1.6, R: [150, -28, -130, 90, 180], cap: 'PT 被動 IR 到最大（手離開背）' },
-      { t: 2.3, R: [150, -28, -126, 90, 180], cap: '稍微回一點' },
+      { t: 0, R: [150, -25, -110, 90, 105], H: ['hand', 'elb'], cap: 'Lift-off 姿勢' },
+      { t: 1.6, R: [150, -28, -128, 90, 105], cap: 'PT 被動 IR 到最大（手離開背）' },
+      { t: 2.3, R: [150, -28, -118, 90, 105], cap: '稍微回一點' },
       { t: 3.0, H: ['elb'], cap: '放手，請病人維持' },
-      { t: 4.2, R: [150, -25, -110, 90, 180], X: ['ant'], pos: true, cap: '陽性：手彈回貼到背上' },
+      { t: 4.2, R: [150, -25, -110, 90, 105], X: ['ant'], pos: true, cap: '陽性：手彈回貼到背上' },
       { t: 5.6 }
     ], dz: ['rc']
   },
@@ -2184,10 +2263,10 @@ const TESTS = [
     more: '偽陽性：用肩 extension 代償（手肘往後移）。Anterior deltoid、pectoralis major、latissimus dorsi、teres major 都可能代償。Belly press (+) 加上 ER 活動度過大 → subscapularis 肌腱斷裂的可能性增加。',
     kf: [
       { t: 0, cap: '起始' },
-      { t: 1.6, R: [-5, 25, -55, 110, 180], cap: '手掌壓在肚子上' },
+      { t: 1.6, R: [-5, 25, -45, 110, 75], cap: '手掌壓在肚子上' },
       { t: 2.6, H: ['wri'], A: [{ at: 'wri', d: 'rot+', k: 'pt', t: 'PT' }, { at: 'wri', d: 'rot-', k: 'pat', t: '病人' }], cap: 'PT 把手往外拉（阻抗 IR），病人往肚子壓' },
-      { t: 4.2, R: [-5, 25, -28, 110, 180], X: ['ant'], pos: true, cap: '陽性：手無法維持在肚子上' },
-      { t: 5.6, R: [-45, 25, -35, 110, 180], X: [{ at: 'elb', txt: '代償' }], cap: '注意代償：肩 extension（手肘往後）→ 偽陽性' },
+      { t: 4.2, R: [-5, 25, -22, 110, 75], X: ['ant'], pos: true, cap: '陽性：手無法維持在肚子上' },
+      { t: 5.6, R: [-45, 25, -28, 110, 75], X: [{ at: 'elb', txt: '代償' }], cap: '注意代償：肩 extension（手肘往後）→ 偽陽性' },
       { t: 7.2 }
     ], dz: ['rc']
   },
@@ -2257,10 +2336,10 @@ const TESTS = [
     sign: '肩深處或前側疼痛，或 click', ind: 'Anterior SLAP lesion',
     kf: [
       { t: 0, cap: '起始' },
-      { t: 1.6, R: [-20, 40, -70, 90, 120], cap: '手扠在 iliac crest 上' },
+      { t: 1.6, R: [-20, 40, -70, 90, 20], cap: '手扠在 iliac crest 上' },
       { t: 2.6, H: [['acr', [0, 0.01, 0.02]], 'elb'], cap: 'PT 一手穩定肩、一手握手肘' },
       { t: 3.4, A: [{ at: 'elb', d: [0, 0.6, 0.8], k: 'pt', t: 'PT' }], cap: '對 GH joint 施加往前上方的力' },
-      { t: 4.6, R: [-20, 46, -70, 90, 120], X: [{ at: 'ant', txt: 'pain / click' }], pos: true, cap: '陽性：肩深處或前側疼痛／click' },
+      { t: 4.6, R: [-20, 46, -70, 90, 20], X: [{ at: 'ant', txt: 'pain / click' }], pos: true, cap: '陽性：肩深處或前側疼痛／click' },
       { t: 6.0 }
     ], dz: ['labral']
   },
@@ -2531,7 +2610,7 @@ const TESTS = [
     sign: '第一次出現疼痛或無力，肩胛穩定後減輕', ind: 'Scapular dyskinesia 是肩痛的原因',
     kf: [
       { t: 0, cap: '起始' },
-      { t: 1.6, R: [30, 90, -90, 3, 180], cap: 'Scaption 90°、IR（拇指朝下）' },
+      { t: 1.6, R: [30, 90, -90, 3, 120], cap: 'Scaption 90°、IR（拇指朝下）' },
       { t: 2.4, H: ['wri'], A: [{ at: 'wri', d: DN3, k: 'pt', t: 'PT' }, { at: 'wri', d: UP3, k: 'pat' }], X: ['acr'], cap: '第一次：往下壓 → 疼痛／無力' },
       { t: 4.0, H: ['wri', 'scapM'], A: [{ at: 'scapM', d: MED, k: 'pt', t: 'retract' }, { at: 'wri', d: DN3, k: 'pt' }], X: [], sc: { pro: -0.02, tilt: -0.015 }, pos: true, cap: '第二次：穩定肩胛於 retraction＋post. tilt 後再壓 → 症狀減輕＝陽性' },
       { t: 6.0 }
@@ -2973,7 +3052,8 @@ function loop(now) {
   if (cur && stageVisible()) render();
   heroTick(dt);
   gTick(dt);
-  requestAnimationFrame(loop);
+  { let m0 = 'bone'; try { m0 = localStorage.getItem('figMode') || 'bone'; } catch (e) {} setMode(m0); }
+requestAnimationFrame(loop);
 }
 function updBtn() { const b = $('#play'); b.textContent = playing ? '❚❚' : '▶'; b.setAttribute('aria-label', playing ? '暫停' : '播放'); }
 $('#play').addEventListener('click', () => { if (t >= T) t = 0; playing = !playing; updBtn(); });
@@ -2982,8 +3062,15 @@ const jump = e => { const m = e.target.closest('[data-t]'); if (!m) return; play
 $('#marks').addEventListener('click', jump);
 $('#phases').addEventListener('click', jump);
 $('#spd').addEventListener('change', e => spd = +e.target.value);
+function setMode(m) {
+  [fig, hfig, gfig, sfig].forEach(f => { if (f) f.mode = m; });
+  try { localStorage.setItem('figMode', m); } catch (e) {}
+  document.querySelectorAll('[data-v=mode],[data-gv=mode]').forEach(b => b.textContent = m === 'bone' ? '換成人形' : '換成骨架');
+  if (typeof shr === 'function') shr();
+}
 document.querySelector('.views').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || !cur) return;
+  if (b.dataset.v === 'mode') { setMode(fig.mode === 'bone' ? 'body' : 'bone'); return; }
   const v = b.dataset.v === 'def' ? cur.view : VIEWS[b.dataset.v];
   fig.setView(v[0], v[1]);
 });
@@ -3158,6 +3245,7 @@ $('#gplay').addEventListener('click', () => { gPlay = !gPlay; $('#gplay').textCo
 $('#gscrub').addEventListener('input', e => { gPlay = false; $('#gplay').textContent = '▶'; gt = e.target.value / 1000 * gT; });
 document.querySelector('.gviews').addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b || !gTest) return;
+  if (b.dataset.gv === 'mode') { setMode(gfig.mode === 'bone' ? 'body' : 'bone'); return; }
   const v = b.dataset.gv === 'def' ? gTest.view : VIEWS[b.dataset.gv]; gfig.setView(v[0], v[1]);
 });
 { let gd = null; const gs = $('#gSvg');
@@ -3202,6 +3290,7 @@ const fromHash = TESTS.some(x => x.id === h0);
 load(fromHash ? h0 : 'whipple', false);
 if (fromHash) $('#tests').scrollIntoView();
 if (h0.startsWith('dz-') && document.getElementById(h0)) { showDz(h0); $('#lesions').scrollIntoView(); }
+{ let m0 = 'bone'; try { m0 = localStorage.getItem('figMode') || 'bone'; } catch (e) {} setMode(m0); }
 requestAnimationFrame(loop);
 }
 
