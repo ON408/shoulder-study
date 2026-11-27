@@ -387,7 +387,7 @@ circle.arm{fill:#6c8b94}circle.arm.test{fill:#ffffff}
 .fing.bn{stroke:#ddd2bb}.fing.bn.t{stroke:#fff4dc}
 .views button.mode{background:rgba(255,106,61,.32);border-color:rgba(255,154,118,.7);font-weight:700}
 
-canvas.gl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+canvas.gl3d{position:absolute;inset:0;margin:0;width:100%;height:100%;pointer-events:none}
 .loadtxt{fill:#cfe8ea;font-size:15px;font-weight:700;text-anchor:middle}
 .thumbdot{fill:#ffd23f;stroke:#0a2a2f;stroke-width:1}.thumbdot.t{stroke:#fff;stroke-width:1.5}
 .lg.pat0{background:#efe3c8;border:2px solid #fff4dc;box-shadow:0 0 0 1px #9c8f78}
@@ -1421,6 +1421,8 @@ canvas.gl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 <script>
 const MJ = {"shR": [-0.1737, 1.4804, -0.0005], "shrR": 0.024, "elbR": [-0.4632, 1.4471, -0.0096], "radPR": [-0.4646, 1.4569, -0.0047], "ulnPR": [-0.4558, 1.4386, -0.0235], "radDR": [-0.6741, 1.4326, 0.0966], "ulnDR": [-0.6859, 1.4255, 0.0797], "wriR": [-0.68, 1.4291, 0.0882], "scInfR": [-0.0878, 1.3305, -0.0218], "scLatR": [-0.178, 1.5131, -0.0025], "scSupR": [-0.0611, 1.4959, -0.0422], "clMR": [-0.0206, 1.4984, 0.0976], "clLR": [-0.156, 1.529, 0.0499], "hipR": [-0.0974, 0.9723, 0.0465], "kneeR": [-0.1123, 0.5282, 0.136], "ankR": [-0.1461, 0.066, 0.0901], "toeR": [-0.1445, 0.0025, 0.2906], "shL": [0.1737, 1.4804, -0.0005], "shrL": 0.024, "elbL": [0.4632, 1.4471, -0.0096], "radPL": [0.4646, 1.4569, -0.0047], "ulnPL": [0.4558, 1.4386, -0.0235], "radDL": [0.6741, 1.4326, 0.0966], "ulnDL": [0.6859, 1.4255, 0.0797], "wriL": [0.68, 1.4291, 0.0882], "scInfL": [0.0878, 1.3305, -0.0218], "scLatL": [0.178, 1.5131, -0.0025], "scSupL": [0.0611, 1.4959, -0.0422], "clML": [0.0206, 1.4984, 0.0976], "clLL": [0.156, 1.529, 0.0499], "hipL": [0.0974, 0.9723, 0.0465], "kneeL": [0.1123, 0.5282, 0.136], "ankL": [0.1461, 0.066, 0.0901], "toeL": [0.1196, 0.0096, 0.2912]};
 
+const MJX = {"thumbR": [-0.7411, 1.4011, 0.1963], "palmR": [-0.7226, 1.4214, 0.123], "tipR": [-0.85, 1.4107, 0.1759], "thumbL": [0.7412, 1.4015, 0.196], "palmL": [0.7214, 1.4215, 0.1238], "tipL": [0.8496, 1.411, 0.1766], "head": [-0.0001, 1.6431, 0.1493], "scapFR": [-0.1102, 1.476, -0.0454], "scapFL": [0.1037, 1.4716, -0.0486]};
+
 const BODY = [[0.88, 0.1, 0.053, 0.063], [0.9, 0.109, 0.05, 0.074], [0.92, 0.127, 0.048, 0.076], [0.94, 0.137, 0.045, 0.079], [0.96, 0.141, 0.068, 0.102], [0.98, 0.153, 0.065, 0.105], [1.0, 0.154, 0.062, 0.108], [1.02, 0.154, 0.062, 0.108], [1.04, 0.154, 0.062, 0.108], [1.06, 0.154, 0.062, 0.108], [1.08, 0.154, 0.062, 0.108], [1.1, 0.154, 0.062, 0.108], [1.12, 0.154, 0.062, 0.108], [1.14, 0.152, 0.062, 0.108], [1.16, 0.152, 0.065, 0.105], [1.18, 0.147, 0.072, 0.098], [1.2, 0.149, 0.07, 0.102], [1.22, 0.149, 0.072, 0.113], [1.24, 0.152, 0.073, 0.117], [1.26, 0.152, 0.074, 0.12], [1.28, 0.155, 0.073, 0.121], [1.3, 0.155, 0.073, 0.121], [1.32, 0.155, 0.069, 0.124], [1.34, 0.155, 0.069, 0.124], [1.36, 0.155, 0.069, 0.124], [1.38, 0.155, 0.069, 0.124], [1.4, 0.159, 0.063, 0.13], [1.42, 0.166, 0.061, 0.128], [1.44, 0.185, 0.058, 0.125], [1.46, 0.185, 0.056, 0.123], [1.48, 0.185, 0.053, 0.119], [1.5, 0.185, 0.047, 0.114]];
 
 /* ---------- pseudo-3D geometric figure engine ---------- */
@@ -1547,7 +1549,31 @@ function skeleton(pose, posture) {
   S.neck = [0, shY + 0.03, 0.06];
   S.belly = [0, P.hip + 0.2, 0.2]; S.lumbar = [0, P.hip + 0.15, -0.03];
   S.hipY = P.hip; S.shY = shY;
+  if (typeof MJX !== 'undefined') fitLandmarks(S, pose, posture);
   return S;
+}
+/* overlay landmarks = model points carried by the bone matrices (body frame) */
+const apM = (m, p) => [m[0] * p[0] + m[4] * p[1] + m[8] * p[2] + m[12], m[1] * p[0] + m[5] * p[1] + m[9] * p[2] + m[13], m[2] * p[0] + m[6] * p[1] + m[10] * p[2] + m[14]];
+function fitLandmarks(S, pose, posture) {
+  const M = boneMats(pose, posture, S, true), off = [0, POST[posture].hip - HIPY, 0];
+  for (const sd of ['R', 'L']) {
+    const pre = sd === 'R' ? '' : 'L', lat = sd === 'R' ? -1 : 1;
+    const rad = M['rad' + sd], uln = M['ulna' + sd], hum = M['hum' + sd], scp = M['scap' + sd], clv = M['clav' + sd];
+    S[pre + 'wri'] = apM(rad, MJ['wri' + sd]);
+    S[pre + 'hand'] = apM(rad, MJX['palm' + sd]);
+    S[pre + 'thumb'] = apM(rad, MJX['thumb' + sd]);
+    S[pre + 'fa'] = apM(uln, add(mul(MJ['elb' + sd], 0.55), mul(MJ['wri' + sd], 0.45)));
+    S[pre + 'acr'] = apM(scp, add(MJ['scLat' + sd], [0, 0.012, 0]));
+    const sp = [MJ['scLat' + sd], MJ['scSup' + sd], MJ['scInf' + sd]].map(q => apM(scp, q));
+    S[pre + 'scapS'] = sp[1]; S[pre + 'scapI'] = sp[2]; S[pre + 'scapM'] = mul(add(sp[1], sp[2]), 0.5);
+    S[pre + 'scapF'] = apM(scp, MJX['scapF' + sd]);
+    S[pre + 'clav'] = apM(clv, mul(add(MJ['clM' + sd], MJ['clL' + sd]), 0.5));
+    S[pre + 'ant'] = add(S[pre + 'sh'], [lat * 0.005, 0, 0.04]);
+    S[pre + 'post'] = add(S[pre + 'sh'], [0, 0, -0.04]);
+  }
+  S.head = add(MJX.head, off); S.face = S.head;
+  S.mouth = add(S.head, [0, -0.075, 0.05]); S.nose = add(S.head, [0, -0.025, 0.06]);
+  S.neck = add([0, 1.49, 0.03], off);
 }
 function toWorld(p, posture, leg) {
   if (posture === 'supine') return [p[0], p[2] + 0.795, -(p[1] - 0.9)];
@@ -1654,8 +1680,8 @@ function legJoints(posture, sd) {
   const knee = add(hip, [sg * 0.02, 0, 0.453]), ank = add(knee, [sg * 0.01, -0.462, 0.04]), toe = add(ank, [0, -0.06, 0.2]);
   return { hip, knee, ank, toe };
 }
-function boneMats(pose, posture, S) {
-  const out = {}, Pu = postM(posture, false), Pl = postM(posture, true);
+function boneMats(pose, posture, S, body) {
+  const out = {}, I = transM([0, 0, 0]), Pu = body ? I : postM(posture, false), Pl = body ? I : postM(posture, true);
   const off = [0, POST[posture].hip - HIPY, 0];
   out.torso = mm(Pu, transM(off));
   for (const sd of ['R', 'L']) {
@@ -1683,7 +1709,7 @@ function boneMats(pose, posture, S) {
 class Fig {
   constructor(svg) {
     this.svg = svg; this.cam = new Cam(0, 8); this.fit = null; this.test = null;
-    const cv = document.createElement('canvas'); cv.className = 'gl'; svg.parentNode.insertBefore(cv, svg); this.cv = cv;
+    const cv = document.createElement('canvas'); cv.className = 'gl3d'; svg.parentNode.insertBefore(cv, svg); this.cv = cv;
   }
   setTest(test, poses) { this.test = test; this.poses = poses; this.cam = new Cam(test.view[0], test.view[1]); this.refit(); }
   setView(y, p) { this.cam.yaw = y; this.cam.pitch = Math.max(-20, Math.min(85, p)); this.refit(); }
@@ -1701,6 +1727,15 @@ class Fig {
     }
     const pad = this.test.pos === 'supine' ? 0.2 : 0.13;
     this.fit = { x0: x0 - pad, x1: x1 + pad, y0: y0 - pad, y1: y1 + pad };
+  }
+  arrowDir(a, pose, S, p0) {
+    const at = a.at || 'wri';
+    if (Array.isArray(a.d)) return norm(a.d);
+    if (a.d === 'axial' || a.d === 'Laxial') { const pre = a.d === 'Laxial' ? 'L' : ''; return norm(sub(S[pre + 'sh'], p0)); }
+    const m = /^(L?)(pl|el|rot|elb|sup)([+-])$/.exec(a.d);
+    const pre = m[1], idx = ['pl', 'el', 'rot', 'elb', 'sup'].indexOf(m[2]), sg = m[3] === '+' ? 1 : -1;
+    const p2 = JSON.parse(JSON.stringify(pose)); const arm = pre ? p2.L : p2.R; arm[idx] += 4 * sg;
+    return norm(sub(lmk(skeleton(p2, this.test.pos), at, a.o), p0));
   }
   draw(pose, ov) {
     const svg = this.svg, test = this.test, cam = this.cam;
@@ -1738,22 +1773,22 @@ class Fig {
       const c = P(W(p0));
       if (spec.palp) { h += `<circle cx="${fx(c[0])}" cy="${fx(c[1])}" r="${fx(0.04 * sc)}" class="palp"/>`; continue; }
       const cen = [0, Math.min(Math.max(p0[1], S.hipY), S.shY), ZC];
-      let out = sub(p0, cen); out[1] *= 0.3; out = spec.from ? norm(spec.from) : norm(out);
-      const f2 = P(W(add(p0, mul(out, 0.24))));
-      h += `<line x1="${fx(c[0])}" y1="${fx(c[1])}" x2="${fx(f2[0])}" y2="${fx(f2[1])}" stroke-width="${fx(0.05 * sc)}" class="ptarm"/><circle cx="${fx(c[0])}" cy="${fx(c[1])}" r="${fx(0.036 * sc)}" class="pth"/>`;
+      let out = sub(p0, cen); out[1] *= 0.3; out = norm(out);
+      const ar = (ov.A || []).find(a => a.k !== 'pat' && (a.at || 'wri') === spec.at);
+      if (spec.from) out = norm(spec.from); else if (ar) {
+        const dv = this.arrowDir(ar, pose, S, p0), off = S.hipY - HIPY;
+        const inBody = q => { const B = bodyAt(q[1] - off); return B && Math.hypot(q[0] / B[0], (q[2] - B[1]) / B[2]) < 1.05; };
+        out = mul(dv, -1);
+        if (inBody(add(p0, mul(out, 0.08))) || inBody(add(p0, mul(out, 0.2)))) out = dv; // pulling: PT's arm on the pull side
+      }
+      const pc = add(p0, mul(out, 0.03)), c2 = P(W(pc));
+      const f2 = P(W(add(pc, mul(out, 0.24))));
+      h += `<line x1="${fx(c2[0])}" y1="${fx(c2[1])}" x2="${fx(f2[0])}" y2="${fx(f2[1])}" stroke-width="${fx(0.05 * sc)}" class="ptarm"/><circle cx="${fx(c2[0])}" cy="${fx(c2[1])}" r="${fx(0.036 * sc)}" class="pth"/>`;
     }
     // arrows
     for (const a of (ov.A || [])) {
       const at = a.at || 'wri'; const p0 = lmk(S, at, a.o); if (!p0) continue;
-      let dv;
-      if (Array.isArray(a.d)) dv = norm(a.d);
-      else if (a.d === 'axial' || a.d === 'Laxial') { const pre = a.d === 'Laxial' ? 'L' : ''; dv = norm(sub(S[pre + 'sh'], p0)); }
-      else {
-        const m = /^(L?)(pl|el|rot|elb|sup)([+-])$/.exec(a.d);
-        const pre = m[1], idx = ['pl', 'el', 'rot', 'elb', 'sup'].indexOf(m[2]), sg = m[3] === '+' ? 1 : -1;
-        const p2 = JSON.parse(JSON.stringify(pose)); const arm = pre ? p2.L : p2.R; arm[idx] += 4 * sg;
-        dv = norm(sub(lmk(skeleton(p2, test.pos), at, a.o), p0));
-      }
+      const dv = this.arrowDir(a, pose, S, p0);
       const Ln = (a.L || 0.16) * (1 + 0.1 * Math.sin(performance.now() / 160));
       const wdv = dirWorld(dv, test.pos), wp = W(p0);
       const s0 = add(wp, mul(wdv, -Ln - (a.k === 'pat' ? 0.05 : 0.03))), s1 = add(wp, mul(wdv, a.k === 'pat' ? -0.05 : -0.035));
